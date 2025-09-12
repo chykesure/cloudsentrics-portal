@@ -47,7 +47,7 @@ const ReportIssue = () => {
       )}
 
       {/* Page Title */}
-      <h2 className="text-4xl font-bold mb-8 text-gray-800">Report Issue</h2>
+      <h2 className="text-4xl font-bold mb-8 text-gray-800">Request Portal</h2>
 
       {/* Progress Bar */}
       <div className="flex justify-between items-center mb-10">
