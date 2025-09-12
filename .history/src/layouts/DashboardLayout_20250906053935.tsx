@@ -1,0 +1,177 @@
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import {
+  LogOut,
+  LayoutDashboard,
+  FileText,
+  AlertTriangle,
+  User,
+  Bell,
+  Search,
+  Settings,
+} from "lucide-react";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import logo from "../assets/logo.png";
+
+const DashboardLayout = () => {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const navItems = [
+    { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+    { to: "/dashboard/request-portal", label: "Request Portal", icon: FileText },
+    { to: "/dashboard/report-issue", label: "Report Issue", icon: AlertTriangle },
+    { to: "/dashboard/profile", label: "Profile", icon: User },
+  ];
+
+  // Logout handler
+  const handleLogout = () => {
+    const confirmLogout = window.confirm("Are you sure you want to log out?");
+    if (confirmLogout) {
+      setLoading(true);
+
+      // simulate delay then redirect
+      setTimeout(() => {
+        setLoading(false);
+        navigate("/"); // go to WelcomePage
+      }, 2000);
+    }
+  };
+
+  return (
+    <div className="flex h-screen bg-gray-100 text-gray-800">
+      {/* Sidebar */}
+      <aside className="w-64 bg-white shadow-md flex flex-col">
+        {/* Logo */}
+        <div className="p-6 flex flex-col items-center justify-center border-b">
+          <img src={logo} alt="Logo" className="h-42 mb-2" />
+        </div>
+
+        {/* Navigation */}
+        <nav className="flex-1 px-3 py-6 space-y-2">
+          {navItems.map(({ to, label, icon: Icon }) => (
+            <NavLink
+              key={to}
+              to={to}
+              end={to === "/dashboard"}
+              className={({ isActive }) =>
+                `flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 ${
+                  isActive
+                    ? "bg-[#032352] text-white font-semibold shadow-sm"
+                    : "text-gray-600 hover:bg-gray-100 hover:text-[#032352]"
+                }`
+              }
+            >
+              {({ isActive }) => (
+                <>
+                  <Icon
+                    className={`h-5 w-5 ${
+                      isActive ? "text-white" : "text-gray-600"
+                    }`}
+                  />
+                  <span>{label}</span>
+                </>
+              )}
+            </NavLink>
+          ))}
+        </nav>
+
+        {/* Logout */}
+        <div className="p-6 border-t mt-auto">
+          <button
+            onClick={handleLogout}
+            className="flex items-center space-x-3 text-red-600 hover:text-red-700 transition"
+          >
+            <LogOut className="h-5 w-5" />
+            <span className="font-semibold">Log Out</span>
+          </button>
+        </div>
+      </aside>
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col">
+        {/* Top Navbar */}
+        <header className="h-16 bg-white shadow flex items-center justify-between px-6">
+          {/* Left: Search */}
+          <div className="relative w-72">
+            <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search..."
+              className="pl-10 pr-4 py-2 w-full border rounded-lg focus:ring-[#032352] focus:border-[#032352] text-sm"
+            />
+          </div>
+
+          {/* Right: Notifications + Profile */}
+          <div className="flex items-center space-x-6">
+            {/* Notifications */}
+            <button className="relative text-gray-600 hover:text-[#032352] transition">
+              <Bell className="h-5 w-5" />
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
+                3
+              </span>
+            </button>
+
+            {/* Profile */}
+            <div className="relative">
+              <button
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                className="flex items-center space-x-2 focus:outline-none"
+              >
+                <img
+                  src="https://via.placeholder.com/40"
+                  alt="User"
+                  className="h-9 w-9 rounded-full border"
+                />
+                <span className="font-medium">Oluwadamilare Odo</span>
+              </button>
+
+              {/* Dropdown */}
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg py-2 z-50">
+                  <NavLink
+                    to="/dashboard/profile"
+                    className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100"
+                  >
+                    <User className="h-4 w-4" /> Profile
+                  </NavLink>
+                  <button className="flex items-center gap-2 px-4 py-2 text-sm w-full text-left hover:bg-gray-100">
+                    <Settings className="h-4 w-4" /> Settings
+                  </button>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100 w-full text-left"
+                  >
+                    <LogOut className="h-4 w-4" /> Log Out
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </header>
+
+        {/* Page Content */}
+        <main className="flex-1 p-6 overflow-y-auto">
+          <Outlet />
+        </main>
+      </div>
+
+      {/* Overlay with Spinner */}
+      {loading && (
+        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-white/90 backdrop-blur-md">
+          <motion.div
+            className="h-16 w-16 border-4 border-t-blue-800 border-b-blue-500 rounded-full"
+            animate={{ rotate: 360 }}
+            transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+          />
+          <p className="mt-4 text-gray-700 font-medium text-lg animate-pulse text-center">
+            Logging out, please wait...
+          </p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default DashboardLayout;
