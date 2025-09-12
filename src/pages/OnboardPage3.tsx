@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Confetti from "react-confetti";
 import toast, { Toaster } from "react-hot-toast"; // ✅ Import toast
 import logo from "../assets/logo.png";
-import image2 from "../assets/Image2.jpg";
+
 
 
 const OnboardingForm3 = () => {
@@ -183,7 +183,7 @@ const OnboardingForm3 = () => {
         /> */}
 
         <img
-          src={image2}
+          src="/Image2.jpg"
           alt="Onboarding background"
           className="absolute inset-0 w-full h-full object-cover"
         />

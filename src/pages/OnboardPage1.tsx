@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
-import image2 from "../assets/Image2.jpg";
+
 
 
 const OnboardingForm1 = () => {
@@ -189,7 +189,7 @@ const OnboardingForm1 = () => {
       >
         {/* Background Image */}
         <img
-          src={image2}
+          src="Image2.jpg"
           alt="Onboarding background"
           className="absolute inset-0 w-full h-full object-cover"
         />
