@@ -3,6 +3,7 @@ import { Mail, User, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import logo from "../assets/logo.png"; // keep inside src/assets
 import { useNavigate } from "react-router-dom";
+import bgImage from "../assets/image2.jpg";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -25,8 +26,8 @@ const LoginPage = () => {
 
   return (
     <motion.div
-      className="flex min-h-screen items-center justify-center bg-cover bg-center px-4"
-      style={{ backgroundImage: "url('/public/image2.jpg')" }} // ✅ served from public/
+      className="relative flex min-h-screen items-center justify-center bg-cover bg-center"
+      style={{ backgroundImage: `url(${bgImage})` }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
