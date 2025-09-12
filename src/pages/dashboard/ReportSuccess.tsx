@@ -18,7 +18,7 @@ const ReportSuccess = () => {
   }, []);
 
   const goToDashboard = () => {
-    navigate("/dashboard/report-issue");
+    navigate("/dashboard");
   };
 
   return (
