@@ -9,7 +9,6 @@ import DashboardHome from "../pages/dashboard/DashboardHome";
 import ReportIssue from "../pages/dashboard/ReportIssue";
 import ProfilePage from "../pages/dashboard/ProfilePage";
 import RequestWizard from "../pages/dashboard/RequestWizard";
-import ScrollToTop from "../components/ScrollToTop";
 
 const AppRoutes = () => {
   return (

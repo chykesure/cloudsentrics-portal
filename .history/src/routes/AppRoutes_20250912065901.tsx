@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ScrollToTop from "../components/ScrollToTop"; // 👈 import
 import LoginPage from "../pages/LoginPage";
 import WelcomePage from "../pages/WelcomePage";
 import OnboardingForm1 from "../pages/OnboardPage1";
@@ -9,12 +10,11 @@ import DashboardHome from "../pages/dashboard/DashboardHome";
 import ReportIssue from "../pages/dashboard/ReportIssue";
 import ProfilePage from "../pages/dashboard/ProfilePage";
 import RequestWizard from "../pages/dashboard/RequestWizard";
-import ScrollToTop from "../components/ScrollToTop";
 
 const AppRoutes = () => {
   return (
     <BrowserRouter>
-      <ScrollToTop /> {/* 👈 now every route change resets scroll */}
+      <ScrollToTo /> {/* 👈 now every route change resets scroll */}
       <Routes>
         <Route path="/" element={<WelcomePage />} />
 
