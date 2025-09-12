@@ -3,11 +3,11 @@ import { motion } from "framer-motion";
 import { ThumbsUp } from "lucide-react";
 import Confetti from "react-confetti";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+
 
 const ProfileSuccess = () => {
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
-const navigate = useNavigate();
+
   useEffect(() => {
     // Get screen size for confetti
     setWindowSize({ width: window.innerWidth, height: window.innerHeight });

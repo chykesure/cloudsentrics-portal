@@ -1,13 +1,12 @@
-// ProfileSuccess.tsx
+// ReportSuccess.tsx
 import { motion } from "framer-motion";
 import { ThumbsUp } from "lucide-react";
 import Confetti from "react-confetti";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
-const ProfileSuccess = () => {
+const ReportSuccess = () => {
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
-const navigate = useNavigate();
+
   useEffect(() => {
     // Get screen size for confetti
     setWindowSize({ width: window.innerWidth, height: window.innerHeight });
@@ -18,7 +17,8 @@ const navigate = useNavigate();
   }, []);
 
   const goToDashboard = () => {
-    navigate("/dashboard/profile");
+    window.location.href = "/dashboard/report-issue"; // change as needed
+    
   };
 
   return (
@@ -37,9 +37,9 @@ const navigate = useNavigate();
         </div>
 
         <h2 className="text-2xl font-semibold text-blue-900 mb-2">
-          Your password has been updated successfully
+          Your request has been submitted successfully
         </h2>
-        
+        <p className="text-gray-700 mb-8">We will reach out to you shortly</p>
 
         <button
           onClick={goToDashboard}
@@ -52,4 +52,4 @@ const navigate = useNavigate();
   );
 };
 
-export default ProfileSuccess;
+export default ReportSuccess;
