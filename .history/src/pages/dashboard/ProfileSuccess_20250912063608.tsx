@@ -18,7 +18,7 @@ const navigate = useNavigate();
   }, []);
 
   const goToDashboard = () => {
-    navigate("/dashboard");
+    navigate("/dashboard/profile");
   };
 
   return (
