@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
-import image1 from "../assets/image1.jpg";
+
 
 const OnboardingForm1 = () => {
   interface FormData {
@@ -188,7 +188,7 @@ const OnboardingForm1 = () => {
       >
         {/* Background Image */}
         <img
-          src={image1}
+          src="/public/Image1.jpg"
           alt="Onboarding background"
           className="absolute inset-0 w-full h-full object-cover"
         />

@@ -26,7 +26,7 @@ const LoginPage = () => {
   return (
     <motion.div
       className="flex min-h-screen items-center justify-center bg-cover bg-center px-4"
-      style={{ backgroundImage: "url('/image2.jpg')" }} // ✅ served from public/
+      style={{ backgroundImage: "url('/public/image2.jpg')" }} // ✅ served from public/
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}

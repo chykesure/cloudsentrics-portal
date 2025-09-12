@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Confetti from "react-confetti";
 import toast, { Toaster } from "react-hot-toast"; // ✅ Import toast
 import logo from "../assets/logo.png";
-import image1 from "../assets/image1.jpg";
+import image1 from "../../public/Image2.jpg";
 
 const OnboardingForm3 = () => {
   const navigate = useNavigate();
@@ -175,8 +175,14 @@ const OnboardingForm3 = () => {
         className="flex relative flex-1 items-center justify-center overflow-hidden h-48 md:h-auto md:flex"
       >
         {/* Background Image */}
-        <img
+        {/* <img
           src={image1}
+          alt="Onboarding background"
+          className="absolute inset-0 w-full h-full object-cover"
+        /> */}
+
+        <img
+          src="/public/Image2.jpg"
           alt="Onboarding background"
           className="absolute inset-0 w-full h-full object-cover"
         />
