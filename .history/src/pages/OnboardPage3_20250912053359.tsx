@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Confetti from "react-confetti";
 import toast, { Toaster } from "react-hot-toast"; // ✅ Import toast
 import logo from "../assets/logo.png";
-
+import image1 from "../../public/Image2.jpg";
 
 const OnboardingForm3 = () => {
   const navigate = useNavigate();
