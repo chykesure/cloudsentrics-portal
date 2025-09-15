@@ -16,7 +16,7 @@ interface AccessRow {
   accessLevel: string;
 }
 
-const Step1 = ({ goNext, goBack }: StepProps) => {
+const Step1 = ({ goNext, goBack, jumpToStep }: StepProps) => {
   const [bucketNote, setBucketNote] = useState("");
   const [selectedStorageCount, setSelectedStorageCount] = useState<number | null>(null);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
