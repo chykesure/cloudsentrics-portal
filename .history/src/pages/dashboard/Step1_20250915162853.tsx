@@ -135,7 +135,7 @@ const Step1 = ({ goNext, goBack }: StepProps) => {
               className="form-checkbox w-6 h-6"
               checked={selectedOption === "storage"}
               onChange={() => setSelectedOption("storage")}
-              disabled
+              isabled
             />
             <span>Storage(s)</span>
           </label>
