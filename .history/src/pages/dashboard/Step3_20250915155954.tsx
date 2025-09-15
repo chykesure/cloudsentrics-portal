@@ -59,7 +59,7 @@ const Step3 = ({ goNext, goBack }: StepProps) => {
   }, []);
 
   return (
-    <div className="min-h-screen flex justify-center bg-gray-50 px-6 pt-6 pb-10">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-9 py-10">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -85,8 +85,7 @@ const Step3 = ({ goNext, goBack }: StepProps) => {
               <input
                 type="checkbox"
                 className="form-checkbox w-6 h-6"
-                checked
-                readOnly
+                defaultChecked
               />
               <span>Storage(s)</span>
             </label>

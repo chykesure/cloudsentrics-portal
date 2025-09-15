@@ -16,6 +16,9 @@ interface AccessRow {
 const Step3 = ({ goNext, goBack }: StepProps) => {
   const [rows, setRows] = useState<AccessRow[]>([
     { fullName: "", email: "", accessLevel: "" },
+    { fullName: "", email: "", accessLevel: "" },
+    { fullName: "", email: "", accessLevel: "" },
+    { fullName: "", email: "", accessLevel: "" },
   ]);
 
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
@@ -59,7 +62,7 @@ const Step3 = ({ goNext, goBack }: StepProps) => {
   }, []);
 
   return (
-    <div className="min-h-screen flex justify-center bg-gray-50 px-6 pt-6 pb-10">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6 py-10">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -71,31 +74,21 @@ const Step3 = ({ goNext, goBack }: StepProps) => {
           <h3 className="text-3xl font-bold text-blue-900 mb-4">
             REQUEST TYPE
           </h3>
-          <div className="flex flex-col md:flex-row md:flex-wrap gap-4 text-xl">
+          <div className="flex flex-col md:flex-row md:flex-wrap gap-6 text-xl">
             <label className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                className="form-checkbox w-6 h-6 cursor-not-allowed opacity-60"
-                disabled
-              />
+              <input type="checkbox" className="form-checkbox w-6 h-6" />
               <span>Additional AWS Account(s)</span>
             </label>
-
             <label className="flex items-center space-x-2">
               <input
                 type="checkbox"
                 className="form-checkbox w-6 h-6"
-                checked
-                readOnly
+                defaultChecked
               />
               <span>Storage(s)</span>
             </label>
-            <label className="flex items-center space-x-2 cursor-not-allowed opacity-60">
-              <input
-                type="checkbox"
-                className="form-checkbox w-6 h-6"
-                disabled
-              />
+            <label className="flex items-center space-x-2">
+              <input type="checkbox" className="form-checkbox w-6 h-6" />
               <span>Change to Existing Account or Storage(s) settings</span>
             </label>
           </div>

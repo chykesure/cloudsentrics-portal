@@ -51,21 +51,19 @@ const Step5 = ({ goNext, goBack }: StepProps) => {
             <span>Additional AWS Account(s)</span>
           </label>
 
-          <label className="flex items-center space-x-2">
+          <label className="flex items-center space-x-2 cursor-not-allowed opacity-60">
             <input
               type="checkbox"
-              className="form-checkbox w-6 h-6 cursor-not-allowed opacity-60"
-              disabled
+              className="form-checkbox w-6 h-6"
             />
             <span>Storage(s)</span>
           </label>
-
           <label className="flex items-center space-x-2">
             <input
               type="checkbox"
-              className="form-checkbox w-6 h-6 text-blue-600"
-              checked
-              readOnly
+              className="form-checkbox w-6 h-6"
+              disabled
+              defaultChecked
             />
             <span>Change to Existing Account or Storage(s) settings</span>
           </label>

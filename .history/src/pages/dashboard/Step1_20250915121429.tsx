@@ -119,39 +119,37 @@ const Step1 = ({ goNext, goBack, jumpToStep }: StepProps) => {
         <h3 className="text-3xl font-semibold text-blue-900 mb-4">REQUEST TYPE</h3>
         <div className="flex flex-wrap gap-6 text-xl">
           {/* AWS */}
-          {/* AWS */}
           <label className="flex items-center space-x-2 cursor-pointer">
             <input
               type="checkbox"
               className="form-checkbox w-6 h-6"
               checked={selectedOption === "aws"}
-              onChange={() => setSelectedOption("aws")}
+              onChange={() => handleSelect("aws")}
             />
             <span>Additional AWS Account(s)</span>
           </label>
 
-          {/* Storage */}
-          <label className="flex items-center space-x-2 cursor-not-allowed opacity-60">
+          {/* Storage(s) */}
+          <label className="flex items-center space-x-2 cursor-pointer">
             <input
               type="checkbox"
               className="form-checkbox w-6 h-6"
               checked={selectedOption === "storage"}
-              onChange={() => setSelectedOption("storage")}
+              onChange={() => handleSelect("storage")}
             />
             <span>Storage(s)</span>
           </label>
 
           {/* Change */}
-          <label className="flex items-center space-x-2 cursor-not-allowed opacity-60">
+          <label className="flex items-center space-x-2 cursor-pointer">
             <input
               type="checkbox"
               className="form-checkbox w-6 h-6"
               checked={selectedOption === "change"}
-              disabled
+              onChange={() => handleSelect("change")}
             />
             <span>Change to Existing Account or Storage(s) settings</span>
           </label>
-
         </div>
       </div>
 
@@ -293,8 +291,8 @@ const Step1 = ({ goNext, goBack, jumpToStep }: StepProps) => {
                 <button
                   onClick={() => setSelectedTier(tier.id)}
                   className={`mt-8 py-3 px-6 rounded-lg text-xl font-semibold flex items-center justify-center gap-2 transition ${selectedTier === tier.id
-                    ? "bg-blue-900 text-white"
-                    : "bg-gray-100 text-blue-900 hover:bg-blue-200"
+                      ? "bg-blue-900 text-white"
+                      : "bg-gray-100 text-blue-900 hover:bg-blue-200"
                     }`}
                 >
                   {selectedTier === tier.id ? (
@@ -420,18 +418,20 @@ const Step1 = ({ goNext, goBack, jumpToStep }: StepProps) => {
           onClick={() => {
             if (selectedOption === "aws") {
               goNext();
-            } else if (selectedOption === "storage") {
-              if (selectedTier) goNext();
-            } else if (selectedOption === "change") {
-              goNext();
+            } else if (selectedOption === "storage" && jumpToStep) {
+              if (selectedTier) jumpToStep(2);
+            } else if (selectedOption === "change" && jumpToStep) {
+              jumpToStep(2); // ✅ always go to Step2 if "Change" is chosen
             }
           }}
           disabled={
-            !selectedOption || (selectedOption === "storage" && !selectedTier)
+            !selectedOption ||
+            (selectedOption === "storage" && !selectedTier)
           }
-          className={`px-10 py-4 text-lg rounded-md ${!selectedOption || (selectedOption === "storage" && !selectedTier)
-            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-            : "bg-[#032352] text-white hover:bg-blue-700"
+          className={`px-10 py-4 text-lg rounded-md ${!selectedOption ||
+              (selectedOption === "storage" && !selectedTier)
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-[#032352] text-white hover:bg-blue-700"
             }`}
         >
           Next →

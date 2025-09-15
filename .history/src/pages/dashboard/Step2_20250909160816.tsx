@@ -78,32 +78,21 @@ const Step2 = ({ goNext, goBack }: StepProps) => {
           </h3>
           <div className="flex flex-col md:flex-row md:flex-wrap gap-4 text-xl">
             <label className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                className="form-checkbox w-6 h-6 cursor-not-allowed opacity-60"
-                disabled
-              />
+              <input type="checkbox" className="form-checkbox w-6 h-6" />
               <span>Additional AWS Account(s)</span>
             </label>
-
             <label className="flex items-center space-x-2">
               <input
                 type="checkbox"
                 className="form-checkbox w-6 h-6"
-                checked
-                readOnly
+                defaultChecked
               />
               <span>Storage(s)</span>
             </label>
-            <label className="flex items-center space-x-2 cursor-not-allowed opacity-60">
-              <input
-                type="checkbox"
-                className="form-checkbox w-6 h-6"
-                disabled
-              />
+            <label className="flex items-center space-x-2">
+              <input type="checkbox" className="form-checkbox w-6 h-6" />
               <span>Change to Existing Account or Storage(s) settings</span>
             </label>
-
           </div>
         </div>
 
@@ -123,10 +112,11 @@ const Step2 = ({ goNext, goBack }: StepProps) => {
           {tiers.map((tier) => (
             <div
               key={tier.id}
-              className={`border rounded-2xl p-8 shadow-md flex flex-col justify-between transition ${selectedTier === tier.id
-                ? "border-blue-700 ring-2 ring-blue-200"
-                : "border-gray-300"
-                }`}
+              className={`border rounded-2xl p-8 shadow-md flex flex-col justify-between transition ${
+                selectedTier === tier.id
+                  ? "border-blue-700 ring-2 ring-blue-200"
+                  : "border-gray-300"
+              }`}
             >
               <div>
                 <h5 className="text-2xl font-bold text-blue-900 mb-2">
@@ -169,10 +159,11 @@ const Step2 = ({ goNext, goBack }: StepProps) => {
               {/* Select Button with Check Icon */}
               <button
                 onClick={() => setSelectedTier(tier.id)}
-                className={`mt-8 py-3 px-6 rounded-lg text-xl font-semibold flex items-center justify-center gap-2 transition ${selectedTier === tier.id
-                  ? "bg-blue-900 text-white"
-                  : "bg-gray-100 text-blue-900 hover:bg-blue-200"
-                  }`}
+                className={`mt-8 py-3 px-6 rounded-lg text-xl font-semibold flex items-center justify-center gap-2 transition ${
+                  selectedTier === tier.id
+                    ? "bg-blue-900 text-white"
+                    : "bg-gray-100 text-blue-900 hover:bg-blue-200"
+                }`}
               >
                 {selectedTier === tier.id ? (
                   <>
@@ -197,10 +188,11 @@ const Step2 = ({ goNext, goBack }: StepProps) => {
           <button
             onClick={goNext}
             disabled={!selectedTier}
-            className={`px-10 py-3 rounded-md text-xl font-semibold ${selectedTier
-              ? "bg-[#032352] text-white hover:bg-blue-700"
-              : "bg-gray-300 text-gray-500 cursor-not-allowed"
-              }`}
+            className={`px-10 py-3 rounded-md text-xl font-semibold ${
+              selectedTier
+                ? "bg-[#032352] text-white hover:bg-blue-700"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+            }`}
           >
             Next →
           </button>

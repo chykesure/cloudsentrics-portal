@@ -131,7 +131,7 @@ const Step1 = ({ goNext, goBack, jumpToStep }: StepProps) => {
           </label>
 
           {/* Storage */}
-          <label className="flex items-center space-x-2 cursor-not-allowed opacity-60">
+          <label className="flex items-center space-x-2 cursor-pointer">
             <input
               type="checkbox"
               className="form-checkbox w-6 h-6"
@@ -143,14 +143,14 @@ const Step1 = ({ goNext, goBack, jumpToStep }: StepProps) => {
 
           {/* Change */}
           <label className="flex items-center space-x-2 cursor-not-allowed opacity-60">
-            <input
-              type="checkbox"
-              className="form-checkbox w-6 h-6"
-              checked={selectedOption === "change"}
-              disabled
-            />
-            <span>Change to Existing Account or Storage(s) settings</span>
-          </label>
+  <input
+    type="checkbox"
+    className="form-checkbox w-6 h-6"
+    checked={selectedOption === "change"}
+    disabled
+  />
+  <span>Change to Existing Account or Storage(s) settings</span>
+</label>
 
         </div>
       </div>

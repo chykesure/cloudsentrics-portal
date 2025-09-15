@@ -91,7 +91,7 @@ const Step2 = ({ goNext, goBack }: StepProps) => {
                 type="checkbox"
                 className="form-checkbox w-6 h-6"
                 checked
-                readOnly
+              readOnly
               />
               <span>Storage(s)</span>
             </label>

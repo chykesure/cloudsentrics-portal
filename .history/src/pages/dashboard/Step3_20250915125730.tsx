@@ -1,4 +1,4 @@
-// Step5.tsx
+// Step3.tsx
 import { useState } from "react";
 import { motion } from "framer-motion";
 
@@ -7,7 +7,7 @@ interface StepProps {
   goBack: () => void;
 }
 
-const Step5 = ({ goNext, goBack }: StepProps) => {
+const Step3 = ({ goNext, goBack }: StepProps) => {
   const [existingStorageName, setExistingStorageName] = useState("");
   const [details, setDetails] = useState("");
   const [changesRequested, setChangesRequested] = useState<string[]>([]);
@@ -38,34 +38,27 @@ const Step5 = ({ goNext, goBack }: StepProps) => {
     >
       {/* REQUEST TYPE */}
       <div className="mb-8">
-        <h3 className="text-3xl font-bold text-blue-900 mb-4">
+        <h3 className="text-2xl font-semibold text-blue-900 mb-4">
           REQUEST TYPE
         </h3>
-        <div className="flex flex-col md:flex-row md:flex-wrap gap-4 text-xl">
+        <div className="flex flex-col md:flex-row md:flex-wrap gap-4 text-lg">
           <label className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              className="form-checkbox w-6 h-6 cursor-not-allowed opacity-60"
-              disabled
-            />
+            <input type="checkbox" className="form-checkbox w-5 h-5" />
             <span>Additional AWS Account(s)</span>
           </label>
-
           <label className="flex items-center space-x-2">
             <input
               type="checkbox"
-              className="form-checkbox w-6 h-6 cursor-not-allowed opacity-60"
-              disabled
+              className="form-checkbox w-5 h-5"
+              defaultChecked
             />
             <span>Storage(s)</span>
           </label>
-
           <label className="flex items-center space-x-2">
             <input
               type="checkbox"
-              className="form-checkbox w-6 h-6 text-blue-600"
-              checked
-              readOnly
+              className="form-checkbox w-5 h-5"
+              defaultChecked
             />
             <span>Change to Existing Account or Storage(s) settings</span>
           </label>
@@ -157,4 +150,4 @@ const Step5 = ({ goNext, goBack }: StepProps) => {
   );
 };
 
-export default Step5;
+export default Step3;

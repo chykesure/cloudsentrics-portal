@@ -131,7 +131,7 @@ const Step1 = ({ goNext, goBack, jumpToStep }: StepProps) => {
           </label>
 
           {/* Storage */}
-          <label className="flex items-center space-x-2 cursor-not-allowed opacity-60">
+          <label className="flex items-center space-x-2 cursor-pointer">
             <input
               type="checkbox"
               className="form-checkbox w-6 h-6"
@@ -142,16 +142,15 @@ const Step1 = ({ goNext, goBack, jumpToStep }: StepProps) => {
           </label>
 
           {/* Change */}
-          <label className="flex items-center space-x-2 cursor-not-allowed opacity-60">
+          <label className="flex items-center space-x-2 cursor-pointer">
             <input
               type="checkbox"
               className="form-checkbox w-6 h-6"
               checked={selectedOption === "change"}
-              disabled
+              onChange={() => setSelectedOption("change")}
             />
             <span>Change to Existing Account or Storage(s) settings</span>
           </label>
-
         </div>
       </div>
 
@@ -419,19 +418,19 @@ const Step1 = ({ goNext, goBack, jumpToStep }: StepProps) => {
         <button
           onClick={() => {
             if (selectedOption === "aws") {
-              goNext();
-            } else if (selectedOption === "storage") {
-              if (selectedTier) goNext();
-            } else if (selectedOption === "change") {
-              goNext();
+              goNext(); // Step2
+            } else if (selectedOption === "storage" && jumpToStep) {
+              if (selectedTier) jumpToStep(4); // ✅ Step2 if 0-based
+            } else if (selectedOption === "change" && jumpToStep) {
+              jumpToStep(1); // ✅ Step2 if 0-based
             }
           }}
           disabled={
             !selectedOption || (selectedOption === "storage" && !selectedTier)
           }
           className={`px-10 py-4 text-lg rounded-md ${!selectedOption || (selectedOption === "storage" && !selectedTier)
-            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-            : "bg-[#032352] text-white hover:bg-blue-700"
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-[#032352] text-white hover:bg-blue-700"
             }`}
         >
           Next →

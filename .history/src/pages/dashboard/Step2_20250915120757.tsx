@@ -7,7 +7,7 @@ interface StepProps {
   goBack: () => void;
 }
 
-const Step4 = ({ goNext, goBack }: StepProps) => {
+const Step = ({ goNext, goBack }: StepProps) => {
   const [accessLogging, setAccessLogging] = useState<string | null>(null);
   const [lifecycle, setLifecycle] = useState<string | null>(null);
   const [customerKey, setCustomerKey] = useState<string | null>(null);
@@ -37,8 +37,9 @@ const Step4 = ({ goNext, goBack }: StepProps) => {
       className="flex items-center gap-2 cursor-pointer select-none"
     >
       <div
-        className={`w-6 h-6 border-2 rounded-md flex items-center justify-center transition-all ${selected ? "bg-blue-600 border-blue-600" : "border-gray-400 bg-white"
-          }`}
+        className={`w-6 h-6 border-2 rounded-md flex items-center justify-center transition-all ${
+          selected ? "bg-blue-600 border-blue-600" : "border-gray-400 bg-white"
+        }`}
       >
         {selected && <Check size={16} className="text-white" />}
       </div>
@@ -55,36 +56,23 @@ const Step4 = ({ goNext, goBack }: StepProps) => {
     >
       {/* Request Type */}
       <div className="mb-8">
-        <h3 className="text-3xl font-bold text-blue-900 mb-4">
-          REQUEST TYPE
-        </h3>
-        <div className="flex flex-col md:flex-row md:flex-wrap gap-4 text-xl">
-          <label className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              className="form-checkbox w-6 h-6 cursor-not-allowed opacity-60"
-              disabled
-            />
-            <span>Additional AWS Account(s)</span>
-          </label>
-
-          <label className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              className="form-checkbox w-6 h-6"
-              checked
-              readOnly
-            />
-            <span>Storage(s)</span>
-          </label>
-          <label className="flex items-center space-x-2 cursor-not-allowed opacity-60">
-            <input
-              type="checkbox"
-              className="form-checkbox w-6 h-6"
-              disabled
-            />
-            <span>Change to Existing Account or Storage(s) settings</span>
-          </label>
+        <h3 className="text-2xl font-bold text-blue-900 mb-3">REQUEST TYPE</h3>
+        <div className="bg-[#fef7f2] p-4 rounded-lg">
+          <h4 className="font-semibold mb-2">Select one or more</h4>
+          <div className="flex flex-col md:flex-row md:flex-wrap gap-6 text-lg">
+            <label className="flex items-center gap-2">
+              <input type="checkbox" className="w-5 h-5" />
+              <span>Additional AWS Account(s)</span>
+            </label>
+            <label className="flex items-center gap-2">
+              <input type="checkbox" className="w-5 h-5" defaultChecked />
+              <span>Storage(s)</span>
+            </label>
+            <label className="flex items-center gap-2">
+              <input type="checkbox" className="w-5 h-5" />
+              <span>Change to Existing Account or Storage(s) settings</span>
+            </label>
+          </div>
         </div>
       </div>
 
@@ -295,4 +283,4 @@ const Step4 = ({ goNext, goBack }: StepProps) => {
   );
 };
 
-export default Step4;
+export default Step;

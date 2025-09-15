@@ -119,39 +119,37 @@ const Step1 = ({ goNext, goBack, jumpToStep }: StepProps) => {
         <h3 className="text-3xl font-semibold text-blue-900 mb-4">REQUEST TYPE</h3>
         <div className="flex flex-wrap gap-6 text-xl">
           {/* AWS */}
-          {/* AWS */}
           <label className="flex items-center space-x-2 cursor-pointer">
             <input
               type="checkbox"
               className="form-checkbox w-6 h-6"
               checked={selectedOption === "aws"}
-              onChange={() => setSelectedOption("aws")}
+              onChange={() => handleSelect("aws")}
             />
             <span>Additional AWS Account(s)</span>
           </label>
 
-          {/* Storage */}
-          <label className="flex items-center space-x-2 cursor-not-allowed opacity-60">
+          {/* Storage(s) */}
+          <label className="flex items-center space-x-2 cursor-pointer">
             <input
               type="checkbox"
               className="form-checkbox w-6 h-6"
               checked={selectedOption === "storage"}
-              onChange={() => setSelectedOption("storage")}
+              onChange={() => handleSelect("storage")}
             />
             <span>Storage(s)</span>
           </label>
 
           {/* Change */}
-          <label className="flex items-center space-x-2 cursor-not-allowed opacity-60">
+          <label className="flex items-center space-x-2 cursor-pointer">
             <input
               type="checkbox"
               className="form-checkbox w-6 h-6"
               checked={selectedOption === "change"}
-              disabled
+              onChange={() => handleSelect("change")}
             />
             <span>Change to Existing Account or Storage(s) settings</span>
           </label>
-
         </div>
       </div>
 
@@ -180,8 +178,9 @@ const Step1 = ({ goNext, goBack, jumpToStep }: StepProps) => {
                   className="appearance-none w-6 h-6 border border-gray-400 rounded-sm checked:bg-blue-600 checked:border-blue-600 focus:outline-none"
                 />
                 <span
-                  className={`pointer-events-none absolute left-1 top-0.5 w-5 h-5 flex items-center justify-center text-white ${selectedStorageCount === n ? "opacity-100" : "opacity-0"
-                    } transition-opacity duration-200`}
+                  className={`pointer-events-none absolute left-1 top-0.5 w-5 h-5 flex items-center justify-center text-white ${
+                    selectedStorageCount === n ? "opacity-100" : "opacity-0"
+                  } transition-opacity duration-200`}
                 >
                   ✓
                 </span>
@@ -256,8 +255,9 @@ const Step1 = ({ goNext, goBack, jumpToStep }: StepProps) => {
             {tiers.map((tier) => (
               <div
                 key={tier.id}
-                className={`border rounded-2xl p-8 shadow-md flex flex-col justify-between transition ${selectedTier === tier.id ? "border-blue-700 ring-2 ring-blue-200" : "border-gray-300"
-                  }`}
+                className={`border rounded-2xl p-8 shadow-md flex flex-col justify-between transition ${
+                  selectedTier === tier.id ? "border-blue-700 ring-2 ring-blue-200" : "border-gray-300"
+                }`}
               >
                 <div>
                   <h5 className="text-2xl font-bold text-blue-900 mb-2">{tier.title}</h5>
@@ -292,10 +292,11 @@ const Step1 = ({ goNext, goBack, jumpToStep }: StepProps) => {
 
                 <button
                   onClick={() => setSelectedTier(tier.id)}
-                  className={`mt-8 py-3 px-6 rounded-lg text-xl font-semibold flex items-center justify-center gap-2 transition ${selectedTier === tier.id
-                    ? "bg-blue-900 text-white"
-                    : "bg-gray-100 text-blue-900 hover:bg-blue-200"
-                    }`}
+                  className={`mt-8 py-3 px-6 rounded-lg text-xl font-semibold flex items-center justify-center gap-2 transition ${
+                    selectedTier === tier.id
+                      ? "bg-blue-900 text-white"
+                      : "bg-gray-100 text-blue-900 hover:bg-blue-200"
+                  }`}
                 >
                   {selectedTier === tier.id ? (
                     <>
@@ -420,24 +421,24 @@ const Step1 = ({ goNext, goBack, jumpToStep }: StepProps) => {
           onClick={() => {
             if (selectedOption === "aws") {
               goNext();
-            } else if (selectedOption === "storage") {
-              if (selectedTier) goNext();
-            } else if (selectedOption === "change") {
-              goNext();
+            } else if (selectedOption === "storage" && jumpToStep) {
+              if (selectedTier) jumpToStep(2);
+            } else if (selectedOption === "change" && jumpToStep) {
+              jumpToStep(3); // still goes to next step after filling access info
             }
           }}
           disabled={
             !selectedOption || (selectedOption === "storage" && !selectedTier)
           }
-          className={`px-10 py-4 text-lg rounded-md ${!selectedOption || (selectedOption === "storage" && !selectedTier)
-            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-            : "bg-[#032352] text-white hover:bg-blue-700"
-            }`}
+          className={`px-10 py-4 text-lg rounded-md ${
+            !selectedOption || (selectedOption === "storage" && !selectedTier)
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-[#032352] text-white hover:bg-blue-700"
+          }`}
         >
           Next →
         </button>
       </div>
-
     </motion.div>
   );
 };

@@ -131,7 +131,7 @@ const Step1 = ({ goNext, goBack, jumpToStep }: StepProps) => {
           </label>
 
           {/* Storage */}
-          <label className="flex items-center space-x-2 cursor-not-allowed opacity-60">
+          <label className="flex items-center space-x-2 cursor-pointer">
             <input
               type="checkbox"
               className="form-checkbox w-6 h-6"

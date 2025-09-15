@@ -30,6 +30,18 @@ const Step1 = ({ goNext, goBack, jumpToStep }: StepProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const accessOptions = ["Read", "Write", "Both"];
 
+  const [existingStorageName, setExistingStorageName] = useState("");
+  const [details, setDetails] = useState("");
+  const [changesRequested, setChangesRequested] = useState<string[]>([]);
+
+
+  const changeOptions = [
+    "Enable/Disable Access Login",
+    "Enable/Disable life cycle Management",
+    "Update retention/Transition Settings",
+    "Add/Remove User or Change Access Level",
+  ];
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -131,7 +143,7 @@ const Step1 = ({ goNext, goBack, jumpToStep }: StepProps) => {
           </label>
 
           {/* Storage */}
-          <label className="flex items-center space-x-2 cursor-not-allowed opacity-60">
+          <label className="flex items-center space-x-2 cursor-pointer">
             <input
               type="checkbox"
               className="form-checkbox w-6 h-6"
@@ -142,16 +154,15 @@ const Step1 = ({ goNext, goBack, jumpToStep }: StepProps) => {
           </label>
 
           {/* Change */}
-          <label className="flex items-center space-x-2 cursor-not-allowed opacity-60">
+          <label className="flex items-center space-x-2 cursor-pointer">
             <input
               type="checkbox"
               className="form-checkbox w-6 h-6"
               checked={selectedOption === "change"}
-              disabled
+              onChange={() => setSelectedOption("change")}
             />
             <span>Change to Existing Account or Storage(s) settings</span>
           </label>
-
         </div>
       </div>
 
@@ -326,75 +337,62 @@ const Step1 = ({ goNext, goBack, jumpToStep }: StepProps) => {
             <b>Both</b> = Full Access
           </p>
 
-          <div className="space-y-4">
-            {rows.map((row, index) => (
-              <div
-                key={index}
-                className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center border-b pb-4"
-              >
-                {/* Full Name */}
-                <div className="md:col-span-4">
+          <div className="mb-8">
+            <div className="bg-blue-100 px-4 py-2 text-lg font-semibold text-blue-900 rounded-md">
+              CHANGE TO EXISTING SETTINGS
+            </div>
+            <div className="px-4 py-6">
+              <label className="block text-lg font-medium text-gray-700 mb-2">
+                Existing Storage Name
+              </label>
+              <input
+                type="text"
+                value={existingStorageName}
+                onChange={(e) => setExistingStorageName(e.target.value)}
+                placeholder="Existing Account ID or Existing Storage Name"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md text-lg focus:ring-2 focus:ring-blue-400"
+              />
+            </div>
+          </div>
+
+          {/* Changes Requested */}
+          <div className="mb-8">
+            <div className="bg-blue-100 px-4 py-2 text-lg font-semibold text-blue-900 rounded-md">
+              CHANGES REQUESTED (Multi-Select)
+            </div>
+            <div className="px-4 py-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-lg">
+              {changeOptions.map((option) => (
+                <label key={option} className="flex items-center space-x-3">
                   <input
-                    type="text"
-                    placeholder="Eg Ademola Ayodeji Johnson"
-                    value={row.fullName}
-                    onChange={(e) => handleChangeRow(index, "fullName", e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md text-lg"
+                    type="checkbox"
+                    className="form-checkbox w-5 h-5"
+                    checked={changesRequested.includes(option)}
+                    onChange={() => handleCheckboxChange(option)}
                   />
-                </div>
+                  <span>{option}</span>
+                </label>
+              ))}
+            </div>
+          </div>
 
-                {/* Email */}
-                <div className="md:col-span-5">
-                  <input
-                    type="email"
-                    placeholder="Eg cloudsentric@gmail.com"
-                    value={row.email}
-                    onChange={(e) => handleChangeRow(index, "email", e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md text-lg"
-                  />
-                </div>
-
-                {/* Dropdown */}
-                <div className="md:col-span-2 relative" ref={dropdownRef}>
-                  <button
-                    type="button"
-                    onClick={() => setOpenDropdown(openDropdown === index ? null : index)}
-                    className="flex items-center justify-between w-full px-4 py-2 bg-[#032352] text-white text-lg rounded-md"
-                  >
-                    {row.accessLevel || "Select Level"}
-                    <ChevronDown className="w-5 h-5 ml-2" />
-                  </button>
-
-                  {openDropdown === index && (
-                    <div className="absolute mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg z-10">
-                      {accessOptions.map((option) => (
-                        <div
-                          key={option}
-                          className="px-4 py-2 text-gray-700 hover:bg-blue-50 cursor-pointer"
-                          onClick={() => {
-                            handleChangeRow(index, "accessLevel", option);
-                            setOpenDropdown(null);
-                          }}
-                        >
-                          {option}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                {/* Remove button */}
-                <div className="md:col-span-1 flex justify-center">
-                  <button
-                    type="button"
-                    onClick={() => removeRow(index)}
-                    className="p-2 text-red-500 hover:text-red-700"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
-                </div>
+          {/* DETAILS */}
+          <div className="mb-10">
+            <div className="bg-blue-100 px-4 py-2 text-lg font-semibold text-blue-900 rounded-md">
+              DETAILS
+            </div>
+            <div className="px-4 py-6">
+              <textarea
+                value={details}
+                onChange={(e) => setDetails(e.target.value)}
+                placeholder="Enter your details here"
+                maxLength={maxLength}
+                className="w-full p-4 border border-gray-300 rounded-md text-lg resize-none focus:ring-2 focus:ring-blue-400"
+                rows={6}
+              />
+              <div className="text-right text-sm text-gray-500 mt-2">
+                {details.length}/{maxLength}
               </div>
-            ))}
+            </div>
           </div>
 
           {/* Add More */}
