@@ -139,7 +139,7 @@ const DashboardLayout = () => {
                 </header>
 
                 {/* Page Content */}
-                <main id="main-scroll" className="flex-1 p-6 overflow-y-auto bg-gray-50">
+                <main className="flex-1 p-6 overflow-y-auto bg-gray-50">
                     <Outlet />
                 </main>
             </div>

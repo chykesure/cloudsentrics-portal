@@ -1,6 +1,5 @@
 // RequestWizard.tsx
 import { useState } from "react";
-import { useEffect } from "react";
 import { motion } from "framer-motion";
 
 import Step1 from "../dashboard/Step1";
@@ -15,20 +14,6 @@ const RequestWizard = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-
-  // Scroll to top when step changes
-  useEffect(() => {
-    // Always scroll window
-    window.scrollTo({ top: 0, behavior: "smooth" });
-
-    // Also scroll the dashboard container if it exists
-    const container = document.getElementById("main-scroll");
-    if (container) {
-      container.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  }, [currentStep]);
-
-
 
   const handleSubmit = () => {
     setLoading(true);
