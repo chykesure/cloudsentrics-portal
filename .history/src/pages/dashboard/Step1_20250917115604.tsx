@@ -26,8 +26,6 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
     "Enable/Disable life cycle Management",
     "Update retention/Transition Settings",
     "Add/Remove User or Change Access Level",
-    "Decommission an AWS Account(s)",
-    "Decommission a Storage",
   ];
 
   const handleCheckboxChange = (option: string) => {
@@ -244,10 +242,10 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
               placeholder="More than 5"
               className="ml-4 px-4 py-2 border border-gray-300 rounded-md text-lg w-64"
               onChange={(e) => {
-                const val = parseInt(e.target.value);
-                setSelectedStorageCount(isNaN(val) ? null : val);
-              }}
-              value={selectedStorageCount ?? ""} // ✅ just show whatever user typed
+    const val = parseInt(e.target.value);
+    setSelectedStorageCount(isNaN(val) ? null : val);
+  }}
+  value={selectedStorageCount ?? ""} // ✅ just show whatever user typed
             />
           </div>
 

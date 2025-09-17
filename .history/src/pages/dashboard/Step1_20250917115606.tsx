@@ -26,8 +26,6 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
     "Enable/Disable life cycle Management",
     "Update retention/Transition Settings",
     "Add/Remove User or Change Access Level",
-    "Decommission an AWS Account(s)",
-    "Decommission a Storage",
   ];
 
   const handleCheckboxChange = (option: string) => {

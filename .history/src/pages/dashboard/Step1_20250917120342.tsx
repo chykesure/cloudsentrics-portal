@@ -27,7 +27,7 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
     "Update retention/Transition Settings",
     "Add/Remove User or Change Access Level",
     "Decommission an AWS Account(s)",
-    "Decommission a Storage",
+    "Decommissiona Storage",
   ];
 
   const handleCheckboxChange = (option: string) => {
