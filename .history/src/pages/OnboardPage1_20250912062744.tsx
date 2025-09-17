@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 
+
+
 const OnboardingForm1 = () => {
   interface FormData {
     companyName: string;
@@ -44,43 +46,43 @@ const OnboardingForm1 = () => {
         initial={{ x: -50, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="flex flex-col flex-[1.5] px-4 sm:px-8 py-6 md:py-12 bg-white z-10"
+        className="flex flex-col flex-[1.5] px-6 sm:px-12 py-8 md:py-12 bg-white z-10"
       >
         {/* Logo */}
         <img
           src={logo}
           alt="Cloud Sentrics"
-          className="mb-4 h-12 sm:h-16 object-contain"
+          className="mb-2 h-16 sm:h-30 object-contain"
         />
 
         {/* Step Indicator */}
-        <div className="flex items-center justify-between mb-8 w-full max-w-md mx-auto md:mx-0">
+        <div className="flex items-center justify-between mb-10 w-full max-w-md">
           <div className="flex items-center">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-full border-2 border-blue-700 bg-blue-700 text-white font-semibold text-sm sm:text-base">
+            <div className="w-10 h-10 flex items-center justify-center rounded-full border-2 border-blue-700 bg-blue-700 text-white font-semibold">
               1
             </div>
           </div>
           <div className="flex-1 h-[2px] bg-gray-300 mx-2"></div>
           <div className="flex items-center">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-full border-2 border-gray-400 text-gray-400 font-semibold text-sm sm:text-base">
+            <div className="w-10 h-10 flex items-center justify-center rounded-full border-2 border-gray-400 text-gray-400 font-semibold">
               2
             </div>
           </div>
           <div className="flex-1 h-[2px] bg-gray-300 mx-2"></div>
           <div className="flex items-center">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-full border-2 border-gray-400 text-gray-400 font-semibold text-sm sm:text-base">
+            <div className="w-10 h-10 flex items-center justify-center rounded-full border-2 border-gray-400 text-gray-400 font-semibold">
               3
             </div>
           </div>
         </div>
 
-        <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 text-center md:text-left">
+        <h2 className="text-xl font-bold text-gray-900 mb-4">
           CUSTOMER INFORMATION
         </h2>
 
         {/* Company Info */}
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">
+        <div className="mb-6">
+          <label className="block text-sm font-medium mb-2">
             Company/Organization Name
           </label>
           <input
@@ -89,12 +91,12 @@ const OnboardingForm1 = () => {
             value={formData.companyName}
             onChange={handleChange}
             placeholder="E.g Cloud Sentrics"
-            className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-700 outline-none"
+            className="w-full border rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-blue-700 outline-none"
           />
         </div>
 
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">
+        <div className="mb-6">
+          <label className="block text-sm font-medium mb-2">
             Company/Organization Email
           </label>
           <input
@@ -103,22 +105,22 @@ const OnboardingForm1 = () => {
             value={formData.companyEmail}
             onChange={handleChange}
             placeholder="E.g cloudcentrics@gmail.com"
-            className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-700 outline-none"
+            className="w-full border rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-blue-700 outline-none"
           />
         </div>
 
         {/* Primary Contact */}
-        <div className="bg-gray-200 px-4 py-2 font-semibold text-gray-800 rounded-md mb-3 text-sm sm:text-base">
+        <div className="bg-gray-200 px-4 py-2 font-semibold text-gray-800 rounded-md mb-4">
           Primary Contact
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
           <input
             type="text"
             name="primaryName"
             value={formData.primaryName}
             onChange={handleChange}
             placeholder="E.g Ademola Ayodeji Johnson"
-            className="border rounded-lg px-3 py-2 text-sm w-full"
+            className="border rounded-lg px-4 py-2 text-sm w-full"
           />
           <input
             type="text"
@@ -126,7 +128,7 @@ const OnboardingForm1 = () => {
             value={formData.primaryPhone}
             onChange={handleChange}
             placeholder="E.g +2348194584357"
-            className="border rounded-lg px-3 py-2 text-sm w-full"
+            className="border rounded-lg px-4 py-2 text-sm w-full"
           />
         </div>
         <input
@@ -135,21 +137,21 @@ const OnboardingForm1 = () => {
           value={formData.primaryEmail}
           onChange={handleChange}
           placeholder="E.g cloudcentrics@gmail.com"
-          className="border rounded-lg px-3 py-2 text-sm w-full mb-4"
+          className="border rounded-lg px-4 py-2 text-sm w-full mb-6"
         />
 
         {/* Secondary Contact */}
-        <div className="bg-gray-200 px-4 py-2 font-semibold text-gray-800 rounded-md mb-3 text-sm sm:text-base">
+        <div className="bg-gray-200 px-4 py-2 font-semibold text-gray-800 rounded-md mb-4">
           Secondary Contact
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
           <input
             type="text"
             name="secondaryName"
             value={formData.secondaryName}
             onChange={handleChange}
             placeholder="E.g Ademola Ayodeji Johnson"
-            className="border rounded-lg px-3 py-2 text-sm w-full"
+            className="border rounded-lg px-4 py-2 text-sm w-full"
           />
           <input
             type="text"
@@ -157,7 +159,7 @@ const OnboardingForm1 = () => {
             value={formData.secondaryPhone}
             onChange={handleChange}
             placeholder="E.g +2348194584357"
-            className="border rounded-lg px-3 py-2 text-sm w-full"
+            className="border rounded-lg px-4 py-2 text-sm w-full"
           />
         </div>
         <input
@@ -166,13 +168,13 @@ const OnboardingForm1 = () => {
           value={formData.secondaryEmail}
           onChange={handleChange}
           placeholder="E.g cloudcentrics@gmail.com"
-          className="border rounded-lg px-3 py-2 text-sm w-full mb-6"
+          className="border rounded-lg px-4 py-2 text-sm w-full mb-6"
         />
 
         {/* Next Button */}
         <button
           onClick={handleNext}
-          className="w-full rounded-lg bg-blue-800 text-white py-3 font-semibold shadow hover:bg-blue-900 transition text-sm sm:text-base"
+          className="w-full rounded-lg bg-blue-800 text-white py-3 font-semibold shadow hover:bg-blue-900 transition"
         >
           Next
         </button>
@@ -196,15 +198,15 @@ const OnboardingForm1 = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-800/70" />
 
         {/* Foreground */}
-        <div className="relative text-center text-white max-w-xl p-6 md:p-12">
-          <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4 sm:mb-6 leading-snug">
+        <div className="relative text-center text-white max-w-xl p-12">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-snug">
             Customer Onboarding Form
           </h2>
-          <p className="text-base sm:text-lg md:text-xl leading-relaxed mb-4">
+          <p className="text-lg md:text-xl leading-relaxed mb-4">
             This form captures the confirmed details of your Cloud Sentric service
             so we can provision your AWS environment accurately.
           </p>
-          <p className="mt-2 sm:mt-4 italic text-sm sm:text-base md:text-lg">
+          <p className="mt-4 italic text-base md:text-lg">
             Please review each section carefully and ensure all details match
             your intended set up.
           </p>

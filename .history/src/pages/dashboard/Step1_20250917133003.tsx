@@ -52,13 +52,7 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
     setExistingStorageName("");
     setDetails("");
     setChangesRequested([]);
-
-    // ✅ also reset additional AWS account state
-    setAdditionalAccount(null);
-    setExistingAccountId("");
-    setNewAccountAlias("");
   };
-
 
 
 

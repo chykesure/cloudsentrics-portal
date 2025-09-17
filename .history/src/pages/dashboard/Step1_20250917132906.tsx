@@ -19,11 +19,6 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
   const [details, setDetails] = useState("");
   const [changesRequested, setChangesRequested] = useState<string[]>([]);
 
-  const [additionalAccount, setAdditionalAccount] = useState<"yes" | "no" | null>(null);
-  const [existingAccountId, setExistingAccountId] = useState("");
-  const [newAccountAlias, setNewAccountAlias] = useState("");
-
-
   const maxLength = 1500;
 
   const changeOptions = [
@@ -52,13 +47,7 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
     setExistingStorageName("");
     setDetails("");
     setChangesRequested([]);
-
-    // ✅ also reset additional AWS account state
-    setAdditionalAccount(null);
-    setExistingAccountId("");
-    setNewAccountAlias("");
   };
-
 
 
 
@@ -132,7 +121,7 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
               {/* YES option */}
               <label className="flex items-center gap-3 cursor-pointer">
                 <input
-                  type="checkbox"
+                  type="radio"
                   name="additionalAccount"
                   value="yes"
                   checked={additionalAccount === "yes"}
@@ -154,7 +143,7 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
               {/* NO option */}
               <label className="flex items-center gap-3 cursor-pointer">
                 <input
-                  type="checkbox"
+                  type="radio"
                   name="additionalAccount"
                   value="no"
                   checked={additionalAccount === "no"}

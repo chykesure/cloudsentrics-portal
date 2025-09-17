@@ -19,11 +19,6 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
   const [details, setDetails] = useState("");
   const [changesRequested, setChangesRequested] = useState<string[]>([]);
 
-  const [additionalAccount, setAdditionalAccount] = useState<"yes" | "no" | null>(null);
-  const [existingAccountId, setExistingAccountId] = useState("");
-  const [newAccountAlias, setNewAccountAlias] = useState("");
-
-
   const maxLength = 1500;
 
   const changeOptions = [
@@ -52,13 +47,7 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
     setExistingStorageName("");
     setDetails("");
     setChangesRequested([]);
-
-    // ✅ also reset additional AWS account state
-    setAdditionalAccount(null);
-    setExistingAccountId("");
-    setNewAccountAlias("");
   };
-
 
 
 
@@ -121,59 +110,6 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
             SSE-S3 encryption enabled. Additional settings may incur extra charges
             and will be reflected on your invoice.
           </p>
-
-          {/* ✅ Additional AWS Account */}
-          <div className="mb-10">
-            <h3 className="bg-gray-100 px-4 py-2 font-semibold text-lg text-gray-800 rounded-md">
-              ADDITIONAL AWS ACCOUNT
-            </h3>
-
-            <div className="flex flex-wrap items-center gap-6 mt-4">
-              {/* YES option */}
-              <label className="flex items-center gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  name="additionalAccount"
-                  value="yes"
-                  checked={additionalAccount === "yes"}
-                  onChange={() => setAdditionalAccount("yes")}
-                  className="w-5 h-5 border-gray-400"
-                />
-                <span className="font-medium text-gray-700">Yes</span>
-                {additionalAccount === "yes" && (
-                  <input
-                    type="text"
-                    placeholder="Input Existing Account ID"
-                    className="ml-2 px-4 py-2 border border-gray-300 rounded-md text-lg w-72"
-                    value={existingAccountId}
-                    onChange={(e) => setExistingAccountId(e.target.value)}
-                  />
-                )}
-              </label>
-
-              {/* NO option */}
-              <label className="flex items-center gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  name="additionalAccount"
-                  value="no"
-                  checked={additionalAccount === "no"}
-                  onChange={() => setAdditionalAccount("no")}
-                  className="w-5 h-5 border-gray-400"
-                />
-                <span className="font-medium text-gray-700">No</span>
-                {additionalAccount === "no" && (
-                  <input
-                    type="text"
-                    placeholder="Input preferred Alias for new Account"
-                    className="ml-2 px-4 py-2 border border-gray-300 rounded-md text-lg w-72"
-                    value={newAccountAlias}
-                    onChange={(e) => setNewAccountAlias(e.target.value)}
-                  />
-                )}
-              </label>
-            </div>
-          </div>
 
           {/* Storage Count */}
           <div className="flex flex-wrap items-center mb-8 gap-4 text-xl">

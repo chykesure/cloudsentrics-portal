@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import Image2 from "../assets/Image2.jpg";
 
+
+
 const OnboardingForm2 = () => {
   const navigate = useNavigate();
   const [selectedAccounts, setSelectedAccounts] = useState<number | null>(null);
@@ -45,11 +47,11 @@ const OnboardingForm2 = () => {
         <img
           src={logo}
           alt="Cloud Sentrics"
-          className="mb-4 h-12 sm:h-16 object-contain"
+          className="mb-2 h-12 sm:h-36 object-contain"
         />
 
         {/* Step Indicator */}
-        <div className="flex items-center justify-between mb-6 sm:mb-10 w-full max-w-md mx-auto md:mx-0">
+        <div className="flex items-center justify-between mb-8 sm:mb-10 w-full max-w-md">
           <div className="flex items-center">
             <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-full border-2 border-blue-700 bg-blue-700 text-white text-sm sm:text-base font-semibold">
               ✓
@@ -73,16 +75,16 @@ const OnboardingForm2 = () => {
           </div>
         </div>
 
-        <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-900 mb-4 sm:mb-8 text-center md:text-left">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">
           AWS ACCOUNT SET UP
         </h2>
 
         {/* Number of Accounts */}
-        <div className="mb-6 sm:mb-8">
-          <label className="block text-sm sm:text-lg font-semibold mb-2 sm:mb-3">
+        <div className="mb-8">
+          <label className="block text-base sm:text-lg font-semibold mb-3">
             Number of AWS Accounts Needed
           </label>
-          <div className="flex flex-wrap gap-3 sm:gap-4 mb-4 text-sm sm:text-base">
+          <div className="flex flex-wrap gap-4 mb-4 text-sm sm:text-base">
             {[1, 2, 3, 4, 5].map((num) => (
               <label
                 key={num}
@@ -92,14 +94,14 @@ const OnboardingForm2 = () => {
                   type="checkbox"
                   checked={selectedAccounts === num}
                   onChange={() => setSelectedAccounts(num)}
-                  className="w-4 h-4 sm:w-6 sm:h-6 border-gray-400"
+                  className="w-5 h-5 sm:w-6 sm:h-6 border-gray-400"
                 />
                 <span>{num}</span>
               </label>
             ))}
           </div>
           <div>
-            <span className="block text-sm sm:text-lg font-semibold mb-1 sm:mb-2">
+            <span className="block text-base sm:text-lg font-semibold mb-2">
               Enter number if more than 5
             </span>
             <input
@@ -113,23 +115,23 @@ const OnboardingForm2 = () => {
         </div>
 
         {/* Preferred Aliases */}
-        <div className="mb-6 sm:mb-8">
-          <label className="block text-sm sm:text-lg font-semibold mb-2">
+        <div className="mb-8">
+          <label className="block text-base sm:text-lg font-semibold mb-2">
             Preferred AWS Alias for each account
           </label>
-          <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">
+          <p className="text-xs sm:text-sm text-gray-600 mb-4">
             Note: Provide the Organization Name / Department using the account
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {Object.keys(aliases).map((key) => (
               <div
                 key={key}
                 className="flex items-center border rounded-md overflow-hidden"
               >
-                <span className="px-2 bg-gray-100 font-semibold text-xs sm:text-base">
+                <span className="px-2 bg-gray-100 font-semibold text-sm sm:text-base">
                   {key}
                 </span>
-                <span className="px-2 text-gray-600 text-xs sm:text-base">
+                <span className="px-2 text-gray-600 text-sm sm:text-base">
                   cloudsentrics-aws-
                 </span>
                 <input
@@ -137,7 +139,7 @@ const OnboardingForm2 = () => {
                   value={aliases[key]}
                   onChange={(e) => handleAliasChange(key, e.target.value)}
                   placeholder="Organization/Dept"
-                  className="flex-1 px-2 py-2 text-xs sm:text-base outline-none"
+                  className="flex-1 px-2 py-2 text-sm sm:text-base outline-none"
                 />
               </div>
             ))}
@@ -145,8 +147,8 @@ const OnboardingForm2 = () => {
         </div>
 
         {/* Extra Aliases */}
-        <div className="mb-6 sm:mb-8">
-          <label className="block text-sm sm:text-lg font-semibold mb-2">
+        <div className="mb-8">
+          <label className="block text-base sm:text-lg font-semibold mb-2">
             Enter more AWS Aliases if more than 6
           </label>
           <textarea
@@ -167,13 +169,13 @@ const OnboardingForm2 = () => {
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-col sm:flex-row justify-between gap-3 sm:gap-4 mt-6"
+          className="flex flex-col sm:flex-row justify-between gap-4 mt-6"
         >
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => navigate("/signup")}
-            className="px-4 sm:px-5 py-2 sm:py-3 rounded-lg border border-gray-400 text-gray-700 text-sm sm:text-base font-medium hover:bg-gray-100 w-full sm:w-auto"
+            className="px-5 py-3 rounded-lg border border-gray-400 text-gray-700 text-sm sm:text-base font-medium hover:bg-gray-100 w-full sm:w-auto"
           >
             Back
           </motion.button>
@@ -182,7 +184,7 @@ const OnboardingForm2 = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleNext}
-            className="px-5 sm:px-8 py-2 sm:py-3 rounded-lg bg-blue-800 text-white text-sm sm:text-base font-semibold shadow hover:bg-blue-900 transition w-full sm:w-auto"
+            className="px-6 sm:px-8 py-3 rounded-lg bg-blue-800 text-white text-sm sm:text-base font-semibold shadow hover:bg-blue-900 transition w-full sm:w-auto"
           >
             Next
           </motion.button>
@@ -194,11 +196,11 @@ const OnboardingForm2 = () => {
         initial={{ x: 50, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="relative flex-1 items-center justify-center overflow-hidden h-40 sm:h-56 md:h-auto flex"
+        className="flex relative flex-1 items-center justify-center overflow-hidden h-48 md:h-auto md:flex"
       >
         {/* Background Image */}
         <img
-          src={Image2}
+          src=[]
           alt="Onboarding background"
           className="absolute inset-0 w-full h-full object-cover"
         />
@@ -207,11 +209,11 @@ const OnboardingForm2 = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-800/70" />
 
         {/* Foreground */}
-        <div className="relative text-center text-white max-w-lg p-4 sm:p-8 md:p-12">
-          <h2 className="text-base sm:text-2xl md:text-4xl font-bold mb-2 sm:mb-6">
+        <div className="relative text-center text-white max-w-lg p-6 sm:p-12">
+          <h2 className="text-lg sm:text-2xl md:text-4xl font-bold mb-3 sm:mb-6">
             Customer Onboarding Form
           </h2>
-          <p className="text-xs sm:text-base md:text-xl leading-relaxed mb-2 sm:mb-6">
+          <p className="text-xs sm:text-base md:text-xl leading-relaxed mb-3 sm:mb-6">
             This form captures the confirmed details of your Cloud Sentrics service
             so we can provision your AWS environment accurately.
           </p>
