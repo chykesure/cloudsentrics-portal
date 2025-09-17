@@ -219,70 +219,53 @@ const DashboardHome = () => {
                         <table className="min-w-full table-fixed border-collapse text-sm">
                             <thead className="bg-[#032352] text-white sticky top-0 shadow-sm">
                                 <tr>
-                                    {["Request Type", "Date", "Time", "Status", "Action"].map(
-                                        (head, idx) => (
-                                            <th
-                                                key={idx}
-                                                className={`py-3 px-3 font-medium text-left ${head === "Action" ? "text-center" : ""
-                                                    }`}
-                                            >
-                                                {head}
-                                            </th>
-                                        )
-                                    )}
+                                    <th className="w-1/4 py-3 px-3 text-left">Request Type</th>
+                                    <th className="w-1/5 py-3 px-3 text-left">Date</th>
+                                    <th className="w-1/5 py-3 px-3 text-left">Time</th>
+                                    <th className="w-1/5 py-3 px-3 text-left">Status</th>
+                                    <th className="w-1/10 py-3 px-3 text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {requests.length === 0 ? (
-                                    <tr>
-                                        <td
-                                            colSpan={5}
-                                            className="py-6 text-center text-gray-500 italic"
-                                        >
-                                            No requests found
+                                {requests.map((row, idx) => (
+                                    <motion.tr
+                                        key={idx}
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: idx * 0.1 }}
+                                        className={`${idx % 2 === 0 ? "bg-gray-50" : "bg-white"
+                                            } hover:bg-gray-100 hover:shadow-sm hover:scale-[1.01] transition cursor-pointer`}
+                                    >
+                                        <td className="w-1/4 py-3 px-3 font-medium text-gray-800">
+                                            {row.type}
                                         </td>
-                                    </tr>
-                                ) : (
-                                    requests.map((row, idx) => (
-                                        <motion.tr
-                                            key={idx}
-                                            initial={{ opacity: 0, y: 10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: idx * 0.05 }}
-                                            className={`${idx % 2 === 0 ? "bg-gray-50" : "bg-white"
-                                                } hover:bg-gray-100 transition cursor-pointer`}
-                                        >
-                                            <td className="py-3 px-3 font-medium text-gray-800">
-                                                {row.type}
-                                            </td>
-                                            <td className="py-3 px-3 text-gray-600">{row.date}</td>
-                                            <td className="py-3 px-3 text-gray-600">{row.time}</td>
-                                            <td className="py-3 px-3">
-                                                <span
-                                                    className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium shadow-sm ${row.status === "Approved"
-                                                            ? "bg-green-100 text-green-700"
-                                                            : "bg-orange-100 text-orange-700"
-                                                        }`}
-                                                >
-                                                    {row.status === "Approved" ? (
-                                                        <CheckCircle className="h-4 w-4" />
-                                                    ) : (
-                                                        <Clock className="h-4 w-4" />
-                                                    )}
-                                                    {row.status}
-                                                </span>
-                                            </td>
-                                            <td className="py-3 px-3 text-center">
-                                                <button
-                                                    className="p-2 rounded-full hover:bg-gray-200 transition"
-                                                    title="View"
-                                                >
-                                                    <Eye className="h-5 w-5 text-[#032352]" />
-                                                </button>
-                                            </td>
-                                        </motion.tr>
-                                    ))
-                                )}
+                                        <td className="w-1/5 py-3 px-3">{row.date}</td>
+                                        <td className="w-1/5 py-3 px-3">{row.time}</td>
+                                        <td className="w-1/5 py-3 px-3">
+                                            <span
+                                                className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium ${row.status === "Approved"
+                                                        ? "bg-green-100 text-green-700"
+                                                        : "bg-orange-100 text-orange-700"
+                                                    }`}
+                                            >
+                                                {row.status === "Approved" ? (
+                                                    <CheckCircle className="h-3 w-3" />
+                                                ) : (
+                                                    <Clock className="h-3 w-3" />
+                                                )}
+                                                {row.status}
+                                            </span>
+                                        </td>
+                                        <td className="w-1/10 py-3 px-3 text-center">
+                                            <button
+                                                className="p-2 rounded-full hover:bg-gray-200 transition"
+                                                title="View"
+                                            >
+                                                <Eye className="h-4 w-4 text-[#032352]" />
+                                            </button>
+                                        </td>
+                                    </motion.tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>
@@ -331,7 +314,7 @@ const DashboardHome = () => {
                         ))}
                     </div>
                 </motion.div>
-            </div>;
+            </div>
         </div>
     );
 };

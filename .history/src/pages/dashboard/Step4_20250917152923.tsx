@@ -7,7 +7,7 @@ interface StepProps {
   goBack: () => void;
   jumpToStep?: (step: number) => void;
 }
-const Step4 = ({ goBack, jumpToStep }: StepProps) => {
+const Step4 = ({goBack, jumpToStep }: StepProps) => {
   const [accessLogging, setAccessLogging] = useState<string | null>(null);
   const [lifecycle, setLifecycle] = useState<string | null>(null);
   const [customerKey, setCustomerKey] = useState<string | null>(null);
@@ -73,96 +73,97 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
 
         {/* File Sharing Options */}
         {fileSharing === "Yes" && (
-          <div className="ml-4 space-y-4">
-            {/* Option 1 */}
-            <label className="flex items-center gap-2 cursor-pointer">
+  <div className="ml-4 space-y-4">
+    {/* Option 1 */}
+    <label className="flex items-center gap-2 cursor-pointer">
+      <input
+        type="checkbox"
+        name="fileOption"
+        value="Email"
+        checked={fileOption === "Email"}
+        onChange={() => setFileOption("Email")}
+        className="h-5 w-5 text-[#032352] focus:ring-[#032352]"
+      />
+      <span className="text-[#032352]">
+        Option 1: (File securely delivered to recipient's email address provided).
+      </span>
+    </label>
+
+    {/* Option 2 */}
+    <label className="flex items-center gap-2 cursor-pointer">
+      <input
+        type="checkbox"
+        name="fileOption"
+        value="EmailOTP"
+        checked={fileOption === "EmailOTP"}
+        onChange={() => setFileOption("EmailOTP")}
+        className="h-5 w-5 text-[#032352] focus:ring-[#032352]"
+      />
+      <span className="text-[#032352]">
+        Option 2: (File securely delivered to recipient's email address provided, but
+        won't be able to download the file directly, until they enter an OTP code
+        sent to their WhatsApp Number).
+      </span>
+    </label>
+
+    {/* Option 3 */}
+    <label className="flex items-center gap-2 cursor-pointer">
+      <input
+        type="checkbox"
+        name="fileOption"
+        value="WhatsApp"
+        checked={fileOption === "WhatsApp"}
+        onChange={() => setFileOption("WhatsApp")}
+        className="h-5 w-5 text-[#032352] focus:ring-[#032352]"
+      />
+      <span className="text-[#032352]">
+        Option 3: (File securely delivered to recipient's WhatsApp Number provided).
+      </span>
+    </label>
+
+    {/* OTP Subscription Plans */}
+    {(fileOption === "EmailOTP" || fileOption === "WhatsApp") && (
+      <div className="mt-4 p-4 border rounded-lg bg-gray-50">
+        <h5 className="font-semibold mb-3">
+          OTP Subscription Tier (monthly)
+        </h5>
+        <div className="flex flex-wrap gap-4">
+          {["500", "1000", "1500"].map((plan) => (
+            <label
+              key={plan}
+              className="flex items-center gap-2 cursor-pointer"
+            >
               <input
                 type="checkbox"
-                name="fileOption"
-                value="Email"
-                checked={fileOption === "Email"}
-                onChange={() => setFileOption("Email")}
+                name="otpPlan"
+                value={plan}
+                checked={otpPlan === plan}
+                onChange={() => setOtpPlan(plan)}
                 className="h-5 w-5 text-[#032352] focus:ring-[#032352]"
               />
-              <span className="text-[#032352]">
-                Option 1: (File securely delivered to recipient's email address provided).
-              </span>
+              <span className="text-[#032352]">{plan}</span>
             </label>
+          ))}
 
-            {/* Option 2 */}
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                name="fileOption"
-                value="EmailOTP"
-                checked={fileOption === "EmailOTP"}
-                onChange={() => setFileOption("EmailOTP")}
-                className="h-5 w-5 text-[#032352] focus:ring-[#032352]"
-              />
-              <span className="text-[#032352]">
-                Option 2: (File securely delivered to recipient's email address provided, but
-                won't be able to download the file directly, until they enter an OTP code
-                sent to their WhatsApp Number).
-              </span>
-            </label>
-
-            {/* Option 3 */}
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                name="fileOption"
-                value="WhatsApp"
-                checked={fileOption === "WhatsApp"}
-                onChange={() => setFileOption("WhatsApp")}
-                className="h-5 w-5 text-[#032352] focus:ring-[#032352]"
-              />
-              <span className="text-[#032352]">
-                Option 3: (File securely delivered to recipient's WhatsApp Number provided).
-              </span>
-            </label>
-
-            {/* OTP Subscription Plans */}
-            {(fileOption === "EmailOTP" || fileOption === "WhatsApp") && (
-              <div className="mt-4 p-4 border rounded-lg bg-gray-50">
-                <h5 className="font-semibold mb-3">
-                  OTP Subscription Tier (monthly)
-                </h5>
-                <div className="flex flex-wrap gap-4">
-                  {["500", "1000", "1500"].map((plan) => (
-                    <label
-                      key={plan}
-                      className="flex items-center gap-2 cursor-pointer"
-                    >
-                      <input
-                        type="checkbox"
-                        name="otpPlan"
-                        value={plan}
-                        checked={otpPlan === plan}
-                        onChange={() => setOtpPlan(plan)}
-                        className="h-5 w-5 text-[#032352] focus:ring-[#032352]"
-                      />
-                      <span className="text-[#032352]">{plan}</span>
-                    </label>
-                  ))}
-
-                  {/* Custom OTP Input */}
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="text"
-                      value={customOtp}
-                      onChange={(e) => {
-                        setCustomOtp(e.target.value);
-                        setOtpPlan("custom");
-                      }}
-                      placeholder="Custom number"
-                      className="px-3 py-2 border rounded-md text-lg w-40"
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
+          {/* Custom OTP Input */}
+          <div className="flex items-center gap-2">
+            <input
+              type="text"
+              value={customOtp}
+              onChange={(e) => {
+                setCustomOtp(e.target.value);
+                setOtpPlan("custom");
+              }}
+              placeholder="Custom number"
+              className="px-3 py-2 border rounded-md text-lg w-40"
+            />
           </div>
-        )}
+        </div>
+      </div>
+    )}
+  </div>
+)}
+
       </div>
 
       {/* Two-Column Section */}
@@ -331,8 +332,8 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
         </button>
         <button
           onClick={() => {
-            jumpToStep?.(6); // 👈 explicitly jump to Step2
-          }}
+              jumpToStep?.(6); // 👈 explicitly jump to Step2
+            }}
           className="px-8 py-3 bg-[#032352] text-white text-lg rounded-md hover:bg-blue-700"
         >
           Next →

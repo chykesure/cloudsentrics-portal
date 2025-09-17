@@ -61,7 +61,7 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="bg-white min-h-screen w-full px-2 sm:px-6 lg:px-12"
+      className="bg-white min-h-screen w-full p-6 sm:p-10"
     >
       {/* Request Type */}
       <div className="mb-8">
@@ -71,40 +71,36 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-base sm:text-xl">
           {/* AWS */}
-          <label className="flex items-start gap-3 cursor-pointer bg-gray-50 p-3 rounded-md hover:bg-gray-100">
+          <label className="flex items-center gap-3 cursor-pointer bg-gray-50 p-3 rounded-md hover:bg-gray-100">
             <input
               type="checkbox"
-              className="form-checkbox w-5 h-5 sm:w-6 sm:h-6 text-blue-600 shrink-0"
+              className="form-checkbox w-5 h-5 sm:w-6 sm:h-6 text-blue-600"
               checked={selectedOption === "aws"}
               onChange={() => handleOptionChange("aws")}
             />
-            <span className="text-gray-800 flex-1">
-              Additional AWS Account(s)
-            </span>
+            <span className="text-gray-800">Additional AWS Account(s)</span>
           </label>
 
           {/* Storage */}
-          <label className="flex items-start gap-3 cursor-pointer bg-gray-50 p-3 rounded-md hover:bg-gray-100">
+          <label className="flex items-center gap-3 cursor-pointer bg-gray-50 p-3 rounded-md hover:bg-gray-100">
             <input
               type="checkbox"
-              className="form-checkbox w-5 h-5 sm:w-6 sm:h-6 text-blue-600 shrink-0"
+              className="form-checkbox w-5 h-5 sm:w-6 sm:h-6 text-blue-600"
               checked={selectedOption === "storage"}
               onChange={() => handleOptionChange("storage")}
             />
-            <span className="text-gray-800 flex-1">
-              Storage(s)
-            </span>
+            <span className="text-gray-800">Storage(s)</span>
           </label>
 
           {/* Change */}
-          <label className="flex items-start gap-3 cursor-pointer bg-gray-50 p-3 rounded-md hover:bg-gray-100">
+          <label className="flex items-center gap-3 cursor-pointer bg-gray-50 p-3 rounded-md hover:bg-gray-100">
             <input
               type="checkbox"
-              className="form-checkbox w-5 h-5 sm:w-6 sm:h-6 text-blue-600 shrink-0"
+              className="form-checkbox w-5 h-5 sm:w-6 sm:h-6 text-blue-600"
               checked={selectedOption === "change"}
               onChange={() => handleOptionChange("change")}
             />
-            <span className="text-gray-800 flex-1 leading-snug">
+            <span className="text-gray-800 leading-snug">
               Change to Existing Account or Storage(s) settings
             </span>
           </label>
@@ -115,7 +111,7 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
 
       {/* AWS Option */}
       {selectedOption === "aws" && (
-        <div className="w-full px-4 sm:px-6 lg:px-18 mb-12">
+        <div className="mb-12">
           {/* ✅ Additional AWS Account */}
           <div className="mb-10">
             <h3 className="bg-gray-100 px-4 py-2 font-semibold text-lg text-gray-800 rounded-md">
@@ -124,7 +120,6 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
             <p className="text-base sm:text-xl text-gray-700 mb-6 leading-relaxed">
               Is the account existing in your organization? Select one
             </p>
-
             <div className="flex flex-col sm:flex-row sm:flex-wrap gap-6 mt-4">
               {/* YES option */}
               <label className="flex flex-col sm:flex-row sm:items-center gap-3 cursor-pointer w-full sm:w-auto">
@@ -176,16 +171,13 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
             </div>
           </div>
 
-          {/* ✅ Storage Count */}
+          {/* Storage Count */}
           <div className="flex flex-col sm:flex-row sm:items-center mb-8 gap-4 text-base sm:text-xl">
             <label className="font-medium">Number of AWS Account Needed</label>
 
             <div className="flex flex-wrap gap-4">
               {[1, 2, 3, 4, 5].map((n) => (
-                <label
-                  key={n}
-                  className="flex items-center relative cursor-pointer"
-                >
+                <label key={n} className="flex items-center relative cursor-pointer">
                   <input
                     type="radio"
                     name="storageCount"
@@ -222,7 +214,6 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
             </div>
           </div>
 
-          {/* ✅ Bucket Alias Section */}
           <b className="block text-base sm:text-lg">
             Preferred AWS Alias for each account
           </b>
@@ -230,6 +221,7 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
             Note: Provide the Organization Name / Department using the account
           </p>
 
+          {/* Bucket Names */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
             {["A", "B", "C", "D", "E", "F"].map((label) => (
               <div key={label}>
@@ -250,7 +242,7 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
             ))}
           </div>
 
-          {/* ✅ Additional Storage Textarea */}
+          {/* Additional Storage Textarea */}
           <div className="mb-10">
             <label className="block text-base sm:text-xl font-medium text-gray-700 mb-3">
               Enter more AWS Alias if more than 6
@@ -268,7 +260,7 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
             </div>
           </div>
 
-          {/* ✅ Navigation */}
+          {/* Navigation */}
           <div className="flex flex-col sm:flex-row justify-between gap-4 mt-10">
             <button
               onClick={goBack}
@@ -284,8 +276,8 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
               }}
               disabled={!selectedOption || selectedOption !== "aws"}
               className={`w-full sm:w-auto px-6 sm:px-10 py-3 sm:py-4 text-base sm:text-lg rounded-md ${!selectedOption || selectedOption !== "aws"
-                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  : "bg-[#032352] text-white hover:bg-blue-700"
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-[#032352] text-white hover:bg-blue-700"
                 }`}
             >
               Next →

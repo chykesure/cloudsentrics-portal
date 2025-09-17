@@ -7,7 +7,7 @@ interface StepProps {
   goBack: () => void;
   jumpToStep?: (step: number) => void;
 }
-const Step4 = ({ goBack, jumpToStep }: StepProps) => {
+const Step4 = ({goBack, jumpToStep }: StepProps) => {
   const [accessLogging, setAccessLogging] = useState<string | null>(null);
   const [lifecycle, setLifecycle] = useState<string | null>(null);
   const [customerKey, setCustomerKey] = useState<string | null>(null);
@@ -74,7 +74,6 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
         {/* File Sharing Options */}
         {fileSharing === "Yes" && (
           <div className="ml-4 space-y-4">
-            {/* Option 1 */}
             <label className="flex items-center gap-2 cursor-pointer">
               <input
                 type="checkbox"
@@ -84,12 +83,9 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
                 onChange={() => setFileOption("Email")}
                 className="h-5 w-5 text-[#032352] focus:ring-[#032352]"
               />
-              <span className="text-[#032352]">
-                Option 1: (File securely delivered to recipient's email address provided).
-              </span>
+              <span className="text-[#032352]">Option 1: Email Only</span>
             </label>
 
-            {/* Option 2 */}
             <label className="flex items-center gap-2 cursor-pointer">
               <input
                 type="checkbox"
@@ -99,14 +95,9 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
                 onChange={() => setFileOption("EmailOTP")}
                 className="h-5 w-5 text-[#032352] focus:ring-[#032352]"
               />
-              <span className="text-[#032352]">
-                Option 2: (File securely delivered to recipient's email address provided, but
-                won't be able to download the file directly, until they enter an OTP code
-                sent to their WhatsApp Number).
-              </span>
+              <span className="text-[#032352]">Option 2: Email + OTP</span>
             </label>
 
-            {/* Option 3 */}
             <label className="flex items-center gap-2 cursor-pointer">
               <input
                 type="checkbox"
@@ -116,9 +107,7 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
                 onChange={() => setFileOption("WhatsApp")}
                 className="h-5 w-5 text-[#032352] focus:ring-[#032352]"
               />
-              <span className="text-[#032352]">
-                Option 3: (File securely delivered to recipient's WhatsApp Number provided).
-              </span>
+              <span className="text-[#032352]">Option 3: WhatsApp Only</span>
             </label>
 
             {/* OTP Subscription Plans */}
@@ -331,8 +320,8 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
         </button>
         <button
           onClick={() => {
-            jumpToStep?.(6); // 👈 explicitly jump to Step2
-          }}
+              jumpToStep?.(6); // 👈 explicitly jump to Step2
+            }}
           className="px-8 py-3 bg-[#032352] text-white text-lg rounded-md hover:bg-blue-700"
         >
           Next →

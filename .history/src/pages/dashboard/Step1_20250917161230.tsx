@@ -115,7 +115,7 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
 
       {/* AWS Option */}
       {selectedOption === "aws" && (
-        <div className="w-full px-4 sm:px-6 lg:px-18 mb-12">
+        <div className="w-full px-4 sm:px-6 lg:px-8 mb-12">
           {/* ✅ Additional AWS Account */}
           <div className="mb-10">
             <h3 className="bg-gray-100 px-4 py-2 font-semibold text-lg text-gray-800 rounded-md">
@@ -293,6 +293,7 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
           </div>
         </div>
       )}
+
 
       {/* STORAGE OPTION */}
       {selectedOption === "storage" && (

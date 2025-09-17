@@ -184,6 +184,9 @@ const DashboardHome = () => {
             </div>
 
             {/* ==== Table + Chart Section ==== */}
+            import {Eye, CheckCircle, Clock} from "lucide-react";
+            import {motion} from "framer-motion";
+
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Table */}
                 <motion.div

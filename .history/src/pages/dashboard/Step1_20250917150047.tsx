@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 
+
 interface StepProps {
   goNext: () => void;
   goBack: () => void;
@@ -13,6 +14,7 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
   const [selectedStorageCount, setSelectedStorageCount] = useState<number | null>(null);
   const [selectedOption, setSelectedOption] = useState<"aws" | "storage" | "change" | null>(null);
 
+
   const [existingStorageName, setExistingStorageName] = useState("");
   const [details, setDetails] = useState("");
   const [changesRequested, setChangesRequested] = useState<string[]>([]);
@@ -20,6 +22,7 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
   const [additionalAccount, setAdditionalAccount] = useState<"yes" | "no" | null>(null);
   const [existingAccountId, setExistingAccountId] = useState("");
   const [newAccountAlias, setNewAccountAlias] = useState("");
+
 
   const maxLength = 1500;
 
@@ -56,58 +59,54 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
     setNewAccountAlias("");
   };
 
+
+
+
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="bg-white min-h-screen w-full px-2 sm:px-6 lg:px-12"
+      className="bg-white min-h-screen w-full p-10"
     >
       {/* Request Type */}
       <div className="mb-8">
-        <h3 className="text-2xl sm:text-3xl font-semibold text-blue-900 mb-4">
-          REQUEST TYPE
-        </h3>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-base sm:text-xl">
+        <h3 className="text-3xl font-semibold text-blue-900 mb-4">REQUEST TYPE</h3>
+        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 sm:gap-6 text-lg">
           {/* AWS */}
-          <label className="flex items-start gap-3 cursor-pointer bg-gray-50 p-3 rounded-md hover:bg-gray-100">
+          <label className="flex items-center space-x-2 cursor-pointer">
             <input
               type="checkbox"
-              className="form-checkbox w-5 h-5 sm:w-6 sm:h-6 text-blue-600 shrink-0"
+              className="form-checkbox w-6 h-6"
               checked={selectedOption === "aws"}
               onChange={() => handleOptionChange("aws")}
             />
-            <span className="text-gray-800 flex-1">
-              Additional AWS Account(s)
-            </span>
+            <span>Additional AWS Account(s)</span>
           </label>
 
           {/* Storage */}
-          <label className="flex items-start gap-3 cursor-pointer bg-gray-50 p-3 rounded-md hover:bg-gray-100">
+          <label className="flex items-center space-x-2 cursor-pointer">
             <input
               type="checkbox"
-              className="form-checkbox w-5 h-5 sm:w-6 sm:h-6 text-blue-600 shrink-0"
+              className="form-checkbox w-6 h-6"
               checked={selectedOption === "storage"}
               onChange={() => handleOptionChange("storage")}
             />
-            <span className="text-gray-800 flex-1">
-              Storage(s)
-            </span>
+            <span>Storage(s)</span>
           </label>
 
           {/* Change */}
-          <label className="flex items-start gap-3 cursor-pointer bg-gray-50 p-3 rounded-md hover:bg-gray-100">
+          <label className="flex items-center space-x-2 cursor-pointer">
             <input
               type="checkbox"
-              className="form-checkbox w-5 h-5 sm:w-6 sm:h-6 text-blue-600 shrink-0"
+              className="form-checkbox w-6 h-6"
               checked={selectedOption === "change"}
               onChange={() => handleOptionChange("change")}
             />
-            <span className="text-gray-800 flex-1 leading-snug">
-              Change to Existing Account or Storage(s) settings
-            </span>
+            <span>Change to Existing Account or Storage(s) settings</span>
           </label>
+
         </div>
       </div>
 
@@ -115,19 +114,18 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
 
       {/* AWS Option */}
       {selectedOption === "aws" && (
-        <div className="w-full px-4 sm:px-6 lg:px-18 mb-12">
+        <div className="mb-12">
           {/* ✅ Additional AWS Account */}
           <div className="mb-10">
             <h3 className="bg-gray-100 px-4 py-2 font-semibold text-lg text-gray-800 rounded-md">
               ADDITIONAL AWS ACCOUNT
             </h3>
-            <p className="text-base sm:text-xl text-gray-700 mb-6 leading-relaxed">
+            <p className="text-base md:text-xl text-gray-700 mb-6 leading-relaxed">
               Is the account existing in your organization? Select one
             </p>
-
-            <div className="flex flex-col sm:flex-row sm:flex-wrap gap-6 mt-4">
+            <div className="flex flex-col md:flex-row md:flex-wrap gap-6 mt-4">
               {/* YES option */}
-              <label className="flex flex-col sm:flex-row sm:items-center gap-3 cursor-pointer w-full sm:w-auto">
+              <label className="flex flex-col md:flex-row md:items-center gap-3 cursor-pointer w-full md:w-auto">
                 <div className="flex items-center gap-3">
                   <input
                     type="checkbox"
@@ -143,7 +141,7 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
                   <input
                     type="text"
                     placeholder="Input Existing Account ID"
-                    className="mt-2 sm:mt-0 sm:ml-2 px-4 py-2 border border-gray-300 rounded-md text-base sm:text-lg w-full sm:w-72"
+                    className="mt-2 md:mt-0 md:ml-2 px-4 py-2 border border-gray-300 rounded-md text-base md:text-lg w-full md:w-72"
                     value={existingAccountId}
                     onChange={(e) => setExistingAccountId(e.target.value)}
                   />
@@ -151,7 +149,7 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
               </label>
 
               {/* NO option */}
-              <label className="flex flex-col sm:flex-row sm:items-center gap-3 cursor-pointer w-full sm:w-auto">
+              <label className="flex flex-col md:flex-row md:items-center gap-3 cursor-pointer w-full md:w-auto">
                 <div className="flex items-center gap-3">
                   <input
                     type="checkbox"
@@ -167,7 +165,7 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
                   <input
                     type="text"
                     placeholder="Input preferred Alias for new Account"
-                    className="mt-2 sm:mt-0 sm:ml-2 px-4 py-2 border border-gray-300 rounded-md text-base sm:text-lg w-full sm:w-72"
+                    className="mt-2 md:mt-0 md:ml-2 px-4 py-2 border border-gray-300 rounded-md text-base md:text-lg w-full md:w-72"
                     value={newAccountAlias}
                     onChange={(e) => setNewAccountAlias(e.target.value)}
                   />
@@ -176,8 +174,9 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
             </div>
           </div>
 
-          {/* ✅ Storage Count */}
-          <div className="flex flex-col sm:flex-row sm:items-center mb-8 gap-4 text-base sm:text-xl">
+          {/* Storage Count */}
+          {/* Storage Count */}
+          <div className="flex flex-col md:flex-row md:items-center mb-8 gap-4 text-base md:text-xl">
             <label className="font-medium">Number of AWS Account Needed</label>
 
             <div className="flex flex-wrap gap-4">
@@ -205,14 +204,12 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
               ))}
             </div>
 
-            <div className="flex flex-col w-full sm:w-64">
-              <label className="text-sm text-gray-600 mb-1">
-                Enter number if more than 5
-              </label>
+            <div className="flex flex-col w-full md:w-64">
+              <label className="text-sm text-gray-600 mb-1">Enter number if more than 5</label>
               <input
                 type="number"
                 placeholder="Enter number here"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md text-base sm:text-lg"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md text-base md:text-lg"
                 onChange={(e) => {
                   const val = parseInt(e.target.value);
                   setSelectedStorageCount(isNaN(val) ? null : val);
@@ -222,37 +219,36 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
             </div>
           </div>
 
-          {/* ✅ Bucket Alias Section */}
-          <b className="block text-base sm:text-lg">
-            Preferred AWS Alias for each account
-          </b>
-          <p className="text-sm sm:text-base mb-4">
+
+          <b className="block text-base md:text-lg">Preferred AWS Alias for each account</b>
+          <p className="text-sm md:text-base mb-4">
             Note: Provide the Organization Name / Department using the account
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
+          {/* Bucket Names */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
             {["A", "B", "C", "D", "E", "F"].map((label) => (
               <div key={label}>
-                <label className="text-base sm:text-xl font-medium text-gray-700 mb-2 block">
+                <label className="text-base md:text-xl font-medium text-gray-700 mb-2 block">
                   {label}
                 </label>
-                <div className="flex flex-col sm:flex-row">
-                  <span className="inline-flex items-center px-4 py-2 sm:py-0 rounded-t-md sm:rounded-l-md sm:rounded-t-none border border-b-0 sm:border-b border-gray-300 bg-gray-100 text-gray-600 text-sm sm:text-lg">
+                <div className="flex flex-col md:flex-row">
+                  <span className="inline-flex items-center px-4 py-2 md:py-0 rounded-t-md md:rounded-l-md md:rounded-t-none border border-b-0 md:border-b border-gray-300 bg-gray-100 text-gray-600 text-sm md:text-lg">
                     cloudsentrics-aws-
                   </span>
                   <input
                     type="text"
                     placeholder="Organization Name/Department"
-                    className="flex-1 px-4 py-3 border border-gray-300 rounded-b-md sm:rounded-r-md text-sm sm:text-lg"
+                    className="flex-1 px-4 py-3 border border-gray-300 rounded-b-md md:rounded-r-md text-sm md:text-lg"
                   />
                 </div>
               </div>
             ))}
           </div>
 
-          {/* ✅ Additional Storage Textarea */}
+          {/* Additional Storage Textarea */}
           <div className="mb-10">
-            <label className="block text-base sm:text-xl font-medium text-gray-700 mb-3">
+            <label className="block text-base md:text-xl font-medium text-gray-700 mb-3">
               Enter more AWS Alias if more than 6
             </label>
             <textarea
@@ -260,19 +256,19 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
               value={bucketNote}
               onChange={(e) => setBucketNote(e.target.value)}
               placeholder="Starting with cloudsentrics-aws-"
-              className="w-full p-4 border border-gray-300 rounded-md text-sm sm:text-lg resize-none"
+              className="w-full p-4 border border-gray-300 rounded-md text-sm md:text-lg resize-none"
               maxLength={maxLength}
             ></textarea>
-            <div className="text-right text-sm sm:text-md text-gray-500 mt-1">
+            <div className="text-right text-sm md:text-md text-gray-500 mt-1">
               {bucketNote.length}/{maxLength}
             </div>
           </div>
 
-          {/* ✅ Navigation */}
-          <div className="flex flex-col sm:flex-row justify-between gap-4 mt-10">
+          {/* Navigation */}
+          <div className="flex flex-col md:flex-row justify-between gap-4 mt-10">
             <button
               onClick={goBack}
-              className="w-full sm:w-auto px-6 sm:px-10 py-3 sm:py-4 bg-white border border-gray-400 rounded-md text-base sm:text-lg text-gray-700 hover:bg-gray-100"
+              className="w-full md:w-auto px-6 md:px-10 py-3 md:py-4 bg-white border border-gray-400 rounded-md text-base md:text-lg text-gray-700 hover:bg-gray-100"
             >
               ← Back
             </button>
@@ -283,9 +279,9 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
                 }
               }}
               disabled={!selectedOption || selectedOption !== "aws"}
-              className={`w-full sm:w-auto px-6 sm:px-10 py-3 sm:py-4 text-base sm:text-lg rounded-md ${!selectedOption || selectedOption !== "aws"
-                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  : "bg-[#032352] text-white hover:bg-blue-700"
+              className={`w-full md:w-auto px-6 md:px-10 py-3 md:py-4 text-base md:text-lg rounded-md ${!selectedOption || selectedOption !== "aws"
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-[#032352] text-white hover:bg-blue-700"
                 }`}
             >
               Next →
@@ -294,25 +290,21 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
         </div>
       )}
 
-      {/* STORAGE OPTION */}
+
+      {/* STORAGE OPTION (Step2 merged inline) */}
       {selectedOption === "storage" && (
         <div className="mb-12">
-          <p className="text-base sm:text-xl text-gray-700 mb-6 leading-relaxed">
+          <p className="text-xl text-gray-700 mb-6 leading-relaxed">
             Note: All Cloud Sentrics Storage comes by default with versioning and
             SSE-S3 encryption enabled. Additional settings may incur extra charges
             and will be reflected on your invoice.
           </p>
 
           {/* Storage Count */}
-          <div className="flex flex-wrap items-center mb-8 gap-4 text-base sm:text-xl">
-            <label className="font-medium">
-              Number of Storages (Buckets) required:
-            </label>
+          <div className="flex flex-wrap items-center mb-8 gap-4 text-xl">
+            <label className="font-medium">Number of Storages (Buckets) required:</label>
             {[1, 2, 3, 4, 5].map((n) => (
-              <label
-                key={n}
-                className="flex items-center space-x-2 relative cursor-pointer"
-              >
+              <label key={n} className="flex items-center space-x-2 relative cursor-pointer">
                 <input
                   type="radio"
                   name="storageCount"
@@ -333,30 +325,28 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
             <input
               type="number"
               placeholder="More than 5"
-              className="ml-0 sm:ml-4 px-4 py-2 border border-gray-300 rounded-md text-base sm:text-lg w-full sm:w-64"
+              className="ml-4 px-4 py-2 border border-gray-300 rounded-md text-lg w-64"
               onChange={(e) => {
                 const val = parseInt(e.target.value);
                 setSelectedStorageCount(isNaN(val) ? null : val);
               }}
-              value={selectedStorageCount ?? ""}
+              value={selectedStorageCount ?? ""} // ✅ just show whatever user typed
             />
           </div>
 
           {/* Bucket Names */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
             {["A", "B", "C", "D", "E", "F"].map((label) => (
               <div key={label}>
-                <label className="text-base sm:text-xl font-medium text-gray-700 mb-2 block">
-                  {label}
-                </label>
-                <div className="flex flex-col sm:flex-row">
-                  <span className="inline-flex items-center px-4 rounded-t-md sm:rounded-l-md sm:rounded-t-none border border-b-0 sm:border-r-0 border-gray-300 bg-gray-100 text-gray-600 text-sm sm:text-lg">
+                <label className="text-xl font-medium text-gray-700 mb-2 block">{label}</label>
+                <div className="flex">
+                  <span className="inline-flex items-center px-4 rounded-l-md border border-r-0 border-gray-300 bg-gray-100 text-gray-600 text-lg">
                     cloudsentrics-aws-
                   </span>
                   <input
                     type="text"
                     placeholder="Organization-Storage-Purpose-CustomerID"
-                    className="flex-1 px-4 py-3 border border-gray-300 rounded-b-md sm:rounded-r-md text-sm sm:text-lg"
+                    className="flex-1 px-4 py-3 border border-gray-300 rounded-r-md text-lg"
                   />
                 </div>
               </div>
@@ -365,7 +355,7 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
 
           {/* Additional Storage Textarea */}
           <div className="mb-10">
-            <label className="block text-base sm:text-xl font-medium text-gray-700 mb-3">
+            <label className="block text-xl font-medium text-gray-700 mb-3">
               Enter more Storage names if more than 6
             </label>
             <textarea
@@ -373,30 +363,29 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
               value={bucketNote}
               onChange={(e) => setBucketNote(e.target.value)}
               placeholder="cloudsentrics-[organization name-storage purpose-customer ID]."
-              className="w-full p-4 border border-gray-300 rounded-md text-sm sm:text-lg resize-none"
+              className="w-full p-4 border border-gray-300 rounded-md text-lg resize-none"
               maxLength={maxLength}
             ></textarea>
-            <div className="text-right text-sm sm:text-md text-gray-500 mt-1">
+            <div className="text-right text-md text-gray-500 mt-1">
               {bucketNote.length}/{maxLength}
             </div>
           </div>
-
           {/* Navigation */}
-          <div className="flex flex-col sm:flex-row justify-between gap-4 mt-10">
+          <div className="flex justify-between mt-10">
             <button
               onClick={goBack}
-              className="w-full sm:w-auto px-8 py-3 sm:px-10 sm:py-4 bg-white border border-gray-400 rounded-md text-base sm:text-lg text-gray-700 hover:bg-gray-100"
+              className="px-10 py-4 bg-white border border-gray-400 rounded-md text-lg text-gray-700 hover:bg-gray-100"
             >
               ← Back
             </button>
             <button
               onClick={() => {
                 if (selectedOption === "storage") {
-                  jumpToStep?.(2);
+                  jumpToStep?.(2); // 👈 go straight to Step 5
                 }
               }}
               disabled={!selectedOption || selectedOption !== "storage"}
-              className={`w-full sm:w-auto px-8 py-3 sm:px-10 sm:py-4 text-base sm:text-lg rounded-md ${!selectedOption || selectedOption !== "storage"
+              className={`px-10 py-4 text-lg rounded-md ${!selectedOption || selectedOption !== "storage"
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                 : "bg-[#032352] text-white hover:bg-blue-700"
                 }`}
@@ -407,27 +396,27 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
         </div>
       )}
 
-      {/* CHANGE OPTION */}
+      {/* CHANGE OPTION (Step3 merged inline) */}
       {selectedOption === "change" && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="bg-white p-6 sm:p-10 rounded-none shadow-lg w-full min-h-screen"
+          className="bg-white p-10 rounded-none shadow-lg w-full min-h-screen"
         >
           {/* Note */}
-          <p className="text-base sm:text-lg text-gray-700 mb-8 leading-relaxed">
+          <p className="text-lg text-gray-700 mb-8 leading-relaxed">
             Note: All Cloud Sentrics Storage comes by default with versioning and
             SSE-S3 encryption enabled. Additional settings may incur extra charges
             and will be reflected on your invoice.
           </p>
 
           <div className="mb-8">
-            <div className="bg-blue-100 px-4 py-2 text-base sm:text-lg font-semibold text-blue-900 rounded-md">
+            <div className="bg-blue-100 px-4 py-2 text-lg font-semibold text-blue-900 rounded-md">
               CHANGE TO EXISTING SETTINGS
             </div>
             <div className="px-4 py-6">
-              <label className="block text-base sm:text-lg font-medium text-gray-700 mb-2">
+              <label className="block text-lg font-medium text-gray-700 mb-2">
                 Existing Storage Name
               </label>
               <input
@@ -435,77 +424,71 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
                 value={existingStorageName}
                 onChange={(e) => setExistingStorageName(e.target.value)}
                 placeholder="Existing Account ID or Existing Storage Name"
-                className="w-full px-4 py-3 border border-gray-300 rounded-md text-base sm:text-lg focus:ring-2 focus:ring-blue-400"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md text-lg focus:ring-2 focus:ring-blue-400"
               />
             </div>
           </div>
 
           {/* Changes Requested */}
           <div className="mb-8">
-            <label className="block text-base sm:text-lg font-medium text-gray-700 mb-4">
-              Changes Requested
-            </label>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="bg-blue-100 px-4 py-2 text-lg font-semibold text-blue-900 rounded-md">
+              CHANGES REQUESTED (Multi-Select)
+            </div>
+            <div className="px-4 py-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-lg">
               {changeOptions.map((option) => (
-                <label
-                  key={option}
-                  className="flex items-center gap-3 cursor-pointer"
-                >
+                <label key={option} className="flex items-center space-x-3">
                   <input
                     type="checkbox"
-                    className="form-checkbox w-5 h-5 sm:w-6 sm:h-6 text-blue-600"
+                    className="form-checkbox w-5 h-5"
                     checked={changesRequested.includes(option)}
                     onChange={() => handleCheckboxChange(option)}
                   />
-                  <span className="text-base sm:text-lg">{option}</span>
+                  <span>{option}</span>
                 </label>
               ))}
             </div>
           </div>
 
-          {/* Additional Details */}
+          {/* DETAILS */}
           <div className="mb-10">
-            <label className="block text-base sm:text-lg font-medium text-gray-700 mb-3">
-              Additional Details
-            </label>
-            <textarea
-              rows={6}
-              value={details}
-              onChange={(e) => setDetails(e.target.value)}
-              placeholder="Provide further context for the changes requested..."
-              className="w-full p-4 border border-gray-300 rounded-md text-sm sm:text-lg resize-none focus:ring-2 focus:ring-blue-400"
-              maxLength={maxLength}
-            ></textarea>
-            <div className="text-right text-sm sm:text-md text-gray-500 mt-1">
-              {details.length}/{maxLength}
+            <div className="bg-blue-100 px-4 py-2 text-lg font-semibold text-blue-900 rounded-md">
+              DETAILS
+            </div>
+            <div className="px-4 py-6">
+              <textarea
+                value={details}
+                onChange={(e) => setDetails(e.target.value)}
+                placeholder="Enter your details here"
+                maxLength={maxLength}
+                className="w-full p-4 border border-gray-300 rounded-md text-lg resize-none focus:ring-2 focus:ring-blue-400"
+                rows={6}
+              />
+              <div className="text-right text-sm text-gray-500 mt-2">
+                {details.length}/{maxLength}
+              </div>
             </div>
           </div>
 
-          {/* Navigation */}
-          <div className="flex flex-col sm:flex-row justify-between gap-4 mt-10">
+          {/* Navigation Buttons */}
+          <div className="flex justify-between">
             <button
               onClick={goBack}
-              className="w-full sm:w-auto px-8 py-3 sm:px-10 sm:py-4 bg-white border border-gray-400 rounded-md text-base sm:text-lg text-gray-700 hover:bg-gray-100"
+              className="px-8 py-3 bg-white border border-gray-400 rounded-md text-lg text-gray-700 hover:bg-gray-100"
             >
               ← Back
             </button>
             <button
               onClick={() => {
-                if (selectedOption === "change") {
-                  jumpToStep?.(6);
-                }
+                jumpToStep?.(6); // 👈 explicitly jump to Step2
               }}
-              disabled={!selectedOption || selectedOption !== "change"}
-              className={`w-full sm:w-auto px-8 py-3 sm:px-10 sm:py-4 text-base sm:text-lg rounded-md ${!selectedOption || selectedOption !== "change"
-                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : "bg-[#032352] text-white hover:bg-blue-700"
-                }`}
+              className="px-8 py-3 bg-[#032352] text-white text-lg rounded-md hover:bg-blue-700"
             >
               Next →
             </button>
           </div>
         </motion.div>
       )}
+
     </motion.div>
   );
 };
