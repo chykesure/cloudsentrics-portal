@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Mail, User, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
-import logo from "../assets/logo.png"; 
+import logo from "../assets/logo.png"; // keep inside src/assets
 import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
@@ -15,6 +15,7 @@ const LoginPage = () => {
     e.preventDefault();
     setLoading(true);
 
+    // Simulate async login
     setTimeout(() => {
       console.log("Login attempt:", { email, customerId });
       setLoading(false);
@@ -30,18 +31,15 @@ const LoginPage = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
-      {/* Overlay for readability */}
-      <div className="absolute inset-0 bg-black/40"></div>
-
-      <div className="relative w-11/12 max-w-sm sm:max-w-md md:max-w-lg rounded-2xl bg-white/90 p-4 sm:p-6 md:p-8 shadow-lg backdrop-blur-sm">
+      <div className="w-full sm:w-11/12 md:max-w-md lg:max-w-lg rounded-2xl bg-white/90 p-6 sm:p-8 shadow-lg backdrop-blur-sm">
         {/* Logo */}
         <div className="mb-6 flex flex-col items-center">
           <img
             src={logo}
             alt="Cloud Sentric"
-            className="mb-2 h-12 sm:h-16 md:h-20 object-contain"
+            className="mb-2 h-16 sm:h-30 object-contain"
           />
-          <h2 className="text-center text-lg sm:text-xl md:text-2xl font-bold text-gray-800">
+          <h2 className="text-center text-xl sm:text-2xl font-bold text-gray-800">
             Login to your Account
           </h2>
         </div>
