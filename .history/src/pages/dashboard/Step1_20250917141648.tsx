@@ -204,18 +204,20 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
               ))}
             </div>
 
-            <div className="flex flex-col w-full md:w-64">
-              <label className="text-sm text-gray-600 mb-1">Enter number if more than 5</label>
+            <div className="flex flex-col w-full md:w-auto">
               <input
                 type="number"
-                placeholder="Enter number here"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md text-base md:text-lg"
+                placeholder="More than 5"
+                className="w-full md:w-64 px-4 py-2 border border-gray-300 rounded-md text-base md:text-lg"
                 onChange={(e) => {
                   const val = parseInt(e.target.value);
                   setSelectedStorageCount(isNaN(val) ? null : val);
                 }}
                 value={selectedStorageCount ?? ""}
               />
+              <span className="text-sm text-gray-500 mt-1">
+                Enter number if more than 5
+              </span>
             </div>
           </div>
 

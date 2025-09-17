@@ -120,28 +120,28 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
             <h3 className="bg-gray-100 px-4 py-2 font-semibold text-lg text-gray-800 rounded-md">
               ADDITIONAL AWS ACCOUNT
             </h3>
-            <p className="text-base md:text-xl text-gray-700 mb-6 leading-relaxed">
+            <p className="text-lg md:text-xl text-gray-700 mb-6 leading-relaxed">
               Is the account existing in your organization? Select one
             </p>
-            <div className="flex flex-col md:flex-row md:flex-wrap gap-6 mt-4">
+
+            {/* Yes / No Section */}
+            <div className="flex flex-col md:flex-row gap-3 md:items-center">
               {/* YES option */}
-              <label className="flex flex-col md:flex-row md:items-center gap-3 cursor-pointer w-full md:w-auto">
-                <div className="flex items-center gap-3">
-                  <input
-                    type="checkbox"
-                    name="additionalAccount"
-                    value="yes"
-                    checked={additionalAccount === "yes"}
-                    onChange={() => setAdditionalAccount("yes")}
-                    className="w-5 h-5 border-gray-400"
-                  />
-                  <span className="font-medium text-gray-700">Yes</span>
-                </div>
+              <label className="flex items-center gap-2 flex-1 cursor-pointer">
+                <input
+                  type="checkbox"
+                  name="additionalAccount"
+                  value="yes"
+                  checked={additionalAccount === "yes"}
+                  onChange={() => setAdditionalAccount("yes")}
+                  className="w-5 h-5 border-gray-400"
+                />
+                <span className="font-medium text-gray-700">Yes</span>
                 {additionalAccount === "yes" && (
                   <input
                     type="text"
                     placeholder="Input Existing Account ID"
-                    className="mt-2 md:mt-0 md:ml-2 px-4 py-2 border border-gray-300 rounded-md text-base md:text-lg w-full md:w-72"
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-base md:text-lg"
                     value={existingAccountId}
                     onChange={(e) => setExistingAccountId(e.target.value)}
                   />
@@ -149,23 +149,21 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
               </label>
 
               {/* NO option */}
-              <label className="flex flex-col md:flex-row md:items-center gap-3 cursor-pointer w-full md:w-auto">
-                <div className="flex items-center gap-3">
-                  <input
-                    type="checkbox"
-                    name="additionalAccount"
-                    value="no"
-                    checked={additionalAccount === "no"}
-                    onChange={() => setAdditionalAccount("no")}
-                    className="w-5 h-5 border-gray-400"
-                  />
-                  <span className="font-medium text-gray-700">No</span>
-                </div>
+              <label className="flex items-center gap-2 flex-1 cursor-pointer">
+                <input
+                  type="checkbox"
+                  name="additionalAccount"
+                  value="no"
+                  checked={additionalAccount === "no"}
+                  onChange={() => setAdditionalAccount("no")}
+                  className="w-5 h-5 border-gray-400"
+                />
+                <span className="font-medium text-gray-700">No</span>
                 {additionalAccount === "no" && (
                   <input
                     type="text"
                     placeholder="Input preferred Alias for new Account"
-                    className="mt-2 md:mt-0 md:ml-2 px-4 py-2 border border-gray-300 rounded-md text-base md:text-lg w-full md:w-72"
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-base md:text-lg"
                     value={newAccountAlias}
                     onChange={(e) => setNewAccountAlias(e.target.value)}
                   />
@@ -174,17 +172,12 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
             </div>
           </div>
 
-          {/* Storage Count */}
-          {/* Storage Count */}
-          <div className="flex flex-col md:flex-row md:items-center mb-8 gap-4 text-base md:text-xl">
-            <label className="font-medium">Number of AWS Account Needed</label>
-
-            <div className="flex flex-wrap gap-4">
+          {/* ✅ Storage Count */}
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4 text-base md:text-xl">
+            <div className="flex items-center gap-4 flex-wrap">
+              <label className="font-medium">Number of AWS Account Needed</label>
               {[1, 2, 3, 4, 5].map((n) => (
-                <label
-                  key={n}
-                  className="flex items-center relative cursor-pointer"
-                >
+                <label key={n} className="flex items-center relative cursor-pointer">
                   <input
                     type="radio"
                     name="storageCount"
@@ -204,6 +197,7 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
               ))}
             </div>
 
+            {/* Enter more than 5 */}
             <div className="flex flex-col w-full md:w-64">
               <label className="text-sm text-gray-600 mb-1">Enter number if more than 5</label>
               <input
@@ -219,34 +213,34 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
             </div>
           </div>
 
-
-          <b className="block text-base md:text-lg">Preferred AWS Alias for each account</b>
-          <p className="text-sm md:text-base mb-4">
-            Note: Provide the Organization Name / Department using the account
-          </p>
-
-          {/* Bucket Names */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-            {["A", "B", "C", "D", "E", "F"].map((label) => (
-              <div key={label}>
-                <label className="text-base md:text-xl font-medium text-gray-700 mb-2 block">
-                  {label}
-                </label>
-                <div className="flex flex-col md:flex-row">
-                  <span className="inline-flex items-center px-4 py-2 md:py-0 rounded-t-md md:rounded-l-md md:rounded-t-none border border-b-0 md:border-b border-gray-300 bg-gray-100 text-gray-600 text-sm md:text-lg">
-                    cloudsentrics-aws-
-                  </span>
-                  <input
-                    type="text"
-                    placeholder="Organization Name/Department"
-                    className="flex-1 px-4 py-3 border border-gray-300 rounded-b-md md:rounded-r-md text-sm md:text-lg"
-                  />
+          {/* ✅ Preferred AWS Alias */}
+          <div className="mb-10">
+            <b>Preferred AWS Alias for each account</b>
+            <p className="text-gray-600 text-sm mb-4">
+              Note: Provide the Organization Name / Department using the account
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {["A", "B", "C", "D", "E", "F"].map((label) => (
+                <div key={label}>
+                  <label className="text-base md:text-xl font-medium text-gray-700 mb-2 block">
+                    {label}
+                  </label>
+                  <div className="flex">
+                    <span className="inline-flex items-center px-4 rounded-l-md border border-r-0 border-gray-300 bg-gray-100 text-gray-600 text-sm md:text-lg">
+                      cloudsentrics-aws-
+                    </span>
+                    <input
+                      type="text"
+                      placeholder="Organization Name/Department"
+                      className="flex-1 px-4 py-3 border border-gray-300 rounded-r-md text-base md:text-lg"
+                    />
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
-          {/* Additional Storage Textarea */}
+          {/* ✅ Additional Storage Textarea */}
           <div className="mb-10">
             <label className="block text-base md:text-xl font-medium text-gray-700 mb-3">
               Enter more AWS Alias if more than 6
@@ -256,7 +250,7 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
               value={bucketNote}
               onChange={(e) => setBucketNote(e.target.value)}
               placeholder="Starting with cloudsentrics-aws-"
-              className="w-full p-4 border border-gray-300 rounded-md text-sm md:text-lg resize-none"
+              className="w-full p-4 border border-gray-300 rounded-md text-base md:text-lg resize-none"
               maxLength={maxLength}
             ></textarea>
             <div className="text-right text-sm md:text-md text-gray-500 mt-1">

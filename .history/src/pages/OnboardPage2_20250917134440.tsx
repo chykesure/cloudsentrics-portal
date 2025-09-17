@@ -43,7 +43,7 @@ const OnboardingForm2 = () => {
       >
         {/* Logo */}
         <img
-          src={logo}
+          src="/Image2.jpg"
           alt="Cloud Sentrics"
           className="mb-4 h-12 sm:h-16 object-contain"
         />
@@ -198,7 +198,7 @@ const OnboardingForm2 = () => {
       >
         {/* Background Image */}
         <img
-          src="/Image2.jpg"
+          src={Image2}
           alt="Onboarding background"
           className="absolute inset-0 w-full h-full object-cover"
         />

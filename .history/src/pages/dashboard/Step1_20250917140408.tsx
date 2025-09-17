@@ -175,10 +175,8 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
           </div>
 
           {/* Storage Count */}
-          {/* Storage Count */}
           <div className="flex flex-col md:flex-row md:items-center mb-8 gap-4 text-base md:text-xl">
             <label className="font-medium">Number of AWS Account Needed</label>
-
             <div className="flex flex-wrap gap-4">
               {[1, 2, 3, 4, 5].map((n) => (
                 <label
@@ -204,21 +202,17 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
               ))}
             </div>
 
-            <div className="flex flex-col w-full md:w-64">
-              <label className="text-sm text-gray-600 mb-1">Enter number if more than 5</label>
-              <input
-                type="number"
-                placeholder="Enter number here"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md text-base md:text-lg"
-                onChange={(e) => {
-                  const val = parseInt(e.target.value);
-                  setSelectedStorageCount(isNaN(val) ? null : val);
-                }}
-                value={selectedStorageCount ?? ""}
-              />
-            </div>
+            <input
+              type="number"
+              placeholder="More than 5"
+              className="w-full md:w-64 px-4 py-2 border border-gray-300 rounded-md text-base md:text-lg"
+              onChange={(e) => {
+                const val = parseInt(e.target.value);
+                setSelectedStorageCount(isNaN(val) ? null : val);
+              }}
+              value={selectedStorageCount ?? ""}
+            />
           </div>
-
 
           <b className="block text-base md:text-lg">Preferred AWS Alias for each account</b>
           <p className="text-sm md:text-base mb-4">
@@ -280,8 +274,8 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
               }}
               disabled={!selectedOption || selectedOption !== "aws"}
               className={`w-full md:w-auto px-6 md:px-10 py-3 md:py-4 text-base md:text-lg rounded-md ${!selectedOption || selectedOption !== "aws"
-                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : "bg-[#032352] text-white hover:bg-blue-700"
+                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  : "bg-[#032352] text-white hover:bg-blue-700"
                 }`}
             >
               Next →

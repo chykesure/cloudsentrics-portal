@@ -115,33 +115,33 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
       {/* AWS Option */}
       {selectedOption === "aws" && (
         <div className="mb-12">
+
+
           {/* ✅ Additional AWS Account */}
           <div className="mb-10">
             <h3 className="bg-gray-100 px-4 py-2 font-semibold text-lg text-gray-800 rounded-md">
               ADDITIONAL AWS ACCOUNT
             </h3>
-            <p className="text-base md:text-xl text-gray-700 mb-6 leading-relaxed">
+            <p className="text-xl text-gray-700 mb-6 leading-relaxed">
               Is the account existing in your organization? Select one
             </p>
-            <div className="flex flex-col md:flex-row md:flex-wrap gap-6 mt-4">
+            <div className="flex flex-wrap items-center gap-6 mt-4">
               {/* YES option */}
-              <label className="flex flex-col md:flex-row md:items-center gap-3 cursor-pointer w-full md:w-auto">
-                <div className="flex items-center gap-3">
-                  <input
-                    type="checkbox"
-                    name="additionalAccount"
-                    value="yes"
-                    checked={additionalAccount === "yes"}
-                    onChange={() => setAdditionalAccount("yes")}
-                    className="w-5 h-5 border-gray-400"
-                  />
-                  <span className="font-medium text-gray-700">Yes</span>
-                </div>
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  name="additionalAccount"
+                  value="yes"
+                  checked={additionalAccount === "yes"}
+                  onChange={() => setAdditionalAccount("yes")}
+                  className="w-5 h-5 border-gray-400"
+                />
+                <span className="font-medium text-gray-700">Yes</span>
                 {additionalAccount === "yes" && (
                   <input
                     type="text"
                     placeholder="Input Existing Account ID"
-                    className="mt-2 md:mt-0 md:ml-2 px-4 py-2 border border-gray-300 rounded-md text-base md:text-lg w-full md:w-72"
+                    className="ml-2 px-4 py-2 border border-gray-300 rounded-md text-lg w-72"
                     value={existingAccountId}
                     onChange={(e) => setExistingAccountId(e.target.value)}
                   />
@@ -149,23 +149,21 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
               </label>
 
               {/* NO option */}
-              <label className="flex flex-col md:flex-row md:items-center gap-3 cursor-pointer w-full md:w-auto">
-                <div className="flex items-center gap-3">
-                  <input
-                    type="checkbox"
-                    name="additionalAccount"
-                    value="no"
-                    checked={additionalAccount === "no"}
-                    onChange={() => setAdditionalAccount("no")}
-                    className="w-5 h-5 border-gray-400"
-                  />
-                  <span className="font-medium text-gray-700">No</span>
-                </div>
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  name="additionalAccount"
+                  value="no"
+                  checked={additionalAccount === "no"}
+                  onChange={() => setAdditionalAccount("no")}
+                  className="w-5 h-5 border-gray-400"
+                />
+                <span className="font-medium text-gray-700">No</span>
                 {additionalAccount === "no" && (
                   <input
                     type="text"
                     placeholder="Input preferred Alias for new Account"
-                    className="mt-2 md:mt-0 md:ml-2 px-4 py-2 border border-gray-300 rounded-md text-base md:text-lg w-full md:w-72"
+                    className="ml-2 px-4 py-2 border border-gray-300 rounded-md text-lg w-72"
                     value={newAccountAlias}
                     onChange={(e) => setNewAccountAlias(e.target.value)}
                   />
@@ -175,71 +173,56 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
           </div>
 
           {/* Storage Count */}
-          {/* Storage Count */}
-          <div className="flex flex-col md:flex-row md:items-center mb-8 gap-4 text-base md:text-xl">
+          <div className="flex flex-wrap items-center mb-8 gap-4 text-xl">
             <label className="font-medium">Number of AWS Account Needed</label>
+            {[1, 2, 3, 4, 5].map((n) => (
+              <label key={n} className="flex items-center space-x-2 relative cursor-pointer">
+                <input
+                  type="radio"
+                  name="storageCount"
+                  value={n}
+                  checked={selectedStorageCount === n}
+                  onChange={() => setSelectedStorageCount(n)}
+                  className="appearance-none w-6 h-6 border border-gray-400 rounded-sm checked:bg-blue-600 checked:border-blue-600 focus:outline-none"
+                />
 
-            <div className="flex flex-wrap gap-4">
-              {[1, 2, 3, 4, 5].map((n) => (
-                <label
-                  key={n}
-                  className="flex items-center relative cursor-pointer"
+                <span
+                  className={`pointer-events-none absolute left-1 top-0.5 w-5 h-5 flex items-center justify-center text-white ${selectedStorageCount === n ? "opacity-100" : "opacity-0"
+                    } transition-opacity duration-200`}
                 >
-                  <input
-                    type="radio"
-                    name="storageCount"
-                    value={n}
-                    checked={selectedStorageCount === n}
-                    onChange={() => setSelectedStorageCount(n)}
-                    className="appearance-none w-6 h-6 border border-gray-400 rounded-sm checked:bg-blue-600 checked:border-blue-600 focus:outline-none"
-                  />
-                  <span
-                    className={`pointer-events-none absolute left-1 top-0.5 w-5 h-5 flex items-center justify-center text-white ${selectedStorageCount === n ? "opacity-100" : "opacity-0"
-                      } transition-opacity duration-200`}
-                  >
-                    ✓
-                  </span>
-                  <span className="ml-7">{n}</span>
-                </label>
-              ))}
-            </div>
+                  ✓
+                </span>
+                <span className="ml-7">{n}</span>
+              </label>
+            ))}
 
-            <div className="flex flex-col w-full md:w-64">
-              <label className="text-sm text-gray-600 mb-1">Enter number if more than 5</label>
-              <input
-                type="number"
-                placeholder="Enter number here"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md text-base md:text-lg"
-                onChange={(e) => {
-                  const val = parseInt(e.target.value);
-                  setSelectedStorageCount(isNaN(val) ? null : val);
-                }}
-                value={selectedStorageCount ?? ""}
-              />
-            </div>
+            <input
+              type="number"
+              placeholder="More than 5"
+              className="ml-4 px-4 py-2 border border-gray-300 rounded-md text-lg w-64"
+              onChange={(e) => {
+                const val = parseInt(e.target.value);
+                setSelectedStorageCount(isNaN(val) ? null : val);
+              }}
+              value={selectedStorageCount ?? ""} // ✅ just show whatever user typed
+            />
           </div>
 
-
-          <b className="block text-base md:text-lg">Preferred AWS Alias for each account</b>
-          <p className="text-sm md:text-base mb-4">
-            Note: Provide the Organization Name / Department using the account
-          </p>
-
+          <b>Preferred AWS Alias for each account</b>
+          <p>Note: Provide the Organization Name / Department using the account </p>
           {/* Bucket Names */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
             {["A", "B", "C", "D", "E", "F"].map((label) => (
               <div key={label}>
-                <label className="text-base md:text-xl font-medium text-gray-700 mb-2 block">
-                  {label}
-                </label>
-                <div className="flex flex-col md:flex-row">
-                  <span className="inline-flex items-center px-4 py-2 md:py-0 rounded-t-md md:rounded-l-md md:rounded-t-none border border-b-0 md:border-b border-gray-300 bg-gray-100 text-gray-600 text-sm md:text-lg">
+                <label className="text-xl font-medium text-gray-700 mb-2 block">{label}</label>
+                <div className="flex">
+                  <span className="inline-flex items-center px-4 rounded-l-md border border-r-0 border-gray-300 bg-gray-100 text-gray-600 text-lg">
                     cloudsentrics-aws-
                   </span>
                   <input
                     type="text"
                     placeholder="Organization Name/Department"
-                    className="flex-1 px-4 py-3 border border-gray-300 rounded-b-md md:rounded-r-md text-sm md:text-lg"
+                    className="flex-1 px-4 py-3 border border-gray-300 rounded-r-md text-lg"
                   />
                 </div>
               </div>
@@ -248,48 +231,47 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
 
           {/* Additional Storage Textarea */}
           <div className="mb-10">
-            <label className="block text-base md:text-xl font-medium text-gray-700 mb-3">
-              Enter more AWS Alias if more than 6
+            <label className="block text-xl font-medium text-gray-700 mb-3">
+              Enter more AWS ALias if more than 6
             </label>
             <textarea
               rows={6}
               value={bucketNote}
               onChange={(e) => setBucketNote(e.target.value)}
-              placeholder="Starting with cloudsentrics-aws-"
-              className="w-full p-4 border border-gray-300 rounded-md text-sm md:text-lg resize-none"
+              placeholder="cloudsentrics-[organization name-storage purpose-customer ID]."
+              className="w-full p-4 border border-gray-300 rounded-md text-lg resize-none"
               maxLength={maxLength}
             ></textarea>
-            <div className="text-right text-sm md:text-md text-gray-500 mt-1">
+            <div className="text-right text-md text-gray-500 mt-1">
               {bucketNote.length}/{maxLength}
             </div>
           </div>
-
           {/* Navigation */}
-          <div className="flex flex-col md:flex-row justify-between gap-4 mt-10">
+          <div className="flex justify-between mt-10">
             <button
               onClick={goBack}
-              className="w-full md:w-auto px-6 md:px-10 py-3 md:py-4 bg-white border border-gray-400 rounded-md text-base md:text-lg text-gray-700 hover:bg-gray-100"
+              className="px-10 py-4 bg-white border border-gray-400 rounded-md text-lg text-gray-700 hover:bg-gray-100"
             >
               ← Back
             </button>
             <button
               onClick={() => {
                 if (selectedOption === "aws") {
-                  jumpToStep?.(6);
+                  jumpToStep?.(6); // 👈 go straight to Step 5
                 }
               }}
               disabled={!selectedOption || selectedOption !== "aws"}
-              className={`w-full md:w-auto px-6 md:px-10 py-3 md:py-4 text-base md:text-lg rounded-md ${!selectedOption || selectedOption !== "aws"
+              className={`px-10 py-4 text-lg rounded-md ${!selectedOption || selectedOption !== "aws"
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                 : "bg-[#032352] text-white hover:bg-blue-700"
                 }`}
             >
               Next →
             </button>
+
           </div>
         </div>
       )}
-
 
       {/* STORAGE OPTION (Step2 merged inline) */}
       {selectedOption === "storage" && (

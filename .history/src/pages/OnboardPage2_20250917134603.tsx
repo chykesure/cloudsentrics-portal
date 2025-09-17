@@ -198,7 +198,7 @@ const OnboardingForm2 = () => {
       >
         {/* Background Image */}
         <img
-          src="/Image2.jpg"
+          src={Image2}
           alt="Onboarding background"
           className="absolute inset-0 w-full h-full object-cover"
         />
