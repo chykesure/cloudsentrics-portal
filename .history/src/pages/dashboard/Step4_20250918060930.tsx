@@ -290,39 +290,40 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
         {lifecycle === "Yes" && (
           <div className="p-6 bg-white shadow-md rounded-lg">
             <h4 className="text-lg font-semibold text-gray-900 mb-3">
-              Transition Settings:
-            </h4>
-            <div className="flex flex-col gap-3">
-              {/* Glacier */}
-              <label className="flex items-center gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={transitionOption === "Glacier"}
-                  onChange={() =>
-                    setTransitionOption(transitionOption === "Glacier" ? "" : "Glacier")
-                  }
-                  className="h-5 w-5 text-[#032352] rounded border-gray-300 focus:ring-[#032352]"
-                />
-                <span className="text-gray-700">
-                  Move to Glacier after expiration of Retention Duration.
-                </span>
-              </label>
+  Transition Settings:
+</h4>
+<div className="flex flex-col gap-3">
+  {/* Glacier */}
+  <label className="flex items-center gap-3 cursor-pointer">
+    <input
+      type="checkbox"
+      checked={transitionOption === "Glacier"}
+      onChange={() =>
+        setTransitionOption(transitionOption === "Glacier" ? "" : "Glacier")
+      }
+      className="h-5 w-5 text-[#032352] rounded border-gray-300 focus:ring-[#032352]"
+    />
+    <span className="text-gray-700">
+      Move to Glacier after expiration of Retention Duration.
+    </span>
+  </label>
 
-              {/* Standard-IA */}
-              <label className="flex items-center gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={transitionOption === "Standard"}
-                  onChange={() =>
-                    setTransitionOption(transitionOption === "Standard" ? "" : "Standard")
-                  }
-                  className="h-5 w-5 text-[#032352] rounded border-gray-300 focus:ring-[#032352]"
-                />
-                <span className="text-gray-700">
-                  Move to Standard-IA after Retention Duration.
-                </span>
-              </label>
-            </div>
+  {/* Standard-IA */}
+  <label className="flex items-center gap-3 cursor-pointer">
+    <input
+      type="checkbox"
+      checked={transitionOption === "Standard"}
+      onChange={() =>
+        setTransitionOption(transitionOption === "Standard" ? "" : "Standard")
+      }
+      className="h-5 w-5 text-[#032352] rounded border-gray-300 focus:ring-[#032352]"
+    />
+    <span className="text-gray-700">
+      Move to Standard-IA after Retention Duration.
+    </span>
+  </label>
+</div>
+
           </div>
         )}
       </div>

@@ -14,10 +14,12 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
   const [selectedOption, setSelectedOption] = useState<"aws" | "storage" | "change" | null>(null);
 
   const [existingStorageName, setExistingStorageName] = useState("");
-  const [existingAccountId, setExistingAccountId] = useState("");
   const [details, setDetails] = useState("");
   const [changesRequested, setChangesRequested] = useState<string[]>([]);
 
+  const [additionalAccount, setAdditionalAccount] = useState<"yes" | "no" | null>(null);
+  const [existingAccountId, setExistingAccountId] = useState("");
+  const [newAccountAlias, setNewAccountAlias] = useState("");
 
   const maxLength = 1500;
 
@@ -47,6 +49,11 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
     setExistingStorageName("");
     setDetails("");
     setChangesRequested([]);
+
+    // ✅ also reset additional AWS account state
+    setAdditionalAccount(null);
+    setExistingAccountId("");
+    setNewAccountAlias("");
   };
 
   return (
@@ -109,6 +116,9 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
       {/* AWS Option */}
       {selectedOption === "aws" && (
         <div className="w-full px-4 sm:px-6 lg:px-18 mb-12">
+         
+          
+
           {/* ✅ Storage Count */}
           <div className="flex flex-col sm:flex-row sm:items-center mb-8 gap-4 text-base sm:text-xl">
             <label className="font-medium">Number of AWS Account Needed</label>
@@ -217,8 +227,8 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
               }}
               disabled={!selectedOption || selectedOption !== "aws"}
               className={`w-full sm:w-auto px-6 sm:px-10 py-3 sm:py-4 text-base sm:text-lg rounded-md ${!selectedOption || selectedOption !== "aws"
-                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : "bg-[#032352] text-white hover:bg-blue-700"
+                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  : "bg-[#032352] text-white hover:bg-blue-700"
                 }`}
             >
               Next →
@@ -239,7 +249,7 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
           {/* Storage Count */}
           <div className="flex flex-wrap items-center mb-8 gap-4 text-base sm:text-xl">
             <label className="font-medium">
-              Number of Storage(s) (Bucket(s)) required:
+              Number of Storages (Buckets) required:
             </label>
             {[1, 2, 3, 4, 5].map((n) => (
               <label
@@ -359,36 +369,17 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
             <div className="bg-blue-100 px-4 py-2 text-base sm:text-lg font-semibold text-blue-900 rounded-md">
               CHANGE TO EXISTING SETTINGS
             </div>
-
-            {/* Responsive Grid */}
-            <div className="px-4 py-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Existing Account ID */}
-              <div>
-                <label className="block text-base sm:text-lg font-medium text-gray-700 mb-2">
-                  Existing Account ID
-                </label>
-                <input
-                  type="text"
-                  value={existingAccountId}
-                  onChange={(e) => setExistingAccountId(e.target.value)}
-                  placeholder="Existing Account ID"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md text-base sm:text-lg focus:ring-2 focus:ring-blue-400"
-                />
-              </div>
-
-              {/* Existing Storage Name */}
-              <div>
-                <label className="block text-base sm:text-lg font-medium text-gray-700 mb-2">
-                  Existing Storage Name
-                </label>
-                <input
-                  type="text"
-                  value={existingStorageName}
-                  onChange={(e) => setExistingStorageName(e.target.value)}
-                  placeholder="Existing Storage Name"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md text-base sm:text-lg focus:ring-2 focus:ring-blue-400"
-                />
-              </div>
+            <div className="px-4 py-6">
+              <label className="block text-base sm:text-lg font-medium text-gray-700 mb-2">
+                Existing Storage Name
+              </label>
+              <input
+                type="text"
+                value={existingStorageName}
+                onChange={(e) => setExistingStorageName(e.target.value)}
+                placeholder="Existing Account ID or Existing Storage Name"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md text-base sm:text-lg focus:ring-2 focus:ring-blue-400"
+              />
             </div>
           </div>
 

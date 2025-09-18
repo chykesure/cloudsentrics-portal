@@ -12,7 +12,7 @@ const Step6 = ({ goBack, onSubmit }: StepProps) => {
 
   const ackOptions = [
     "I understand additional settings such as CMYK or life cycle transitions may incur additional charges",
-    "I understand that Cloud Sentrics may store my data outside my region",
+    "I understand that Cloud Sentrics may store my data outside my local region",
     "I confirm the information provided is accurate and approve this request.",
   ];
 

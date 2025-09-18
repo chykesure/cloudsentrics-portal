@@ -76,7 +76,13 @@ const WelcomePage = () => {
             text-center md:text-left
           "
         >
-          Companies choose Cloud Sentrics because we offer customized cloud solutions tailored to your business needs. We leverage our deep expertise in cloud technologies, security, and data protection to ensure environments that are scalable, compliant, and resilient. With Cloud Sentrics, you gain access to secure file delivery and sharing solutions, protecting sensitive business data while enabling seamless collaboration. Our end-to-end support covers everything from initial consultation and design, through deployment and migration, to ongoing optimization and monitoring ensuring smooth integration and long-term value.
+          Our program is designed to provide hands-on, practical training that
+          helps you transition into Cloud and DevSecOps roles with confidence.
+          Companies choose Cloud Sentrics because we offer customized cloud
+          solutions tailored to your business needs, leverage our expertise in
+          cloud technologies and security to ensure scalable and secure
+          environments, and provide end-to-end support from consultation through
+          to deployment and ongoing optimization for seamless integration.
         </p>
 
         {/* Buttons */}

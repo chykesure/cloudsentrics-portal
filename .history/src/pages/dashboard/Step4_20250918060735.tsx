@@ -13,8 +13,8 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
   const [customerKey, setCustomerKey] = useState<string | null>(null);
   const [retentionDays, setRetentionDays] = useState("");
   const [retentionMonths, setRetentionMonths] = useState("");
-  const [transitionOption, setTransitionOption] = useState("");
-  // values: "Glacier", "Standard"
+const [transitionOption, setTransitionOption] = useState(""); 
+// values: "Glacier", "Standard"
 
 
   // New States for File Sharing
@@ -23,13 +23,13 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
   const [otpPlan, setOtpPlan] = useState<string | null>(null);
   const [customOtp, setCustomOtp] = useState("");
 
-  const handleFileOptionChange = (option: string) => {
-    setFileOptions((prev) =>
-      prev.includes(option)
-        ? prev.filter((item) => item !== option) // remove if already selected
-        : [...prev, option] // add if not selected
-    );
-  };
+const handleFileOptionChange = (option: string) => {
+  setFileOptions((prev) =>
+    prev.includes(option)
+      ? prev.filter((item) => item !== option) // remove if already selected
+      : [...prev, option] // add if not selected
+  );
+};
 
 
   return (
@@ -289,18 +289,35 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
         {/* Retention + Transition (only if Lifecycle = Yes) */}
         {lifecycle === "Yes" && (
           <div className="p-6 bg-white shadow-md rounded-lg">
+            <h4 className="text-lg font-semibold text-gray-900 mb-4">
+              Retention Duration:
+            </h4>
+            <div className="flex gap-4 mb-4">
+              <input
+                type="text"
+                value={retentionDays}
+                onChange={(e) => setRetentionDays(e.target.value)}
+                placeholder="Input no of days"
+                className="w-1/2 px-3 py-2 border rounded-md text-lg"
+              />
+              <input
+                type="text"
+                value={retentionMonths}
+                onChange={(e) => setRetentionMonths(e.target.value)}
+                placeholder="Input no of months"
+                className="w-1/2 px-3 py-2 border rounded-md text-lg"
+              />
+            </div>
+
             <h4 className="text-lg font-semibold text-gray-900 mb-3">
               Transition Settings:
             </h4>
             <div className="flex flex-col gap-3">
-              {/* Glacier */}
               <label className="flex items-center gap-3 cursor-pointer">
                 <input
                   type="checkbox"
-                  checked={transitionOption === "Glacier"}
-                  onChange={() =>
-                    setTransitionOption(transitionOption === "Glacier" ? "" : "Glacier")
-                  }
+                  checked={transitionGlacier}
+                  onChange={() => setTransitionGlacier(!transitionGlacier)}
                   className="h-5 w-5 text-[#032352] rounded border-gray-300 focus:ring-[#032352]"
                 />
                 <span className="text-gray-700">
@@ -308,18 +325,15 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
                 </span>
               </label>
 
-              {/* Standard-IA */}
               <label className="flex items-center gap-3 cursor-pointer">
                 <input
                   type="checkbox"
-                  checked={transitionOption === "Standard"}
-                  onChange={() =>
-                    setTransitionOption(transitionOption === "Standard" ? "" : "Standard")
-                  }
+                  checked={transitionStandard}
+                  onChange={() => setTransitionStandard(!transitionStandard)}
                   className="h-5 w-5 text-[#032352] rounded border-gray-300 focus:ring-[#032352]"
                 />
                 <span className="text-gray-700">
-                  Move to Standard-IA after Retention Duration.
+                  Move to Standard-IA after Retention Duration.
                 </span>
               </label>
             </div>
