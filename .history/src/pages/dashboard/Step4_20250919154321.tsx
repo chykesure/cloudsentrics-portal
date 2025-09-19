@@ -18,11 +18,20 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
 
   // New States for File Sharing
   const [fileSharing, setFileSharing] = useState<string | null>(null);
+  const [fileOptions, setFileOptions] = useState<string[]>([]);
   const [otpPlan, setOtpPlan] = useState<string | null>(null);
   const [customOtp, setCustomOtp] = useState("");
 
   const [selectedOption, setSelectedOption] = useState("");
 
+
+  const handleFileOptionChange = (option: string) => {
+    setFileOptions((prev) =>
+      prev.includes(option)
+        ? prev.filter((item) => item !== option) // remove if already selected
+        : [...prev, option] // add if not selected
+    );
+  };
 
   return (
     <motion.div
@@ -99,7 +108,7 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
             ].map(({ value, label }) => (
               <label key={value} className="flex items-center gap-2 cursor-pointer">
                 <input
-                  type="checkbox"
+                  type="radio"
                   name="deliveryMethod"
                   value={value}
                   checked={selectedOption === value}
@@ -131,14 +140,11 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
                           className="flex items-center gap-2 cursor-pointer"
                         >
                           <input
-                            type="checkbox"
+                            type="radio"
                             name="otpPlan"
                             value={plan}
                             checked={otpPlan === plan}
-                            onChange={() => {
-                              setOtpPlan(plan);
-                              setCustomOtp(""); // ✅ clear custom input when radio is picked
-                            }}
+                            onChange={() => setOtpPlan(plan)}
                             className="h-5 w-5 text-[#032352] focus:ring-[#032352]"
                           />
                           <span className="text-[#032352]">{plan}</span>
@@ -152,9 +158,6 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
                           value={customOtp}
                           onChange={(e) => {
                             setCustomOtp(e.target.value);
-                            setOtpPlan("custom"); // ✅ mark custom plan
-                          }}
-                          onFocus={() => {
                             setOtpPlan("custom");
                           }}
                           placeholder="Custom number"

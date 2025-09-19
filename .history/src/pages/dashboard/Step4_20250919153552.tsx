@@ -18,10 +18,27 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
 
   // New States for File Sharing
   const [fileSharing, setFileSharing] = useState<string | null>(null);
+  const [fileOptions, setFileOptions] = useState<string[]>([]);
   const [otpPlan, setOtpPlan] = useState<string | null>(null);
   const [customOtp, setCustomOtp] = useState("");
 
-  const [selectedOption, setSelectedOption] = useState("");
+  const handleFileOptionChange = (option: string) => {
+    setFileOptions((prev) =>
+      prev.includes(option)
+        ? prev.filter((item) => item !== option) // remove if already selected
+        : [...prev, option] // add if not selected
+    );
+  };
+
+  type OtpOption = "EmailOTP" | "WhatsApp" | "WhatsAppEmail";
+
+  const otpHeadings: Record<OtpOption, string> = {
+    EmailOTP: "Number of files sent via Email OTP per month?",
+    WhatsApp: "Number of files sent via WhatsApp per month?",
+    WhatsAppEmail: "Number of files sent via WhatsApp & Email per month?",
+  };
+
+
 
 
   return (
@@ -74,55 +91,81 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
         {/* File Sharing Options */}
         {fileSharing === "Yes" && (
           <div className="ml-4 space-y-4">
-            {/* Delivery Method Options */}
-            {[
-              {
-                value: "Email",
-                label:
-                  "Email Only: (File securely delivered to recipient's email address provided).",
-              },
-              {
-                value: "EmailOTP",
-                label:
-                  "Email + OTP: (File delivered to recipient's email, but requires OTP sent to their WhatsApp before download).",
-              },
-              {
-                value: "WhatsApp",
-                label:
-                  "WhatsApp Only: (File securely delivered to recipient's WhatsApp number provided).",
-              },
-              {
-                value: "WhatsAppEmail",
-                label:
-                  "WhatsApp & Email: (File securely delivered to both recipient's WhatsApp Number and Email address).",
-              },
-            ].map(({ value, label }) => (
-              <label key={value} className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  name="deliveryMethod"
-                  value={value}
-                  checked={selectedOption === value}
-                  onChange={() => setSelectedOption(value)}
-                  className="h-5 w-5 text-[#032352] focus:ring-[#032352]"
-                />
-                <span className="text-[#032352]">{label}</span>
-              </label>
-            ))}
+            {/* Email */}
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                value="Email"
+                checked={fileOptions.includes("Email")}
+                onChange={() => handleFileOptionChange("Email")}
+                className="h-5 w-5 text-[#032352] focus:ring-[#032352]"
+              />
+              <span className="text-[#032352]">
+                Email Only: (File securely delivered to recipient's email address provided).
+              </span>
+            </label>
+
+            {/* Email + OTP */}
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                value="EmailOTP"
+                checked={fileOptions.includes("EmailOTP")}
+                onChange={() => handleFileOptionChange("EmailOTP")}
+                className="h-5 w-5 text-[#032352] focus:ring-[#032352]"
+              />
+              <span className="text-[#032352]">
+                Email + OTP: (File securely delivered to recipient's email, but requires One-Time-Passcode (OTP) sent to their WhatsApp before download).
+              </span>
+            </label>
+
+            {/* WhatsApp */}
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                value="WhatsApp"
+                checked={fileOptions.includes("WhatsApp")}
+                onChange={() => handleFileOptionChange("WhatsApp")}
+                className="h-5 w-5 text-[#032352] focus:ring-[#032352]"
+              />
+              <span className="text-[#032352]">
+                WhatsApp Only: (File securely delivered to recipient's WhatsApp Number provided).
+              </span>
+            </label>
+
+            {/* WhatsApp + Email */}
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                value="WhatsAppEmail"
+                checked={fileOptions.includes("WhatsAppEmail")}
+                onChange={() => handleFileOptionChange("WhatsAppEmail")}
+                className="h-5 w-5 text-[#032352] focus:ring-[#032352]"
+              />
+              <span className="text-[#032352]">
+                WhatsApp & Email: (File securely delivered to both recipient's WhatsApp Number and Email address).
+              </span>
+            </label>
 
             {/* ✅ OTP Subscription Plans */}
             {(() => {
-              const otpHeadings: Record<string, string> = {
+              // map option → heading text
+              const otpHeadings = {
                 EmailOTP: "Number of files sent via Email OTP per month?",
                 WhatsApp: "Number of files sent via WhatsApp per month?",
                 WhatsAppEmail: "Number of files sent via WhatsApp & Email per month?",
               };
 
+              // pick the *last selected* otp option
+              const activeOtpOption = [...fileOptions].reverse().find((opt) =>
+                ["EmailOTP", "WhatsApp", "WhatsAppEmail"].includes(opt)
+              );
+
               return (
-                selectedOption in otpHeadings && (
+                activeOtpOption && (
                   <div className="mt-4 p-4 border rounded-lg bg-gray-50">
                     <h5 className="font-semibold mb-3">
-                      {otpHeadings[selectedOption]}
+                      {otpHeadings[activeOtpOption]}
                     </h5>
                     <div className="flex flex-wrap gap-4">
                       {["500", "1000", "1500"].map((plan) => (
@@ -131,14 +174,10 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
                           className="flex items-center gap-2 cursor-pointer"
                         >
                           <input
-                            type="checkbox"
-                            name="otpPlan"
+                            type="radio" // radio is better than checkbox
                             value={plan}
                             checked={otpPlan === plan}
-                            onChange={() => {
-                              setOtpPlan(plan);
-                              setCustomOtp(""); // ✅ clear custom input when radio is picked
-                            }}
+                            onChange={() => setOtpPlan(plan)}
                             className="h-5 w-5 text-[#032352] focus:ring-[#032352]"
                           />
                           <span className="text-[#032352]">{plan}</span>
@@ -152,9 +191,6 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
                           value={customOtp}
                           onChange={(e) => {
                             setCustomOtp(e.target.value);
-                            setOtpPlan("custom"); // ✅ mark custom plan
-                          }}
-                          onFocus={() => {
                             setOtpPlan("custom");
                           }}
                           placeholder="Custom number"

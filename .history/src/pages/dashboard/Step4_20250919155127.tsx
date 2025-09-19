@@ -18,6 +18,7 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
 
   // New States for File Sharing
   const [fileSharing, setFileSharing] = useState<string | null>(null);
+  /*   const [fileOptions, setFileOptions] = useState<string[]>([]); */
   const [otpPlan, setOtpPlan] = useState<string | null>(null);
   const [customOtp, setCustomOtp] = useState("");
 
