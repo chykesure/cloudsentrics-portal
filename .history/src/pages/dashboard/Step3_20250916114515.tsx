@@ -41,7 +41,7 @@ const Step3 = ({goBack, jumpToStep }: StepProps) => {
     setRows(newRows);
   };
 
-  const accessOptions = ["Read", "Write", "Read/Write"];
+  const accessOptions = ["Read", "Write", "Both"];
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -116,7 +116,7 @@ const Step3 = ({goBack, jumpToStep }: StepProps) => {
           </h3>
           <p className="text-md text-gray-600 mb-4">
             Tips: <b>Read</b> = View/download only. <b>Write</b> = Upload,
-            Modify, delete. <b>Read/Write</b> = Full Access
+            Modify, delete. <b>Both</b> = Full Access
           </p>
 
           <div className="space-y-4">

@@ -41,7 +41,7 @@ const Step3 = ({goBack, jumpToStep }: StepProps) => {
     setRows(newRows);
   };
 
-  const accessOptions = ["Read", "Write", "Read/Write"];
+  const accessOptions = ["Read", "Write", "ead/Write"];
 
   // Close dropdown on outside click
   useEffect(() => {
