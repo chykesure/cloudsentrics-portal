@@ -64,7 +64,7 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
           {["Yes", "No"].map((val) => (
             <label key={val} className="flex items-center gap-2 cursor-pointer">
               <input
-                type="checkbox"
+                type="radio"
                 name="fileSharing"
                 value={val}
                 checked={fileSharing === val}
@@ -87,10 +87,6 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
         {fileSharing === "Yes" && (
           <div className="ml-4 space-y-4">
             {[
-              {
-                value: "Email",
-                label: "Email Only: File securely delivered to recipient's email address provided.",
-              },
               {
                 value: "EmailOTP",
                 label: "Email + OTP: File delivered to recipient's email, but requires OTP sent to their WhatsApp before download.",
@@ -115,8 +111,8 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
                   <span className="text-[#032352]">{label}</span>
                 </label>
 
-                {/* Conditional Input Blocks */}
-                {fileOptions.includes(value) && value !== "Email" && (
+                {/* Conditional Inputs for selected option */}
+                {fileOptions.includes(value) && (
                   <div className="mt-2 p-4 border rounded-lg bg-gray-50 space-y-3">
                     <p className="text-sm text-gray-600 mb-2">
                       {{
@@ -135,7 +131,7 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
                           className="flex items-center gap-2 cursor-pointer"
                         >
                           <input
-                            type="checkbox"
+                            type="radio"
                             name={`otpPlan-${value}`}
                             value={plan}
                             checked={otpPlan[value] === plan}
@@ -159,7 +155,9 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
                           setCustomOtp({ ...customOtp, [value]: e.target.value });
                           setOtpPlan({ ...otpPlan, [value]: "custom" });
                         }}
-                        onFocus={() => setOtpPlan({ ...otpPlan, [value]: "custom" })}
+                        onFocus={() =>
+                          setOtpPlan({ ...otpPlan, [value]: "custom" })
+                        }
                       />
                     </div>
                   </div>
@@ -181,7 +179,7 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
             {["Yes", "No"].map((val) => (
               <label key={val} className="flex items-center gap-2 cursor-pointer">
                 <input
-                  type="checkbox"
+                  type="radio"
                   name="accessLogging"
                   value={val}
                   checked={accessLogging === val}
@@ -203,7 +201,7 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
             {["Yes", "No"].map((val) => (
               <label key={val} className="flex items-center gap-2 cursor-pointer">
                 <input
-                  type="checkbox"
+                  type="radio"
                   name="lifecycle"
                   value={val}
                   checked={lifecycle === val}
@@ -228,7 +226,7 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
             {["Yes", "No"].map((val) => (
               <label key={val} className="flex items-center gap-2 cursor-pointer">
                 <input
-                  type="checkbox"
+                  type="radio"
                   name="customerKey"
                   value={val}
                   checked={customerKey === val}
@@ -275,10 +273,7 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
                 <input
                   type="checkbox"
                   checked={transitionGlacier}
-                  onChange={() => {
-                    setTransitionGlacier(!transitionGlacier);
-                    if (!transitionGlacier) setTransitionStandard(false); // deselect other
-                  }}
+                  onChange={() => setTransitionGlacier(!transitionGlacier)}
                   className="h-5 w-5 text-[#032352] rounded border-gray-300 focus:ring-[#032352]"
                 />
                 <span className="text-gray-700">Move to Glacier</span>
@@ -288,10 +283,7 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
                 <input
                   type="checkbox"
                   checked={transitionStandard}
-                  onChange={() => {
-                    setTransitionStandard(!transitionStandard);
-                    if (!transitionStandard) setTransitionGlacier(false); // deselect other
-                  }}
+                  onChange={() => setTransitionStandard(!transitionStandard)}
                   className="h-5 w-5 text-[#032352] rounded border-gray-300 focus:ring-[#032352]"
                 />
                 <span className="text-gray-700">Move to Standard-IA</span>

@@ -228,7 +228,7 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
             {["Yes", "No"].map((val) => (
               <label key={val} className="flex items-center gap-2 cursor-pointer">
                 <input
-                  type="checkbox"
+                  type="radio"
                   name="customerKey"
                   value={val}
                   checked={customerKey === val}

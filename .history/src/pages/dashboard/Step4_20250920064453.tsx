@@ -228,7 +228,7 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
             {["Yes", "No"].map((val) => (
               <label key={val} className="flex items-center gap-2 cursor-pointer">
                 <input
-                  type="checkbox"
+                  type="radio"
                   name="customerKey"
                   value={val}
                   checked={customerKey === val}
@@ -271,32 +271,33 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
               Transition Settings
             </h4>
             <div className="flex flex-col gap-6">
-              <label className="flex items-center gap-3 cursor-pointer mb-2">
-                <input
-                  type="checkbox"
-                  checked={transitionGlacier}
-                  onChange={() => {
-                    setTransitionGlacier(!transitionGlacier);
-                    if (!transitionGlacier) setTransitionStandard(false); // deselect other
-                  }}
-                  className="h-5 w-5 text-[#032352] rounded border-gray-300 focus:ring-[#032352]"
-                />
-                <span className="text-gray-700">Move to Glacier</span>
-              </label>
+  <label className="flex items-center gap-3 cursor-pointer mb-2">
+    <input
+      type="checkbox"
+      checked={transitionGlacier}
+      onChange={() => {
+        setTransitionGlacier(!transitionGlacier);
+        if (!transitionGlacier) setTransitionStandard(false); // deselect other
+      }}
+      className="h-5 w-5 text-[#032352] rounded border-gray-300 focus:ring-[#032352]"
+    />
+    <span className="text-gray-700">Move to Glacier</span>
+  </label>
 
-              <label className="flex items-center gap-3 cursor-pointer mb-2">
-                <input
-                  type="checkbox"
-                  checked={transitionStandard}
-                  onChange={() => {
-                    setTransitionStandard(!transitionStandard);
-                    if (!transitionStandard) setTransitionGlacier(false); // deselect other
-                  }}
-                  className="h-5 w-5 text-[#032352] rounded border-gray-300 focus:ring-[#032352]"
-                />
-                <span className="text-gray-700">Move to Standard-IA</span>
-              </label>
-            </div>
+  <label className="flex items-center gap-3 cursor-pointer mb-2">
+    <input
+      type="checkbox"
+      checked={transitionStandard}
+      onChange={() => {
+        setTransitionStandard(!transitionStandard);
+        if (!transitionStandard) setTransitionGlacier(false); // deselect other
+      }}
+      className="h-5 w-5 text-[#032352] rounded border-gray-300 focus:ring-[#032352]"
+    />
+    <span className="text-gray-700">Move to Standard-IA</span>
+  </label>
+</div>
+
           </div>
         )}
       </div>

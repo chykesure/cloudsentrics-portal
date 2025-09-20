@@ -228,7 +228,7 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
             {["Yes", "No"].map((val) => (
               <label key={val} className="flex items-center gap-2 cursor-pointer">
                 <input
-                  type="checkbox"
+                  type="radio"
                   name="customerKey"
                   value={val}
                   checked={customerKey === val}
@@ -275,10 +275,7 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
                 <input
                   type="checkbox"
                   checked={transitionGlacier}
-                  onChange={() => {
-                    setTransitionGlacier(!transitionGlacier);
-                    if (!transitionGlacier) setTransitionStandard(false); // deselect other
-                  }}
+                  onChange={() => setTransitionGlacier(!transitionGlacier)}
                   className="h-5 w-5 text-[#032352] rounded border-gray-300 focus:ring-[#032352]"
                 />
                 <span className="text-gray-700">Move to Glacier</span>
@@ -288,10 +285,7 @@ const Step4 = ({ goBack, jumpToStep }: StepProps) => {
                 <input
                   type="checkbox"
                   checked={transitionStandard}
-                  onChange={() => {
-                    setTransitionStandard(!transitionStandard);
-                    if (!transitionStandard) setTransitionGlacier(false); // deselect other
-                  }}
+                  onChange={() => setTransitionStandard(!transitionStandard)}
                   className="h-5 w-5 text-[#032352] rounded border-gray-300 focus:ring-[#032352]"
                 />
                 <span className="text-gray-700">Move to Standard-IA</span>
