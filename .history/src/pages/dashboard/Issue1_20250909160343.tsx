@@ -15,7 +15,7 @@ const Issue1 = ({ goNext }: StepProps) => {
   const [bucketName, setBucketName] = useState("");
 
   const inputClass =
-    "form-control w-full border border-gray-300 rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-base sm:text-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition";
+    "form-control w-full border border-gray-300 rounded-lg px-4 py-3 text-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition";
 
   return (
     <motion.div
@@ -25,9 +25,9 @@ const Issue1 = ({ goNext }: StepProps) => {
       className="min-h-screen bg-gray-50 flex flex-col"
     >
       {/* Full Page Container */}
-      <div className="flex-1 w-full p-4 sm:p-6 md:p-8 lg:p-10 bg-white shadow-md">
+      <div className="flex-1 w-full p-10 bg-white shadow-md">
         {/* Instruction */}
-        <p className="mb-8 sm:mb-10 text-gray-700 text-base sm:text-lg lg:text-xl leading-relaxed">
+        <p className="mb-10 text-gray-700 text-xl leading-relaxed">
           If you are experiencing a problem with your CloudSentric account or
           storage, please fill out this form so our support team can assist you
           quickly. Provide as much detail as possible to help us resolve your
@@ -35,16 +35,14 @@ const Issue1 = ({ goNext }: StepProps) => {
         </p>
 
         {/* CUSTOMER INFORMATION Section */}
-        <div className="mb-10 sm:mb-12">
-          <h3 className="bg-orange-100 py-2 sm:py-3 px-3 sm:px-5 text-blue-900 font-semibold text-lg sm:text-xl rounded-md mb-6 uppercase tracking-wide">
+        <div className="mb-12">
+          <h3 className="bg-orange-100 py-3 px-5 text-blue-900 font-semibold text-xl rounded-md mb-6 uppercase tracking-wide">
             Customer Information
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div>
-              <label className="block text-sm sm:text-base lg:text-lg font-medium mb-2">
-                Full Name
-              </label>
+              <label className="block text-lg font-medium mb-2">Full Name</label>
               <input
                 type="text"
                 placeholder="Enter full name"
@@ -55,9 +53,7 @@ const Issue1 = ({ goNext }: StepProps) => {
             </div>
 
             <div>
-              <label className="block text-sm sm:text-base lg:text-lg font-medium mb-2">
-                Email
-              </label>
+              <label className="block text-lg font-medium mb-2">Email</label>
               <input
                 type="email"
                 placeholder="Enter your email"
@@ -68,9 +64,7 @@ const Issue1 = ({ goNext }: StepProps) => {
             </div>
 
             <div>
-              <label className="block text-sm sm:text-base lg:text-lg font-medium mb-2">
-                Phone Number
-              </label>
+              <label className="block text-lg font-medium mb-2">Phone Number</label>
               <input
                 type="tel"
                 placeholder="Enter phone number"
@@ -81,7 +75,7 @@ const Issue1 = ({ goNext }: StepProps) => {
             </div>
 
             <div>
-              <label className="block text-sm sm:text-base lg:text-lg font-medium mb-2">
+              <label className="block text-lg font-medium mb-2">
                 Company / Organization
               </label>
               <input
@@ -96,17 +90,15 @@ const Issue1 = ({ goNext }: StepProps) => {
         </div>
 
         {/* SERVICE DETAILS Section */}
-        <div className="mb-10 sm:mb-12">
-          <h3 className="bg-orange-100 py-2 sm:py-3 px-3 sm:px-5 text-blue-900 font-semibold text-lg sm:text-xl rounded-md mb-6 uppercase tracking-wide">
+        <div className="mb-12">
+          <h3 className="bg-orange-100 py-3 px-5 text-blue-900 font-semibold text-xl rounded-md mb-6 uppercase tracking-wide">
             Service Details
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 w-full">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
             {/* Account ID */}
             <div>
-              <label className="block text-sm sm:text-base lg:text-lg font-medium mb-2">
-                Account ID
-              </label>
+              <label className="block text-lg font-medium mb-2">Account ID</label>
               <input
                 type="text"
                 placeholder="Enter your account ID"
@@ -118,7 +110,7 @@ const Issue1 = ({ goNext }: StepProps) => {
 
             {/* Storage / Bucket Name */}
             <div>
-              <label className="block text-sm sm:text-base lg:text-lg font-medium mb-2">
+              <label className="block text-lg font-medium mb-2">
                 Storage / Bucket Name
               </label>
               <input
@@ -136,7 +128,7 @@ const Issue1 = ({ goNext }: StepProps) => {
         <div className="w-full">
           <button
             onClick={goNext}
-            className="w-full bg-[#032352] hover:bg-[#021a3d] text-white py-4 sm:py-5 rounded-lg text-lg sm:text-xl font-semibold shadow-lg transition"
+            className="w-full bg-[#032352] hover:bg-[#021a3d] text-white py-5 rounded-lg text-xl font-semibold shadow-lg transition"
           >
             Next
           </button>

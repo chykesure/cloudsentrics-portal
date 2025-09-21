@@ -193,7 +193,7 @@ const DashboardLayout = () => {
         >
           <div className="w-full">
             {/* Cards List */}
-            <Outlet />
+            <Outlet 
           </div>
         </main>
 

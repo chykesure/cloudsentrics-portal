@@ -3,7 +3,7 @@ import { Camera, ThumbsUp } from "lucide-react";
 import { motion } from "framer-motion";
 import profileCover from "../../../src/assets/profile.jpg";
 import defaultAvatar from "../../../src/assets/pic.png";
-import ProfileSuccess from "./ProfileSuccess"; // ✅ Success screen
+import ProfileSuccess from "./ProfileSuccess"; // ✅ Your success screen component
 
 const ProfilePage = () => {
   const [form, setForm] = useState({
@@ -47,6 +47,7 @@ const ProfilePage = () => {
     }, 1500);
   };
 
+  // ✅ Show success screen immediately when password change completes
   if (showProfileSuccess) {
     return <ProfileSuccess />;
   }
@@ -55,7 +56,7 @@ const ProfilePage = () => {
     <div className="min-h-screen w-full bg-gray-100">
       {/* Cover Image */}
       <div
-        className="relative h-48 sm:h-64 bg-cover bg-center"
+        className="relative h-64 bg-cover bg-center"
         style={{ backgroundImage: `url(${profileCover})` }}
       >
         <div className="absolute inset-0 bg-[#032352]/80" />
@@ -65,22 +66,18 @@ const ProfilePage = () => {
           transition={{ duration: 0.6 }}
           className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4"
         >
-          <h2 className="text-2xl sm:text-4xl font-extrabold tracking-wide">
-            Cloud Sentrics
-          </h2>
-          <p className="text-base sm:text-lg opacity-90 mt-1">
-            Profile Settings
-          </p>
+          <h2 className="text-4xl font-extrabold tracking-wide">Cloud Sentrics</h2>
+          <p className="text-lg opacity-90 mt-1">Profile Settings</p>
         </motion.div>
       </div>
 
       {/* Avatar + Stats */}
-      <div className="relative flex flex-col sm:flex-row items-center sm:items-end gap-6 -mt-16 px-4 sm:px-10">
+      <div className="relative flex items-end -mt-16 px-10">
         <motion.div whileHover={{ scale: 1.05 }} className="relative">
           <img
             src={avatar}
             alt="Profile"
-            className="h-28 w-28 sm:h-36 sm:w-36 rounded-full border-[5px] sm:border-[6px] border-[#032352] shadow-lg object-cover"
+            className="h-36 w-36 rounded-full border-[6px] border-[#032352] shadow-lg object-cover"
           />
           <input
             type="file"
@@ -93,68 +90,58 @@ const ProfilePage = () => {
             htmlFor="avatarUpload"
             className="absolute bottom-2 right-2 bg-[#032352] text-white p-2 rounded-full shadow-lg hover:bg-[#021a3d] transition cursor-pointer"
           >
-            <Camera className="h-4 w-4 sm:h-5 sm:w-5" />
+            <Camera className="h-5 w-5" />
           </label>
         </motion.div>
 
-        <div className="flex gap-8 sm:gap-12 sm:ml-10 text-center sm:text-left">
+        <div className="flex gap-12 ml-10 text-center">
           <div>
-            <p className="text-xs sm:text-sm font-semibold text-[#032352]/70 tracking-wide">
-              TIER LEVEL
-            </p>
-            <p className="text-base sm:text-lg font-bold text-[#032352]">
-              {form.tier}
-            </p>
+            <p className="text-sm font-semibold text-[#032352]/70 tracking-wide">TIER LEVEL</p>
+            <p className="text-lg font-bold text-[#032352]">{form.tier}</p>
           </div>
           <div>
-            <p className="text-xs sm:text-sm font-semibold text-[#032352]/70 tracking-wide">
-              STORAGE
-            </p>
-            <p className="text-base sm:text-lg font-bold text-[#032352]">
-              {form.storage}
-            </p>
+            <p className="text-sm font-semibold text-[#032352]/70 tracking-wide">STORAGE</p>
+            <p className="text-lg font-bold text-[#032352]">{form.storage}</p>
           </div>
         </div>
       </div>
 
       {/* Two Column Layout */}
-      <div className="flex flex-col md:flex-row gap-6 sm:gap-8 px-4 sm:px-10 mt-10 sm:mt-12">
+      <div className="flex flex-col md:flex-row gap-8 px-10 mt-12">
         {/* Left: Profile Details */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="bg-gray-50 shadow-xl rounded-2xl p-4 sm:p-8 border-l-4 sm:border-l-8 border-[#032352] w-full md:w-1/2"
+          className="bg-gray-50 shadow-xl rounded-2xl p-8 border-l-8 border-[#032352] w-full md:w-1/2"
         >
-          <div className="flex justify-end mb-4 sm:mb-6">
+          <div className="flex justify-end mb-6">
             <button
               onClick={() => setIsEditing(true)}
-              className="px-4 sm:px-6 py-2 bg-[#032352] text-white rounded-lg shadow hover:bg-[#021a3d] transition font-medium text-sm sm:text-base"
+              className="px-6 py-2.5 bg-[#032352] text-white rounded-lg shadow hover:bg-[#021a3d] transition font-medium"
             >
               Edit Profile
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 text-gray-700">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700">
             {Object.entries(form).map(([key, value]) => (
               <div key={key} className="flex flex-col">
-                <p className="font-semibold text-xs sm:text-sm text-[#032352]/70">
+                <p className="font-semibold text-sm text-[#032352]/70">
                   {key.toUpperCase()}
                 </p>
-                <p className="text-base sm:text-lg font-medium text-[#032352]">
-                  {value}
-                </p>
+                <p className="text-lg font-medium text-[#032352]">{value}</p>
               </div>
             ))}
           </div>
 
-          <div className="mt-6 sm:mt-8 flex justify-end">
+          <div className="mt-8 flex justify-end">
             <button
               onClick={() => {
-                setShowPasswordModal(true);
-                setStep(1);
+                setShowPasswordModal(true); // ✅ Just open the modal
+                setStep(1); // optional: reset modal to step 1
               }}
-              className="w-full bg-[#032352] text-white py-2 rounded-lg hover:bg-[#021a3d] text-sm sm:text-base"
+              className="w-full bg-[#032352] text-white py-2 rounded-lg hover:bg-[#021a3d]"
             >
               Change Password
             </button>
@@ -166,16 +153,16 @@ const ProfilePage = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="bg-gray-50 shadow-xl rounded-2xl p-4 sm:p-8 border-r-4 sm:border-r-8 border-[#032352] w-full md:w-1/2"
+          className="bg-gray-50 shadow-xl rounded-2xl p-8 border-r-8 border-[#032352] w-full md:w-1/2"
         >
-          <h3 className="text-lg sm:text-2xl font-semibold mb-4 sm:mb-6 text-[#032352]">
+          <h3 className="text-2xl font-semibold mb-6 text-[#032352]">
             Update your profile
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {Object.keys(form).map((key) => (
               <div key={key} className="flex flex-col">
-                <label className="block text-xs sm:text-sm font-medium text-[#032352]/70 mb-1">
+                <label className="block text-sm font-medium text-[#032352]/70 mb-1">
                   {key.toUpperCase()}
                 </label>
                 <input
@@ -184,7 +171,7 @@ const ProfilePage = () => {
                   value={(form as any)[key]}
                   onChange={handleChange}
                   disabled={!isEditing}
-                  className={`form-control w-full rounded-lg border border-gray-300 bg-white px-3 sm:px-4 py-2 text-gray-800 shadow-sm 
+                  className={`form-control w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-800 shadow-sm 
                     focus:border-[#032352] focus:ring-2 focus:ring-[#032352] focus:outline-none transition 
                     ${!isEditing ? "bg-gray-100 cursor-not-allowed" : ""}`}
                 />
@@ -192,10 +179,10 @@ const ProfilePage = () => {
             ))}
           </div>
 
-          <div className="mt-6 sm:mt-8 flex justify-center">
+          <div className="mt-8 flex justify-center">
             <button
               disabled={!isEditing}
-              className={`px-5 sm:px-6 py-2 rounded-lg shadow font-medium transition text-sm sm:text-base 
+              className={`px-6 py-2.5 rounded-lg shadow font-medium transition 
                 ${isEditing
                   ? "bg-[#032352] text-white hover:bg-[#021a3d]"
                   : "bg-gray-300 text-gray-500 cursor-not-allowed"}`}
@@ -206,29 +193,26 @@ const ProfilePage = () => {
         </motion.div>
       </div>
 
-      {/* 🔐 Password Modal (kept same, adjust width for small screens) */}
+      {/* Password Modal Steps */}
       {showPasswordModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-          <div className="bg-white rounded-xl shadow-xl w-[90%] sm:w-[400px] p-4 sm:p-6 relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-transparent bg-opacity-50">
+          <div className="bg-white rounded-xl shadow-xl w-[400px] p-6 relative">
             <button
               onClick={() => setShowPasswordModal(false)}
-              className="absolute top-2 right-3 text-gray-500 hover:text-black"
+              className="absolute top-3 right-3 text-gray-500 hover:text-black"
             >
               ×
             </button>
 
-            {/* Steps (same logic, responsive tweaks in spacing/text sizes) */}
             {step === 1 && (
               <>
-                <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">
-                  Change your password
-                </h2>
-                <p className="text-xs sm:text-sm text-gray-600 mb-4 sm:mb-6">
-                  Confirm your email <strong>{form.email}</strong> by clicking confirm.
+                <h2 className="text-xl font-semibold mb-4">Change your password</h2>
+                <p className="text-sm text-gray-600 mb-6">
+                  Confirm your email address <strong>{form.email}</strong> by clicking the confirm email button.
                 </p>
                 <button
                   onClick={() => handleStepTransition(2)}
-                  className="w-full bg-[#032352] text-white py-2 rounded-lg hover:bg-[#021a3d] text-sm sm:text-base"
+                  className="w-full bg-[#032352] text-white py-2 rounded-lg hover:bg-[#021a3d]"
                 >
                   Confirm Email
                 </button>
@@ -237,16 +221,14 @@ const ProfilePage = () => {
 
             {step === 2 && (
               <>
-                <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">
-                  Change your password
-                </h2>
-                <p className="text-xs sm:text-sm text-gray-600 mb-3">
-                  Enter the 6 digits sent to <strong>{form.email}</strong>
+                <h2 className="text-xl font-semibold mb-4">Change your password</h2>
+                <p className="text-sm text-gray-600 mb-3">
+                  Enter the 6 digits sent to your email <strong>{form.email}</strong>
                 </p>
                 <input
                   type="text"
                   placeholder="Enter Code"
-                  className="w-full border rounded-lg px-3 sm:px-4 py-2 mb-4"
+                  className="w-full border rounded-lg px-4 py-2 mb-4"
                 />
                 <button
                   onClick={() => handleStepTransition(3)}
@@ -259,11 +241,11 @@ const ProfilePage = () => {
 
             {step === 3 && (
               <>
-                <h2 className="text-lg sm:text-xl font-semibold mb-4">
-                  Email Confirmed
-                </h2>
+                <h2 className="text-xl font-semibold mb-4">Email Successfully Confirmed</h2>
                 <div className="flex justify-center mb-6">
-                  <ThumbsUp size={48} className="text-blue-800" />
+                  <div className="text-green-500 text-4xl">
+                    <ThumbsUp size={64} className="text-blue-800" />
+                  </div>
                 </div>
                 <button
                   onClick={() => handleStepTransition(4)}
@@ -276,24 +258,22 @@ const ProfilePage = () => {
 
             {step === 4 && (
               <>
-                <h2 className="text-lg sm:text-xl font-semibold mb-4">
-                  Change your password
-                </h2>
+                <h2 className="text-xl font-semibold mb-4">Change your password</h2>
                 <input
                   type="password"
                   placeholder="Enter New Password"
-                  className="w-full border rounded-lg px-3 sm:px-4 py-2 mb-3"
+                  className="w-full border rounded-lg px-4 py-2 mb-3"
                 />
                 <input
                   type="password"
                   placeholder="Confirm New Password"
-                  className="w-full border rounded-lg px-3 sm:px-4 py-2 mb-4"
+                  className="w-full border rounded-lg px-4 py-2 mb-4"
                 />
                 <button
                   onClick={() => {
                     setShowPasswordModal(false);
                     setStep(1);
-                    setShowProfileSuccess(true);
+                    setShowProfileSuccess(true); // ✅ Success screen
                   }}
                   className="w-full bg-[#032352] text-white py-2 rounded-lg hover:bg-[#021a3d]"
                 >
@@ -309,11 +289,11 @@ const ProfilePage = () => {
       {loading && (
         <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-white/90 backdrop-blur-md">
           <motion.div
-            className="h-12 w-12 sm:h-16 sm:w-16 border-4 border-t-blue-800 border-b-blue-500 rounded-full"
+            className="h-16 w-16 border-4 border-t-blue-800 border-b-blue-500 rounded-full"
             animate={{ rotate: 360 }}
             transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
           />
-          <p className="mt-4 text-gray-700 font-medium text-sm sm:text-lg animate-pulse text-center">
+          <p className="mt-4 text-gray-700 font-medium text-lg animate-pulse text-center">
             Loading, please wait...
           </p>
         </div>

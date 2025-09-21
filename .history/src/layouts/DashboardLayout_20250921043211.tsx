@@ -188,14 +188,13 @@ const DashboardLayout = () => {
 
         {/* Page Content */}
         <main
-          id="main-scroll"
-          className="flex-1 px-0 sm:px-2 md:px-4 lg:px-12 py-4 overflow-y-auto bg-white w-full"
-        >
-          <div className="w-full">
-            {/* Cards List */}
-            <Outlet />
-          </div>
-        </main>
+  id="main-scroll"
+  className="flex-1 px-0 sm:px-2 md:px-4 lg:px-12 py-4 overflow-y-auto bg-white w-full"
+>
+  <div className="w-full">
+    {/* Cards List */}
+  </div>
+</main>
 
 
 

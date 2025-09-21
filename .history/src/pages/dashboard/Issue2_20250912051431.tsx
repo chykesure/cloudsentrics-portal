@@ -7,7 +7,7 @@ interface StepProps {
 }
 
 const Issue2 = ({ goNext, goBack }: StepProps) => {
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState("");   // renamed year → date for clarity
   const [time, setTime] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
@@ -21,9 +21,6 @@ const Issue2 = ({ goNext, goBack }: StepProps) => {
     "Unable to Access Account",
   ];
 
-  const inputClass =
-    "border border-gray-300 rounded-lg px-3 py-3 text-base w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition";
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -31,33 +28,33 @@ const Issue2 = ({ goNext, goBack }: StepProps) => {
       transition={{ duration: 0.6 }}
       className="min-h-screen bg-gray-50 flex flex-col"
     >
-      <div className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 md:px-10 py-6 sm:py-8 md:py-10 bg-white shadow-md rounded-lg">
+      <div className="flex-1 w-full p-10 bg-white shadow-md">
         {/* Instruction */}
-        <p className="mb-8 text-gray-700 text-base sm:text-lg md:text-xl leading-relaxed">
-          If you are experiencing a problem with your CloudSentric account or
+        <p className="mb-8 text-gray-700 text-lg leading-relaxed max-w-5xl">
+          If you are experiencing a problem with your Cloud Sentrics account or
           storage, please fill out this form so our support team can assist you
-          quickly. Provide as much detail as possible to help us resolve your
-          issue faster.
+          quickly. Please provide as much detail as possible to help us resolve
+          your issue faster.
         </p>
 
         {/* ISSUE INFORMATION Section */}
         <div className="mb-12">
-          <h3 className="bg-orange-100 py-3 px-5 text-blue-900 font-semibold text-lg sm:text-xl rounded-md mb-6 uppercase tracking-wide">
+          <h3 className="bg-orange-100 py-3 px-5 text-blue-900 font-semibold text-base rounded-md mb-6 uppercase tracking-wide">
             Issue Information
           </h3>
 
           {/* Date Issue Started + Category */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
             {/* Date Issue Started */}
             <div>
-              <label className="block text-sm sm:text-base font-medium mb-2">
+              <label className="block text-base font-medium mb-2">
                 Date Issue Started
               </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 {/* Date Picker */}
                 <input
                   type="date"
-                  className={inputClass}
+                  className="border border-gray-300 rounded-lg px-3 py-3 text-base w-full"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
                 />
@@ -65,7 +62,7 @@ const Issue2 = ({ goNext, goBack }: StepProps) => {
                 {/* Time Picker */}
                 <input
                   type="time"
-                  className={inputClass}
+                  className="border border-gray-300 rounded-lg px-3 py-3 text-base w-full"
                   value={time}
                   onChange={(e) => setTime(e.target.value)}
                 />
@@ -74,11 +71,11 @@ const Issue2 = ({ goNext, goBack }: StepProps) => {
 
             {/* Category */}
             <div>
-              <label className="block text-sm sm:text-base font-medium mb-2">
+              <label className="block text-base font-medium mb-2">
                 Category
               </label>
               <select
-                className={inputClass}
+                className="border border-gray-300 rounded-lg px-3 py-3 text-base w-full"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               >
@@ -92,7 +89,7 @@ const Issue2 = ({ goNext, goBack }: StepProps) => {
 
           {/* Other Category */}
           <div className="mb-6">
-            <label className="flex items-center space-x-3 cursor-pointer text-sm sm:text-base font-medium mb-2">
+            <label className="flex items-center space-x-3 cursor-pointer text-base font-medium mb-2">
               <input
                 type="checkbox"
                 className="w-5 h-5 border-gray-400 rounded"
@@ -105,7 +102,7 @@ const Issue2 = ({ goNext, goBack }: StepProps) => {
             {category === "Other" && (
               <textarea
                 placeholder="Please specify the other category..."
-                className="border border-gray-300 rounded-lg px-3 py-3 text-sm sm:text-base w-full resize-none"
+                className="border border-gray-300 rounded-lg px-3 py-3 text-base w-full resize-none"
                 rows={4}
                 maxLength={1000}
                 value={description}
@@ -116,34 +113,34 @@ const Issue2 = ({ goNext, goBack }: StepProps) => {
 
           {/* Description of the Issue */}
           <div>
-            <label className="block text-sm sm:text-base font-medium mb-2">
+            <label className="block text-base font-medium mb-2">
               Description of the Issue
             </label>
             <textarea
               placeholder="Give the description of the issue you are having"
-              className="border border-gray-300 rounded-lg px-3 py-3 text-sm sm:text-base w-full resize-none"
+              className="border border-gray-300 rounded-lg px-3 py-3 text-base w-full resize-none"
               rows={6}
               maxLength={5000}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-            <div className="text-right text-xs sm:text-sm text-gray-500 mt-1">
+            <div className="text-right text-sm text-gray-500 mt-1">
               {description.length}/5000
             </div>
           </div>
         </div>
 
         {/* Navigation Buttons */}
-        <div className="flex flex-col sm:flex-row justify-between gap-4 sm:gap-0">
+        <div className="flex justify-between max-w-5xl">
           <button
             onClick={goBack}
-            className="w-full sm:w-auto bg-white border border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition"
+            className="bg-white border border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition"
           >
             ← Back
           </button>
           <button
             onClick={goNext}
-            className="w-full sm:w-auto bg-[#032352] hover:bg-[#021a3d] text-white px-8 py-3 rounded-lg font-semibold shadow-md transition flex items-center justify-center"
+            className="bg-[#032352] hover:bg-[#021a3d] text-white px-8 py-3 rounded-lg font-semibold shadow-md transition flex items-center"
           >
             Next →
           </button>

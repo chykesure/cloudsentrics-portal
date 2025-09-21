@@ -54,6 +54,7 @@ const Step1 = ({ goBack, jumpToStep }: StepProps) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
       className="bg-white min-h-screen w-full px-2 sm:px-4 md:px-6 lg:px-12"
+
     >
       {/* Request Type */}
       <div className="mb-8">
