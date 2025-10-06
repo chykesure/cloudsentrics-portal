@@ -1,0 +1,152 @@
+// src/dashboard/Step6.tsx
+import { useState } from "react";
+import { motion } from "framer-motion";
+import type { StepProps } from "../dashboard/types";
+import toast from "react-hot-toast";
+
+const Step6 = ({ goBack, onSubmit, formData }: StepProps) => {
+  const [acknowledgements, setAcknowledgements] = useState<string[]>(formData?.acknowledgements || []);
+  const [loading, setLoading] = useState(false);
+
+  const ackOptions = [
+    "I understand additional settings such as CMYK or life cycle transitions may incur additional charges",
+    "I understand that Cloud Sentrics may store my data outside my region",
+    "I confirm the information provided is accurate and approve this request.",
+  ];
+
+  const toggleAck = (option: string) => {
+    setAcknowledgements((prev) =>
+      prev.includes(option) ? prev.filter((item) => item !== option) : [...prev, option]
+    );
+  };
+
+  const allChecked = ackOptions.every((opt) => acknowledgements.includes(opt));
+
+  const handleSubmit = async () => {
+    console.log("🚀 Step6: handleSubmit started");
+
+    if (!allChecked) {
+      console.log("⚠️ Not all acknowledgements checked");
+      toast.error("Please check all acknowledgements before submitting.");
+      return;
+    }
+
+    setLoading(true);
+    console.log("📝 Sending request to backend...");
+
+    try {
+      // Hardcoded title as "Request"
+      const payload = { ...formData, acknowledgements, title: "Request" };
+      console.log("📤 Payload:", payload);
+
+      const res = await fetch("http://localhost:5000/api/requests", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      console.log("📥 Backend response:", data);
+
+      if (!res.ok) {
+        console.error("Backend error:", data);
+        throw new Error(data.message || "Failed to submit request");
+      }
+
+      console.log("✅ Request submitted successfully:", data);
+      toast.success(`Request submitted successfully! Jira Issue: ${data.jiraIssueKey}`);
+
+      if (onSubmit) {
+        console.log("🔔 Calling onSubmit callback");
+        onSubmit();
+      }
+
+    } catch (error: any) {
+      console.error("❌ Error submitting request:", error);
+      toast.error(`Error submitting request: ${error.message}`);
+    } finally {
+      setLoading(false);
+      console.log("⏹️ handleSubmit finished");
+    }
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      className="min-h-screen bg-gray-50 flex flex-col"
+    >
+      <div className="flex-1 w-full px-4 sm:px-6 md:px-8 lg:px-10 py-6 bg-white shadow-md">
+        <div className="bg-blue-100 px-3 py-2 text-base sm:text-lg font-semibold text-blue-900 rounded-md mb-6">
+          ACKNOWLEDGEMENT
+        </div>
+
+        <div className="space-y-4 text-base sm:text-lg text-gray-800 mb-10">
+          {ackOptions.map((option) => (
+            <label key={option} className="flex items-start space-x-3">
+              <input
+                type="checkbox"
+                className="form-checkbox mt-1 w-5 h-5"
+                checked={acknowledgements.includes(option)}
+                onChange={() => toggleAck(option)}
+              />
+              <span>{option}</span>
+            </label>
+          ))}
+        </div>
+
+        <div className="flex flex-col sm:flex-row sm:justify-between gap-4">
+          <button
+            onClick={goBack}
+            className="w-full sm:w-auto px-6 py-3 bg-white border border-gray-400 rounded-md text-base sm:text-lg text-gray-700 hover:bg-gray-100"
+          >
+            ← Back
+          </button>
+          <button
+            onClick={handleSubmit}
+            disabled={!allChecked || loading}
+            className={`w-full sm:w-auto px-6 py-3 text-base sm:text-lg rounded-md transition ${allChecked && !loading
+                ? "bg-[#032352] text-white hover:bg-blue-700"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }`}
+          >
+            {loading ? (
+              <span className="flex items-center space-x-2">
+                <svg
+                  className="animate-spin h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                  />
+                </svg>
+                <span>Submitting...</span>
+              </span>
+            ) : (
+              "Submit Request"
+            )}
+          </button>
+
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+export default Step6;
