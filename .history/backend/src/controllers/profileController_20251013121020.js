@@ -1,0 +1,150 @@
+// src/controllers/profileController.js
+const Onboarding = require("../models/Onboarding");
+const Request = require("../models/Request");
+const path = require("path");
+const fs = require("fs");
+
+// ------------------ Helper ------------------
+const getTierInfo = (latestRequest) => {
+  const defaultTier = { title: "STANDARD TIER", storage: "200GB" };
+  if (!latestRequest) return defaultTier;
+
+  if (latestRequest.tierTitle && latestRequest.tierStorage) {
+    return { title: latestRequest.tierTitle, storage: latestRequest.tierStorage };
+  }
+
+  if (latestRequest.selectedTier) {
+    const tierMap = {
+      standard: { title: "STANDARD TIER", storage: "200GB" },
+      business: { title: "BUSINESS TIER", storage: "400GB" },
+      premium: { title: "PREMIUM TIER", storage: "2TB" },
+    };
+
+    let tierKey = latestRequest.selectedTier.toLowerCase().trim();
+    if (tierKey.includes("standard")) tierKey = "standard";
+    else if (tierKey.includes("business")) tierKey = "business";
+    else if (tierKey.includes("premium")) tierKey = "premium";
+    else tierKey = "standard";
+
+    return tierMap[tierKey] || defaultTier;
+  }
+
+  return defaultTier;
+};
+
+// ------------------ GET /api/profile/me ------------------
+exports.getProfile = async (req, res) => {
+  try {
+    const user = req.user;
+
+    const email =
+      user.companyEmail ||
+      user.email ||
+      user.companyInfo?.companyEmail ||
+      user.companyInfo?.primaryEmail;
+
+    if (!email) {
+      return res.status(400).json({ success: false, message: "Email not found in user record" });
+    }
+
+    const onboard = await Onboarding.findOne({ "companyInfo.companyEmail": email });
+
+    const latestRequest = await Request.findOne({ reporterEmail: email }).sort({ createdAt: -1 });
+    const tierInfo = getTierInfo(latestRequest);
+
+    const profile = {
+      name: onboard?.companyInfo?.primaryName || user.name || email.split("@")[0],
+      companyEmail: email,
+      phone: onboard?.companyInfo?.primaryPhone || user.phone || "",
+      tier: tierInfo.title,
+      storage: tierInfo.storage,
+      avatar: onboard?.avatar
+        ? onboard.avatar.startsWith("http")
+          ? onboard.avatar
+          : `http://localhost:5000${onboard.avatar}`
+        : "",
+    };
+
+    res.status(200).json({ success: true, data: profile });
+  } catch (err) {
+    console.error("GET profile error:", err);
+    res.status(500).json({ success: false, message: "Server error while fetching profile" });
+  }
+};
+
+// ------------------ PUT /api/profile/:email ------------------
+exports.updateProfile = async (req, res) => {
+  try {
+    const email = req.params.email;
+    const { name, phone } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ message: "User email is required to update profile." });
+    }
+
+    // ✅ Ensure uploads folder exists
+    const uploadsDir = path.join(__dirname, "../../uploads");
+    if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
+
+    // ✅ Handle uploaded avatar image
+    let avatarPath = null;
+    if (req.file) avatarPath = `/uploads/${req.file.filename}`;
+
+    // ✅ Find onboarding record by companyEmail
+    let onboard = await Onboarding.findOne({ "companyInfo.companyEmail": email });
+
+    if (onboard) {
+      // Update existing user info
+      onboard.companyInfo.primaryName = name || onboard.companyInfo.primaryName;
+      onboard.companyInfo.primaryPhone = phone || onboard.companyInfo.primaryPhone;
+
+      if (avatarPath) {
+        onboard.avatar = avatarPath;
+        onboard.profileImage = avatarPath; // ✅ keep both in sync
+      }
+
+      onboard.lastUpdated = new Date(); // ✅ track when user updated profile
+      await onboard.save();
+    } else {
+      // ✅ Create new onboarding record if not found
+      onboard = await Onboarding.create({
+        companyInfo: {
+          primaryName: name || "Unnamed User",
+          primaryEmail: email,
+          primaryPhone: phone || "",
+          companyEmail: email,
+          companyName: "Default Company Name",
+        },
+        avatar: avatarPath || "",
+        profileImage: avatarPath || "",
+        agreements: {},
+        awsSetup: {},
+        lastUpdated: new Date(),
+      });
+    }
+
+    // ✅ Fetch tier info for response
+    const latestRequest = await Request.findOne({ reporterEmail: email }).sort({ createdAt: -1 });
+    const tierInfo = getTierInfo(latestRequest);
+
+    // ✅ Send clean structured response
+    res.json({
+      success: true,
+      message: "Profile updated successfully",
+      profile: {
+        name: onboard.companyInfo.primaryName,
+        companyEmail: onboard.companyInfo.companyEmail,
+        phone: onboard.companyInfo.primaryPhone,
+        tier: tierInfo.title,
+        storage: tierInfo.storage,
+        avatar: onboard.avatar,
+        profileImage: onboard.profileImage,
+        lastUpdated: onboard.lastUpdated,
+      },
+    });
+  } catch (err) {
+    console.error("UPDATE profile error:", err);
+    res.status(500).json({ success: false, message: "Server error while updating profile" });
+  }
+};
+
