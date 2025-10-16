@@ -158,9 +158,9 @@ const AdminDashboard = () => {
         );
 
     return (
-        <div className="space-y-10 bg-gray-100 min-h-screen p-4 sm:p-6">
+        <div className="space-y-10 bg-gray-100 min-h-screen p-3 sm:p-6">
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
                 {stats.map((item, idx) => {
                     const count = counts[idx];
                     const Icon = item.icon;
@@ -170,15 +170,19 @@ const AdminDashboard = () => {
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: idx * 0.1 }}
-                            whileHover={{ scale: 1.04 }}
-                            className="p-6 sm:p-8 min-h-[160px] rounded-2xl shadow-lg flex items-center gap-4 sm:gap-6 hover:shadow-2xl transition bg-white"
+                            whileHover={{ scale: 1.03 }}
+                            className="p-4 sm:p-6 md:p-8 min-h-[140px] sm:min-h-[160px] rounded-2xl shadow-md flex items-center gap-3 sm:gap-5 hover:shadow-xl transition bg-white"
                         >
-                            <div className="p-4 sm:p-6 rounded-full bg-gray-100 flex items-center justify-center">
-                                <Icon className="h-10 w-10 sm:h-12 sm:w-12 text-gray-700" />
+                            <div className="p-3 sm:p-4 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
+                                <Icon className="h-8 w-8 sm:h-10 sm:w-10 text-gray-700" />
                             </div>
-                            <div>
-                                <h3 className="text-3xl sm:text-4xl font-extrabold">{String(count)}</h3>
-                                <p className="text-sm sm:text-base mt-2 opacity-90">{item.label}</p>
+                            <div className="flex flex-col">
+                                <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold">
+                                    {String(count)}
+                                </h3>
+                                <p className="text-xs sm:text-sm md:text-base mt-1 opacity-80">
+                                    {item.label}
+                                </p>
                             </div>
                         </motion.div>
                     );
@@ -186,31 +190,33 @@ const AdminDashboard = () => {
             </div>
 
             {/* Table + Chart Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Issues Table */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 lg:col-span-2"
+                    className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 lg:col-span-2 overflow-hidden"
                 >
-                    <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-6 gap-3">
-                        <h3 className="text-lg font-semibold text-gray-800">Recent Jira Issues</h3>
-                        <div className="flex items-center gap-3">
-                            <div className="relative w-full sm:w-auto">
+                    <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-4 sm:mb-6 gap-3">
+                        <h3 className="text-base sm:text-lg font-semibold text-gray-800">
+                            Recent Jira Issues
+                        </h3>
+                        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                            <div className="relative flex-1 sm:flex-initial">
                                 <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-400" />
                                 <input
                                     type="text"
                                     placeholder="Search issues..."
                                     value={searchTerm}
-                                    onChange={e => setSearchTerm(e.target.value)}
-                                    className="w-full sm:w-48 pl-8 pr-3 py-1.5 text-sm border rounded-lg focus:ring-[#032352] focus:border-[#032352] shadow-sm"
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    className="w-full sm:w-48 pl-8 pr-3 py-1.5 text-xs sm:text-sm border rounded-lg focus:ring-[#032352] focus:border-[#032352] shadow-sm"
                                 />
                             </div>
                             <select
-                                className="border rounded-lg px-3 py-1.5 text-sm focus:ring-[#032352] focus:border-[#032352] shadow-sm"
+                                className="border rounded-lg px-3 py-1.5 text-xs sm:text-sm focus:ring-[#032352] focus:border-[#032352] shadow-sm"
                                 value={statusFilter}
-                                onChange={e => setStatusFilter(e.target.value)}
+                                onChange={(e) => setStatusFilter(e.target.value)}
                             >
                                 <option>All</option>
                                 <option>To Do</option>
@@ -220,15 +226,16 @@ const AdminDashboard = () => {
                             </select>
                             <button
                                 onClick={fetchDashboardData}
-                                className="flex items-center gap-2 px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm"
+                                className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 text-xs sm:text-sm"
                             >
                                 <RefreshCcw className="w-4 h-4" /> Refresh
                             </button>
                         </div>
                     </div>
 
+                    {/* Responsive Table */}
                     <div className="overflow-x-auto rounded-lg border border-gray-200">
-                        <table className="min-w-full table-fixed border-collapse text-sm">
+                        <table className="min-w-full table-auto border-collapse text-xs sm:text-sm">
                             <thead className="bg-[#032352] text-white sticky top-0 shadow-sm">
                                 <tr>
                                     {["Type", "Status", "Created", "Updated", "Action"].map((head, idx) => (
@@ -272,7 +279,10 @@ const AdminDashboard = () => {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan={5} className="py-6 text-center text-gray-500 italic">
+                                        <td
+                                            colSpan={5}
+                                            className="py-6 text-center text-gray-500 italic"
+                                        >
                                             No issues found
                                         </td>
                                     </tr>
@@ -283,11 +293,11 @@ const AdminDashboard = () => {
 
                     {/* Pagination */}
                     {totalPages > 1 && (
-                        <div className="flex justify-center gap-3 mt-4 items-center">
+                        <div className="flex justify-center gap-2 sm:gap-3 mt-4 items-center text-xs sm:text-sm">
                             <button
                                 onClick={goToPrev}
                                 disabled={currentPage === 1}
-                                className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+                                className="px-2 sm:px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
                             >
                                 <ChevronLeft />
                             </button>
@@ -297,7 +307,7 @@ const AdminDashboard = () => {
                             <button
                                 onClick={goToNext}
                                 disabled={currentPage === totalPages}
-                                className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+                                className="px-2 sm:px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
                             >
                                 <ChevronRight />
                             </button>
@@ -312,15 +322,17 @@ const AdminDashboard = () => {
                     transition={{ delay: 0.4 }}
                     className="bg-white rounded-2xl shadow-lg p-4 sm:p-6"
                 >
-                    <h3 className="text-lg font-semibold mb-4 text-gray-800">Request Status Overview</h3>
+                    <h3 className="text-base sm:text-lg font-semibold mb-4 text-gray-800 text-center sm:text-left">
+                        Request Status Overview
+                    </h3>
                     <ResponsiveContainer width="100%" height={250}>
                         <PieChart>
                             <Pie
                                 data={chartData}
                                 dataKey="value"
                                 nameKey="name"
-                                innerRadius={50}
-                                outerRadius={90}
+                                innerRadius={40}
+                                outerRadius={80}
                                 paddingAngle={3}
                                 isAnimationActive={true}
                                 animationDuration={1200}
@@ -333,9 +345,9 @@ const AdminDashboard = () => {
                         </PieChart>
                     </ResponsiveContainer>
 
-                    <div className="flex flex-wrap justify-center gap-4 mt-4">
+                    <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mt-4">
                         {chartData.map((entry, idx) => (
-                            <div key={idx} className="flex items-center gap-2 text-sm">
+                            <div key={idx} className="flex items-center gap-2 text-xs sm:text-sm">
                                 <span
                                     className="inline-block w-3 h-3 rounded-full"
                                     style={{ backgroundColor: entry.color }}

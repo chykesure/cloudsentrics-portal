@@ -23,14 +23,21 @@ const StaffManagement = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [currentUserRole, setCurrentUserRole] = useState<string>("");
 
-  // Fetch current user role and staff
+  // ✅ Fetch current user role and staff list
   useEffect(() => {
     const role = localStorage.getItem("adminRole");
-    if (role) setCurrentUserRole(role.toLowerCase()); // normalize role to lowercase
+    console.log("Detected role from localStorage:", role);
+
+    if (role) {
+      // normalize everything: lowercase, remove underscores/spaces, unify with hyphen
+      const normalized = role.trim().toLowerCase().replace(/[_\s]+/g, "-");
+      setCurrentUserRole(normalized);
+    }
+
     fetchStaff();
   }, []);
 
-  // Fetch staff list
+  // ✅ Fetch staff list
   const fetchStaff = async () => {
     setLoading(true);
     try {
@@ -40,32 +47,32 @@ const StaffManagement = () => {
       });
       setStaff(res.data.staff || []);
     } catch (err) {
-      console.error(err);
+      console.error("Error fetching staff:", err);
     } finally {
       setLoading(false);
     }
   };
 
-  // Open modal for adding
+  // ✅ Open Add Staff Modal
   const openAddModal = () => {
     setEditingStaff(null);
     setFormData({ email: "", role: "admin", password: "" });
     setShowModal(true);
   };
 
-  // Open modal for editing
+  // ✅ Open Edit Modal
   const openEditModal = (s: Staff) => {
     setEditingStaff(s);
     setFormData({ email: s.email, role: s.role.toLowerCase(), password: "" });
     setShowModal(true);
   };
 
-  // Handle form input changes
+  // ✅ Handle form input changes
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Submit add/edit
+  // ✅ Submit Add/Edit form
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
@@ -79,11 +86,9 @@ const StaffManagement = () => {
           { headers: { Authorization: `Bearer ${token}` } }
         );
       } else {
-        await axios.post(
-          "http://localhost:5000/api/admin/staff",
-          formData,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
+        await axios.post("http://localhost:5000/api/admin/staff", formData, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
       }
       setShowModal(false);
       fetchStaff();
@@ -95,8 +100,12 @@ const StaffManagement = () => {
     }
   };
 
-  // Delete staff
+  // ✅ Delete staff (only super-admin)
   const handleDelete = async (id: string) => {
+    if (currentUserRole !== "super-admin") {
+      alert("Only super-admin can delete staff.");
+      return;
+    }
     if (!confirm("Are you sure you want to delete this staff?")) return;
     try {
       const token = localStorage.getItem("adminToken");
@@ -105,11 +114,11 @@ const StaffManagement = () => {
       });
       fetchStaff();
     } catch (err) {
-      console.error(err);
+      console.error("Error deleting staff:", err);
     }
   };
 
-  // Toggle active status
+  // ✅ Toggle active status (only super-admin)
   const toggleActive = async (s: Staff) => {
     if (currentUserRole !== "super-admin") return;
     try {
@@ -130,20 +139,21 @@ const StaffManagement = () => {
       <div className="flex-1 space-y-6 p-4">
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-bold text-gray-800">Staff Management</h2>
-          {/* Add Staff Button */}
+
+          {/* ✅ Add Staff Button (only super-admin can click) */}
           <button
             onClick={openAddModal}
             disabled={currentUserRole !== "super-admin"}
-            className={`flex items-center gap-2 px-4 py-2 rounded ${
-              currentUserRole === "super-admin"
+            className={`flex items-center gap-2 px-4 py-2 rounded ${currentUserRole === "super-admin"
                 ? "bg-[#032352] text-white hover:bg-blue-800"
                 : "bg-gray-300 text-gray-500 cursor-not-allowed"
-            }`}
+              }`}
           >
             <PlusCircle className="w-5 h-5" /> Add Staff
           </button>
         </div>
 
+        {/* ✅ Staff Table */}
         {loading ? (
           <p className="text-gray-500">Loading staff...</p>
         ) : (
@@ -152,7 +162,9 @@ const StaffManagement = () => {
               <thead className="bg-[#032352] text-white">
                 <tr>
                   {["Email", "Role", "Active", "Last Login", "Actions"].map((h, idx) => (
-                    <th key={idx} className="py-3 px-4 text-left">{h}</th>
+                    <th key={idx} className="py-3 px-4 text-left">
+                      {h}
+                    </th>
                   ))}
                 </tr>
               </thead>
@@ -164,16 +176,16 @@ const StaffManagement = () => {
                       className={`${idx % 2 === 0 ? "bg-gray-50" : "bg-white"} hover:bg-gray-100`}
                     >
                       <td className="py-2 px-4">{s.email}</td>
-                      <td className="py-2 px-4">{s.role}</td>
+                      <td className="py-2 px-4 capitalize">{s.role}</td>
                       <td className="py-2 px-4">
                         <button
                           onClick={() => toggleActive(s)}
                           disabled={currentUserRole !== "super-admin"}
-                          className={`p-1 rounded ${
-                            s.active
+                          className={`p-1 rounded ${s.active
                               ? "bg-green-100 hover:bg-green-200"
                               : "bg-red-100 hover:bg-red-200"
-                          }`}
+                            } ${currentUserRole !== "super-admin" ? "cursor-not-allowed opacity-50" : ""
+                            }`}
                         >
                           {s.active ? (
                             <ToggleRight className="w-5 h-5 text-green-600" />
@@ -182,27 +194,30 @@ const StaffManagement = () => {
                           )}
                         </button>
                       </td>
-                      <td className="py-2 px-4">{new Date(s.lastLogin).toLocaleString()}</td>
+                      <td className="py-2 px-4">
+                        {s.lastLogin ? new Date(s.lastLogin).toLocaleString() : "Never"}
+                      </td>
                       <td className="py-2 px-4 flex gap-2">
+                        {/* ✅ Edit Button */}
                         <button
                           onClick={() => openEditModal(s)}
                           disabled={currentUserRole !== "super-admin"}
-                          className={`p-1 rounded hover:bg-gray-200 ${
-                            currentUserRole !== "super-admin"
+                          className={`p-1 rounded hover:bg-gray-200 ${currentUserRole !== "super-admin"
                               ? "opacity-50 cursor-not-allowed"
                               : ""
-                          }`}
+                            }`}
                         >
                           <Edit className="w-4 h-4" />
                         </button>
+
+                        {/* ✅ Delete Button (fixed clickable for super-admin) */}
                         <button
                           onClick={() => handleDelete(s._id)}
                           disabled={currentUserRole !== "super-admin"}
-                          className={`p-1 rounded hover:bg-red-200 ${
-                            currentUserRole !== "super-admin"
+                          className={`p-1 rounded hover:bg-red-200 ${currentUserRole !== "super-admin"
                               ? "opacity-50 cursor-not-allowed"
                               : ""
-                          }`}
+                            }`}
                         >
                           <Trash2 className="w-4 h-4 text-red-600" />
                         </button>
@@ -221,7 +236,7 @@ const StaffManagement = () => {
           </div>
         )}
 
-        {/* Add/Edit Modal */}
+        {/* ✅ Add/Edit Modal */}
         {showModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
             <motion.div
@@ -281,9 +296,8 @@ const StaffManagement = () => {
                     value={formData.role}
                     onChange={handleChange}
                     disabled={currentUserRole !== "super-admin"}
-                    className={`w-full px-4 py-2 border rounded-lg focus:ring-[#032352] focus:border-[#032352] shadow-sm ${
-                      currentUserRole !== "super-admin" ? "bg-gray-100 cursor-not-allowed" : ""
-                    }`}
+                    className={`w-full px-4 py-2 border rounded-lg focus:ring-[#032352] focus:border-[#032352] shadow-sm ${currentUserRole !== "super-admin" ? "bg-gray-100 cursor-not-allowed" : ""
+                      }`}
                   >
                     <option value="admin">Admin</option>
                     <option value="super-admin">Super-Admin</option>
@@ -305,7 +319,7 @@ const StaffManagement = () => {
         )}
       </div>
 
-      {/* Fixed Footer */}
+      {/* ✅ Fixed Footer */}
       <div className="mt-auto">
         <Footer />
       </div>

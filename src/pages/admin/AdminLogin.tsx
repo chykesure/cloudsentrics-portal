@@ -10,7 +10,6 @@ const AdminLogin: FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -18,7 +17,7 @@ const AdminLogin: FC = () => {
     setLoading(true);
 
     try {
-      const emailClean = email.trim().toLowerCase(); // <<< normalize
+      const emailClean = email.trim().toLowerCase(); // normalize email
       const res = await fetch("http://localhost:5000/api/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -33,8 +32,21 @@ const AdminLogin: FC = () => {
         return;
       }
 
+      // ✅ Save token and full admin object
       localStorage.setItem("adminToken", data.token);
       localStorage.setItem("admin", JSON.stringify(data.admin));
+
+      // ✅ Normalize and store role
+      if (data.admin?.role) {
+        const normalizedRole = data.admin.role
+          .trim()
+          .toLowerCase()
+          .replace(/[_\s]+/g, "-"); // handles "SuperAdmin", "super admin", etc.
+        localStorage.setItem("adminRole", normalizedRole);
+        console.log("✅ Saved normalized role:", normalizedRole);
+      } else {
+        console.warn("⚠️ No role found in response:", data.admin);
+      }
 
       toast.success("Admin login successful!");
       setTimeout(() => navigate("/admin/dashboard"), 800);
@@ -45,7 +57,6 @@ const AdminLogin: FC = () => {
       setLoading(false);
     }
   };
-
 
   return (
     <>

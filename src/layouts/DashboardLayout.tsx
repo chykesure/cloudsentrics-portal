@@ -56,35 +56,51 @@ const DashboardLayout = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       const token = localStorage.getItem("token");
-      if (!token) return navigate("/login");
+      if (!token) {
+        console.warn("No token found, redirecting to login...");
+        navigate("/login");
+        return;
+      }
 
       try {
         const res = await fetch("http://localhost:5000/api/profile/me", {
+          method: "GET",
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         });
+
+        // if token invalid or expired
+        if (res.status === 401) {
+          localStorage.clear();
+          navigate("/login");
+          return;
+        }
+
         const data = await res.json();
 
-        if (data.success && data.data) {
-          const profile = data.data;
+        // ✅ Support both possible response formats:
+        const profile = data.data || data.user || data; // adapt to backend
 
-          // ✅ Update user info
-          setUser(profile);
-          localStorage.setItem("user", JSON.stringify(profile));
-
-          // ✅ Always use backend avatar (sync with localStorage)
-          const avatarUrl = profile.avatar
-            ? profile.avatar.startsWith("http")
-              ? profile.avatar
-              : `http://localhost:5000${profile.avatar}`
-            : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
-
-          setProfileImage(avatarUrl);
-          localStorage.setItem("avatar", avatarUrl);
-        } else {
+        if (!profile || !profile.companyEmail) {
+          console.warn("Invalid profile data, redirecting...");
           navigate("/login");
+          return;
         }
+
+        // ✅ Save & sync user info
+        setUser(profile);
+        localStorage.setItem("user", JSON.stringify(profile));
+
+        const avatarUrl = profile.avatar
+          ? profile.avatar.startsWith("http")
+            ? profile.avatar
+            : `http://localhost:5000${profile.avatar}`
+          : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+
+        setProfileImage(avatarUrl);
+        localStorage.setItem("avatar", avatarUrl);
       } catch (err) {
         console.error("Error fetching user profile:", err);
         navigate("/login");

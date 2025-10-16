@@ -1,6 +1,8 @@
 const Staff = require("../models/staffModel"); // Use Staff instead of Admin
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const path = require("path");
+const fs = require("fs");
 
 // -------------------- LOGIN ADMIN --------------------
 exports.adminLogin = async (req, res) => {
@@ -8,21 +10,25 @@ exports.adminLogin = async (req, res) => {
   if (!email || !password)
     return res.status(400).json({ message: "Email and password are required" });
 
-  // Normalize email
   email = email.trim().toLowerCase();
 
   try {
-    // Find staff with admin roles only
+    // Find admin or super-admin (active or not)
     const admin = await Staff.findOne({
       email,
       role: { $in: ["admin", "super-admin"] },
-      active: true,
     }).select("+password");
 
     if (!admin)
       return res.status(400).json({ message: "Invalid email or password" });
 
-    // Compare hashed password
+    // If inactive
+    if (!admin.active)
+      return res.status(403).json({
+        message: "Your account has been deactivated. Please contact the Super-Admin.",
+      });
+
+    // Compare password
     const isMatch = await bcrypt.compare(password, admin.password);
     if (!isMatch)
       return res.status(400).json({ message: "Invalid email or password" });
@@ -91,6 +97,44 @@ exports.getAdminProfile = async (req, res) => {
     res.json({ success: true, data: admin });
   } catch (err) {
     console.error("Get admin profile error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// -------------------- UPLOAD ADMIN AVATAR --------------------
+
+exports.uploadAdminAvatar = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    const adminId = req.admin?.id || req.user?.id;
+    const admin = await Staff.findById(adminId);
+
+    if (!admin) {
+      return res.status(404).json({ message: "Admin not found" });
+    }
+
+    // Delete old avatar if exists
+    if (admin.avatar) {
+      const oldPath = path.join(__dirname, "../../", admin.avatar);
+      if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+    }
+
+    // Save new avatar
+    admin.avatar = `/uploads/admin/${req.file.filename}`;
+    await admin.save();
+
+    res.json({
+      success: true,
+      message: "Avatar uploaded successfully",
+      data: {
+        avatar: admin.avatar,
+      },
+    });
+  } catch (err) {
+    console.error("Upload admin avatar error:", err);
     res.status(500).json({ message: "Server error" });
   }
 };

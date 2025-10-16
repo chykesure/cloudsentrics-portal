@@ -37,6 +37,7 @@ const staffSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
+    avatar: { type: String, default: "" },
   },
   { timestamps: true }
 );

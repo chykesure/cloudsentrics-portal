@@ -1,19 +1,45 @@
+// src/routes/adminRoutes.js
 const express = require("express");
 const router = express.Router();
-const { protect, superAdminOnly } = require("../middleware/authMiddleware");
-const { adminLogin, createAdmin, getAdminProfile } = require("../controllers/adminController");
-const { getAdminDashboard } = require("../controllers/adminDashboard");
+const multer = require("multer");
+const path = require("path");
+const { protect } = require("../middleware/authMiddleware");
+const {
+  adminLogin,
+  createAdmin,
+  getAdminProfile,
+  uploadAdminAvatar,
+} = require("../controllers/adminController");
 
-// Public login
+// -------------------- MULTER CONFIG --------------------
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "../../uploads/admin"));
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    cb(null, `admin-${Date.now()}${ext}`);
+  },
+});
+const upload = multer({ storage });
+
+// -------------------- ROUTES --------------------
+
+// Admin login
 router.post("/login", adminLogin);
 
-// Create admin (super-admin only)
-router.post("/create", protect, superAdminOnly, createAdmin);
+// Create admin
+router.post("/create", protect, createAdmin);
 
-// Dashboard (protected)
-router.get("/dashboard", protect, getAdminDashboard);
-
-// Admin profile (protected)
+// Get admin profile
 router.get("/profile", protect, getAdminProfile);
+
+// Upload admin avatar (new route)
+router.put(
+  "/profile/avatar",
+  protect,
+  upload.single("avatar"),
+  uploadAdminAvatar
+);
 
 module.exports = router;

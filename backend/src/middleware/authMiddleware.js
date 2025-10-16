@@ -1,49 +1,77 @@
 // middleware/authMiddleware.js
 const jwt = require("jsonwebtoken");
-const Staff = require("../models/staffModel");
-const Admin = require("../models/Admin");
+const Staff = require("../models/staffModel"); // for Admin & Super-Admin
+const Onboarding = require("../models/Onboarding"); // for Customers
 
-// Middleware to protect routes for Staff or Admin
+// ------------------ PROTECT ------------------
 const protect = async (req, res, next) => {
   const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith("Bearer "))
-    return res.status(401).json({ message: "No token, authorization denied" });
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({
+      success: false,
+      message: "No token, authorization denied",
+    });
+  }
 
   try {
     const token = authHeader.split(" ")[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Try Staff first
-    const staff = await Staff.findById(decoded.id).select("-password");
-    if (staff) {
-      req.user = staff;
-      if (["admin", "super-admin"].includes(staff.role.toLowerCase())) {
-        req.admin = staff;
-      }
+    // 1️⃣ Check Staff (includes admin & super-admin)
+    let user = await Staff.findById(decoded.id).select("-password");
+    if (user) {
+      req.user = user;
+      req.role = user.role?.toLowerCase() || "admin";
+
+      // tag super-admin separately for privilege control
+      if (req.role === "super-admin") req.superAdmin = true;
+
       return next();
     }
 
-    // Try Admin next
-    const admin = await Admin.findById(decoded.id).select("-password");
-    if (admin) {
-      req.admin = admin;
+    // 2️⃣ Check Onboarding (Customers)
+    user = await Onboarding.findById(decoded.id);
+    if (user) {
+      req.user = user;
+      req.role = "customer";
       return next();
     }
 
-    // Neither Staff nor Admin found
-    return res.status(401).json({ message: "Invalid token" });
+    // 3️⃣ If none found
+    return res.status(401).json({
+      success: false,
+      message: "Invalid token or user not found",
+    });
   } catch (err) {
-    console.error("Auth error:", err);
-    res.status(401).json({ message: "Invalid or expired token" });
+    console.error("Auth error:", err.message);
+    return res.status(401).json({
+      success: false,
+      message: "Invalid or expired token",
+    });
   }
 };
 
-// Middleware for super-admin only routes
+// ------------------ SUPER ADMIN ONLY ------------------
 const superAdminOnly = (req, res, next) => {
-  if (req.admin?.role.toLowerCase() !== "super-admin") {
-    return res.status(403).json({ message: "Access denied: Super-Admin only" });
+  if (!req.user || req.role !== "super-admin") {
+    return res.status(403).json({
+      success: false,
+      message: "Access denied: Super-Admin only",
+    });
   }
   next();
 };
 
-module.exports = { protect, superAdminOnly };
+// ------------------ ADMIN OR SUPER ADMIN ------------------
+const adminOnly = (req, res, next) => {
+  if (!req.user || !["admin", "super-admin"].includes(req.role)) {
+    return res.status(403).json({
+      success: false,
+      message: "Access denied: Admin only",
+    });
+  }
+  next();
+};
+
+module.exports = { protect, adminOnly, superAdminOnly };
