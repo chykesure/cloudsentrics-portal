@@ -29,13 +29,13 @@ const Step1 = ({ goBack, jumpToStep, setFormData }: StepProps) => {
     "Decommission a Storage(s)",
   ];
 
-  const handleCheckboxChange = (option: string) => {
+  /* const handleCheckboxChange = (option: string) => {
     setChangesRequested((prev) =>
       prev.includes(option)
         ? prev.filter((o) => o !== option)
         : [...prev, option]
     );
-  };
+  }; */
 
   const handleOptionChange = (option: "aws" | "storage" | "change") => {
     setSelectedOption(option);

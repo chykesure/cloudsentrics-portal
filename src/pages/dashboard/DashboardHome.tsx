@@ -16,18 +16,18 @@ interface QuickAction {
 }
 
 const DashboardHome = () => {
-  const [userName, setUserName] = useState<string>("");
+  //const [userName, setUserName] = useState<string>("");
   const [tipOpen, setTipOpen] = useState(true);
-  const [profileImage, setProfileImage] = useState<string | null>(
+  /* const [profileImage, setProfileImage] = useState<string | null>(
     localStorage.getItem("avatar") || null
-  );
+  ); */
 
   const loadUserInfo = () => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-      const user = JSON.parse(storedUser);
-      setUserName(user.name || "User");
-      setProfileImage(user.avatar || null);
+      //const user = JSON.parse(storedUser);
+      //setUserName(user.name || "User");
+      //setProfileImage(user.avatar || null);
     }
   };
 
@@ -38,7 +38,7 @@ const DashboardHome = () => {
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
-  const avatarUrl = profileImage || "";
+  //const avatarUrl = profileImage || "";
 
   const announcements: Announcement[] = [
     {

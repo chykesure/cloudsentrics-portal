@@ -5,12 +5,12 @@ import logo from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import { toast, Toaster } from "react-hot-toast";
 
-interface UserType {
+/* interface UserType {
   id: string;
   companyEmail: string;
   companyName: string;
   customerId: string;
-}
+} */
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
