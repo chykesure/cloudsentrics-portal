@@ -22,7 +22,7 @@ const app = express();
 // -------------------- MIDDLEWARE --------------------
 app.use(
   cors({
-    origin: "http://localhost:5173", // adjust for frontend origin
+    origin: ['http://localhost:5173', 'https://onboardingportal.cloudsentrics.org'],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })

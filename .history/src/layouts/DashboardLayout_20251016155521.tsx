@@ -110,7 +110,6 @@ const DashboardLayout = () => {
     fetchUserProfile();
   }, [navigate]);
 
-
   const handleLogout = () => {
     setShowLogoutModal(false);
     setLoading(true);

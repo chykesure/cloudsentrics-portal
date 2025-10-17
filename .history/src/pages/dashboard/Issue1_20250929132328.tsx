@@ -9,7 +9,7 @@ const Issue1 = ({ goNext, formData, setFormData }: StepProps) => {
   const inputClass =
     "form-control w-full border border-gray-300 rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-base sm:text-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition";
 
-  // Enable Next button only if all required fields are filled AND account is valid
+  // Enable Next button only if all fields are filled AND account is valid
   const isValid =
     formData.fullName &&
     formData.email &&
@@ -17,8 +17,6 @@ const Issue1 = ({ goNext, formData, setFormData }: StepProps) => {
     formData.company &&
     formData.accountId &&
     formData.bucketName &&
-    formData.title &&
-    formData.description &&
     accountValid;
 
   // Validate Account ID when it changes
@@ -156,45 +154,14 @@ const Issue1 = ({ goNext, formData, setFormData }: StepProps) => {
           </div>
         </div>
 
-        {/* ISSUE DETAILS Section */}
-        <div className="mb-10 sm:mb-12">
-          <h3 className="bg-orange-100 py-2 sm:py-3 px-3 sm:px-5 text-blue-900 font-semibold text-lg sm:text-xl rounded-md mb-6 uppercase tracking-wide">
-            Issue Details
-          </h3>
-
-          <div className="grid grid-cols-1 gap-4 sm:gap-6">
-            <div>
-              <label className="block text-sm sm:text-base lg:text-lg font-medium mb-2">Title</label>
-              <input
-                type="text"
-                placeholder="Enter issue title"
-                className={inputClass}
-                value={formData.title || ""}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm sm:text-base lg:text-lg font-medium mb-2">Description</label>
-              <textarea
-                placeholder="Describe your issue in detail"
-                className={inputClass + " resize-none h-32"}
-                value={formData.description || ""}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              />
-            </div>
-          </div>
-        </div>
-
         {/* Next Button */}
         <div className="w-full">
           <button
             onClick={goNext}
             disabled={!isValid}
-            className={`w-full py-4 sm:py-5 rounded-lg text-lg sm:text-xl font-semibold shadow-lg transition ${
-              isValid
-                ? "bg-[#032352] hover:bg-[#021a3d] text-white"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+            className={`w-full py-4 sm:py-5 rounded-lg text-lg sm:text-xl font-semibold shadow-lg transition ${isValid
+              ? "bg-[#032352] hover:bg-[#021a3d] text-white"
+              : "bg-gray-300 text-gray-500 cursor-not-allowed"
             }`}
           >
             Next

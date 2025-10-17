@@ -71,43 +71,43 @@ const ProfilePage = () => {
     }
 
     const fetchProfile = async () => {
-  try {
-    const token = localStorage.getItem("token");
-    const { data } = await axios.get("http://localhost:5000/api/profile/me", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+      try {
+        const token = localStorage.getItem("token");
+        const { data } = await axios.get("http://localhost:5000/api/profile/me", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
-    const profile = data.data; // ✅ your backend sends profile inside `data.data`
+        const profile = data.data; // ✅ your backend sends profile inside `data.data`
 
-    // ✅ update other form fields
-    setForm({
-      name: profile.name || "",
-      companyEmail: profile.companyEmail || "",
-      phone: profile.phone || "",
-      tier: profile.tier || "STANDARD TIER",
-      storage: profile.storage || "200GB",
-    });
+        // ✅ update other form fields
+        setForm({
+          name: profile.name || "",
+          companyEmail: profile.companyEmail || "",
+          phone: profile.phone || "",
+          tier: profile.tier || "STANDARD TIER",
+          storage: profile.storage || "200GB",
+        });
 
-    // ✅ Always update avatar from backend (not just once)
-    const avatarUrl = profile.avatar
-      ? profile.avatar.startsWith("http")
-        ? profile.avatar
-        : `http://localhost:5000${profile.avatar}`
-      : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+        // ✅ Always update avatar from backend (not just once)
+        const avatarUrl = profile.avatar
+          ? profile.avatar.startsWith("http")
+            ? profile.avatar
+            : `http://localhost:5000${profile.avatar}`
+          : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
 
-    setAvatar(avatarUrl);
-    localStorage.setItem("avatar", avatarUrl); // ✅ keep in sync for reloads
-  } catch (err) {
-    console.error("Error fetching profile:", err);
-    toast.error("Failed to fetch profile data.");
-    setError("Failed to fetch profile data.");
-  } finally {
-    setLoading(false);
-  }
-};
+        setAvatar(avatarUrl);
+        localStorage.setItem("avatar", avatarUrl); // ✅ keep in sync for reloads
+      } catch (err) {
+        console.error("Error fetching profile:", err);
+        toast.error("Failed to fetch profile data.");
+        setError("Failed to fetch profile data.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-      fetchProfile();
-    }, []);
+    fetchProfile();
+  }, []);
 
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

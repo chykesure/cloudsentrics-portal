@@ -25,17 +25,17 @@ const StaffManagement = () => {
 
   // ✅ Fetch current user role and staff list
   useEffect(() => {
-  const role = localStorage.getItem("adminRole");
-  console.log("Detected role from localStorage:", role);
+    const role = localStorage.getItem("adminRole");
+    console.log("Detected role from localStorage:", role);
 
-  if (role) {
-    // normalize everything: lowercase, remove underscores/spaces, unify with hyphen
-    const normalized = role.trim().toLowerCase().replace(/[_\s]+/g, "-");
-    setCurrentUserRole(normalized);
-  }
+    if (role) {
+      // normalize everything: lowercase, remove underscores/spaces, unify with hyphen
+      const normalized = role.trim().toLowerCase().replace(/[_\s]+/g, "-");
+      setCurrentUserRole(normalized);
+    }
 
-  fetchStaff();
-}, []);
+    fetchStaff();
+  }, []);
 
   // ✅ Fetch staff list
   const fetchStaff = async () => {
@@ -144,11 +144,10 @@ const StaffManagement = () => {
           <button
             onClick={openAddModal}
             disabled={currentUserRole !== "super-admin"}
-            className={`flex items-center gap-2 px-4 py-2 rounded ${
-              currentUserRole === "super-admin"
+            className={`flex items-center gap-2 px-4 py-2 rounded ${currentUserRole === "super-admin"
                 ? "bg-[#032352] text-white hover:bg-blue-800"
                 : "bg-gray-300 text-gray-500 cursor-not-allowed"
-            }`}
+              }`}
           >
             <PlusCircle className="w-5 h-5" /> Add Staff
           </button>
@@ -182,13 +181,11 @@ const StaffManagement = () => {
                         <button
                           onClick={() => toggleActive(s)}
                           disabled={currentUserRole !== "super-admin"}
-                          className={`p-1 rounded ${
-                            s.active
+                          className={`p-1 rounded ${s.active
                               ? "bg-green-100 hover:bg-green-200"
                               : "bg-red-100 hover:bg-red-200"
-                          } ${
-                            currentUserRole !== "super-admin" ? "cursor-not-allowed opacity-50" : ""
-                          }`}
+                            } ${currentUserRole !== "super-admin" ? "cursor-not-allowed opacity-50" : ""
+                            }`}
                         >
                           {s.active ? (
                             <ToggleRight className="w-5 h-5 text-green-600" />
@@ -205,11 +202,10 @@ const StaffManagement = () => {
                         <button
                           onClick={() => openEditModal(s)}
                           disabled={currentUserRole !== "super-admin"}
-                          className={`p-1 rounded hover:bg-gray-200 ${
-                            currentUserRole !== "super-admin"
+                          className={`p-1 rounded hover:bg-gray-200 ${currentUserRole !== "super-admin"
                               ? "opacity-50 cursor-not-allowed"
                               : ""
-                          }`}
+                            }`}
                         >
                           <Edit className="w-4 h-4" />
                         </button>
@@ -218,11 +214,10 @@ const StaffManagement = () => {
                         <button
                           onClick={() => handleDelete(s._id)}
                           disabled={currentUserRole !== "super-admin"}
-                          className={`p-1 rounded hover:bg-red-200 ${
-                            currentUserRole !== "super-admin"
+                          className={`p-1 rounded hover:bg-red-200 ${currentUserRole !== "super-admin"
                               ? "opacity-50 cursor-not-allowed"
                               : ""
-                          }`}
+                            }`}
                         >
                           <Trash2 className="w-4 h-4 text-red-600" />
                         </button>
@@ -301,9 +296,8 @@ const StaffManagement = () => {
                     value={formData.role}
                     onChange={handleChange}
                     disabled={currentUserRole !== "super-admin"}
-                    className={`w-full px-4 py-2 border rounded-lg focus:ring-[#032352] focus:border-[#032352] shadow-sm ${
-                      currentUserRole !== "super-admin" ? "bg-gray-100 cursor-not-allowed" : ""
-                    }`}
+                    className={`w-full px-4 py-2 border rounded-lg focus:ring-[#032352] focus:border-[#032352] shadow-sm ${currentUserRole !== "super-admin" ? "bg-gray-100 cursor-not-allowed" : ""
+                      }`}
                   >
                     <option value="admin">Admin</option>
                     <option value="super-admin">Super-Admin</option>
