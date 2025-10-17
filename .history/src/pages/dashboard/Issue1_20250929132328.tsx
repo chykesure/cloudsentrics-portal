@@ -30,7 +30,7 @@ const Issue1 = ({ goNext, formData, setFormData }: StepProps) => {
       setChecking(true);
       try {
         const res = await fetch(
-          `http://localhost:5000/api/auth/validate-account/${formData.accountId}`
+          `/api/auth/validate-account/${formData.accountId}`
         );
         if (!res.ok) throw new Error("Account not found");
         const data = await res.json();
@@ -162,7 +162,7 @@ const Issue1 = ({ goNext, formData, setFormData }: StepProps) => {
             className={`w-full py-4 sm:py-5 rounded-lg text-lg sm:text-xl font-semibold shadow-lg transition ${isValid
               ? "bg-[#032352] hover:bg-[#021a3d] text-white"
               : "bg-gray-300 text-gray-500 cursor-not-allowed"
-            }`}
+              }`}
           >
             Next
           </button>

@@ -210,7 +210,7 @@ const Step6 = ({ goBack, formData }: StepProps) => {
 
       console.log("📤 Final Payload Sent:", payload);
 
-      const res = await fetch("http://localhost:5000/api/requests", {
+      const res = await fetch("/api/requests", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -277,8 +277,8 @@ const Step6 = ({ goBack, formData }: StepProps) => {
             onClick={handleSubmit}
             disabled={!allChecked || loading}
             className={`w-full sm:w-auto px-6 py-3 text-base sm:text-lg rounded-md transition ${allChecked && !loading
-                ? "bg-[#032352] text-white hover:bg-blue-700"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              ? "bg-[#032352] text-white hover:bg-blue-700"
+              : "bg-gray-300 text-gray-500 cursor-not-allowed"
               }`}
           >
             {loading ? "Submitting..." : "Submit Request"}

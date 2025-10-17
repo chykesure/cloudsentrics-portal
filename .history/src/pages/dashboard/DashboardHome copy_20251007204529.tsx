@@ -72,7 +72,7 @@ const DashboardHome = () => {
     setLoading(true);
     setError("");
     try {
-      const response = await axios.get("http://localhost:5000/api/dashboard");
+      const response = await axios.get("/api/dashboard");
       const data = response.data || {};
       setDashboardData({
         totalRequests: Number(data.totalRequests) || 0,
@@ -231,9 +231,8 @@ const DashboardHome = () => {
                   {["Type", "Status", "Created", "Updated", "Action"].map((head, idx) => (
                     <th
                       key={idx}
-                      className={`py-3 px-3 font-medium text-left ${
-                        head === "Action" ? "text-center" : ""
-                      }`}
+                      className={`py-3 px-3 font-medium text-left ${head === "Action" ? "text-center" : ""
+                        }`}
                     >
                       {head}
                     </th>
@@ -245,9 +244,8 @@ const DashboardHome = () => {
                   paginatedIssues.map((issue, idx) => (
                     <tr
                       key={idx}
-                      className={`${
-                        idx % 2 === 0 ? "bg-gray-50" : "bg-white"
-                      } hover:bg-gray-100`}
+                      className={`${idx % 2 === 0 ? "bg-gray-50" : "bg-white"
+                        } hover:bg-gray-100`}
                     >
                       <td className="py-2 px-3">{issue.type}</td>
                       <td className="py-2 px-3">{issue.status}</td>

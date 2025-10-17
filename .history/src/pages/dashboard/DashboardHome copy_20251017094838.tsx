@@ -72,7 +72,7 @@ const DashboardHome = () => {
     setLoading(true);
     setError("");
     try {
-      const response = await axios.get("http://localhost:5000/api/dashboard");
+      const response = await axios.get("/api/dashboard");
       const data = response.data || {};
       setDashboardData({
         totalRequests: Number(data.totalRequests) || 0,

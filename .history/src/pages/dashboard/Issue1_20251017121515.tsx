@@ -30,7 +30,7 @@ const Issue1 = ({ goNext, formData, setFormData }: StepProps) => {
       setChecking(true);
       try {
         const res = await fetch(
-          `http://localhost:5000/api/auth/validate-account/${formData.accountId}`
+          `/api/auth/validate-account/${formData.accountId}`
         );
         if (!res.ok) throw new Error("Account not found");
         const data = await res.json();

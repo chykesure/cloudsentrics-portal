@@ -88,7 +88,7 @@ exports.getProfile = async (req, res) => {
       avatar: onboard?.avatar
         ? onboard.avatar.startsWith("http")
           ? onboard.avatar
-          : `http://localhost:5000${onboard.avatar}`
+          : `${onboard.avatar}`
         : "",
     };
 

@@ -25,7 +25,7 @@ exports.createStaff = async (req, res) => {
     const newStaff = await Staff.create({ email, password, role });
 
     // Prepare email content
-    const loginUrl = `${process.env.FRONTEND_URL || "https://onboardingportal.cloudsentrics.org/"}/login`;
+    const loginUrl = `${process.env.FRONTEND_URL || "http://localhost:5173"}/login`;
 
     const html = `
     <!DOCTYPE html>

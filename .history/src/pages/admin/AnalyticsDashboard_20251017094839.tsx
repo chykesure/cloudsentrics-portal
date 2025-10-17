@@ -39,7 +39,7 @@ const AnalyticsDashboard = () => {
   const fetchAnalytics = async () => {
     try {
       const token = localStorage.getItem("adminToken");
-      const res = await axios.get("http://localhost:5000/api/admin/dashboard", {
+      const res = await axios.get("/api/admin/dashboard", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setData(res.data);

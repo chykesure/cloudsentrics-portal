@@ -42,7 +42,7 @@ const StaffManagement = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem("adminToken");
-      const res = await axios.get("http://localhost:5000/api/admin/staff", {
+      const res = await axios.get("/api/admin/staff", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setStaff(res.data.staff || []);
@@ -81,12 +81,12 @@ const StaffManagement = () => {
       const token = localStorage.getItem("adminToken");
       if (editingStaff) {
         await axios.put(
-          `http://localhost:5000/api/admin/staff/${editingStaff._id}`,
+          `/api/admin/staff/${editingStaff._id}`,
           formData,
           { headers: { Authorization: `Bearer ${token}` } }
         );
       } else {
-        await axios.post("http://localhost:5000/api/admin/staff", formData, {
+        await axios.post("/api/admin/staff", formData, {
           headers: { Authorization: `Bearer ${token}` },
         });
       }
@@ -109,7 +109,7 @@ const StaffManagement = () => {
     if (!confirm("Are you sure you want to delete this staff?")) return;
     try {
       const token = localStorage.getItem("adminToken");
-      await axios.delete(`http://localhost:5000/api/admin/staff/${id}`, {
+      await axios.delete(`/api/admin/staff/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchStaff();
@@ -124,7 +124,7 @@ const StaffManagement = () => {
     try {
       const token = localStorage.getItem("adminToken");
       await axios.put(
-        `http://localhost:5000/api/admin/staff/${s._id}/toggle`,
+        `/api/admin/staff/${s._id}/toggle`,
         { active: !s.active },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -145,8 +145,8 @@ const StaffManagement = () => {
             onClick={openAddModal}
             disabled={currentUserRole !== "super-admin"}
             className={`flex items-center gap-2 px-4 py-2 rounded ${currentUserRole === "super-admin"
-                ? "bg-[#032352] text-white hover:bg-blue-800"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              ? "bg-[#032352] text-white hover:bg-blue-800"
+              : "bg-gray-300 text-gray-500 cursor-not-allowed"
               }`}
           >
             <PlusCircle className="w-5 h-5" /> Add Staff
@@ -182,8 +182,8 @@ const StaffManagement = () => {
                           onClick={() => toggleActive(s)}
                           disabled={currentUserRole !== "super-admin"}
                           className={`p-1 rounded ${s.active
-                              ? "bg-green-100 hover:bg-green-200"
-                              : "bg-red-100 hover:bg-red-200"
+                            ? "bg-green-100 hover:bg-green-200"
+                            : "bg-red-100 hover:bg-red-200"
                             } ${currentUserRole !== "super-admin" ? "cursor-not-allowed opacity-50" : ""
                             }`}
                         >
@@ -203,8 +203,8 @@ const StaffManagement = () => {
                           onClick={() => openEditModal(s)}
                           disabled={currentUserRole !== "super-admin"}
                           className={`p-1 rounded hover:bg-gray-200 ${currentUserRole !== "super-admin"
-                              ? "opacity-50 cursor-not-allowed"
-                              : ""
+                            ? "opacity-50 cursor-not-allowed"
+                            : ""
                             }`}
                         >
                           <Edit className="w-4 h-4" />
@@ -215,8 +215,8 @@ const StaffManagement = () => {
                           onClick={() => handleDelete(s._id)}
                           disabled={currentUserRole !== "super-admin"}
                           className={`p-1 rounded hover:bg-red-200 ${currentUserRole !== "super-admin"
-                              ? "opacity-50 cursor-not-allowed"
-                              : ""
+                            ? "opacity-50 cursor-not-allowed"
+                            : ""
                             }`}
                         >
                           <Trash2 className="w-4 h-4 text-red-600" />

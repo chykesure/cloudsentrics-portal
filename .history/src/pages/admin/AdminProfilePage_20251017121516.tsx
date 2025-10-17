@@ -23,7 +23,7 @@ const AdminProfilePage = () => {
             setLoading(true);
             try {
                 const token = localStorage.getItem("adminToken");
-                const { data } = await axios.get("http://localhost:5000/api/admin/profile", {
+                const { data } = await axios.get("/api/admin/profile", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
@@ -33,7 +33,7 @@ const AdminProfilePage = () => {
                 const avatarUrl = profileData.avatar
                     ? profileData.avatar.startsWith("http")
                         ? profileData.avatar
-                        : `http://localhost:5000${profileData.avatar}`
+                        : `${profileData.avatar}`
                     : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
 
                 setAvatar(avatarUrl);
@@ -72,7 +72,7 @@ const AdminProfilePage = () => {
 
         try {
             const res = await axios.put(
-                "http://localhost:5000/api/admin/profile/avatar",
+                "/api/admin/profile/avatar",
                 formData,
                 {
                     headers: {
