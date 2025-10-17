@@ -23,7 +23,7 @@ const AdminProfilePage = () => {
             setLoading(true);
             try {
                 const token = localStorage.getItem("adminToken");
-                const { data } = await axios.get("https://api.onboardingportal.cloudsentrics.org/api/admin/profile", {
+                const { data } = await axios.get("http://localhost:5000/api/admin/profile", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
@@ -33,7 +33,7 @@ const AdminProfilePage = () => {
                 const avatarUrl = profileData.avatar
                     ? profileData.avatar.startsWith("http")
                         ? profileData.avatar
-                        : `https://api.onboardingportal.cloudsentrics.org${profileData.avatar}`
+                        : `http://localhost:5000${profileData.avatar}`
                     : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
 
                 setAvatar(avatarUrl);
@@ -51,50 +51,51 @@ const AdminProfilePage = () => {
 
     // Handle avatar upload and auto-save
     const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
+  const file = e.target.files?.[0];
+  if (!file) return;
 
-        const formData = new FormData();
-        formData.append("avatar", file);
+  const formData = new FormData();
+  formData.append("avatar", file);
 
-        // ✅ Automatically detect which token is available
-        const token =
-            localStorage.getItem("adminToken") ||
-            localStorage.getItem("superAdminToken") ||
-            localStorage.getItem("token");
+  // ✅ Automatically detect which token is available
+  const token =
+    localStorage.getItem("adminToken") ||
+    localStorage.getItem("superAdminToken") ||
+    localStorage.getItem("token");
 
-        if (!token) {
-            toast.error("No valid token found. Please log in again.");
-            return;
-        }
+  if (!token) {
+    toast.error("No valid token found. Please log in again.");
+    return;
+  }
 
-        toast.loading("Uploading avatar...", { id: "upload" });
+  toast.loading("Uploading avatar...", { id: "upload" });
 
-        try {
-            const res = await axios.put(
-                "/api/admin/profile/avatar",
-                formData,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "multipart/form-data",
-                    },
-                }
-            );
+  try {
+    const res = await axios.put(
+      "http://localhost:5000/api/admin/profile/avatar",
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
 
-            const updatedAvatar = res.data?.data?.avatar;
-            if (!updatedAvatar) {
-                toast.error("Avatar not returned from server.", { id: "upload" });
-                return;
-            }
+    const updatedAvatar = res.data?.data?.avatar;
+    if (!updatedAvatar) {
+      toast.error("Avatar not returned from server.", { id: "upload" });
+      return;
+    }
 
-            setProfile((prev: any) => ({ ...prev, avatar: updatedAvatar }));
-            toast.success("Profile photo updated successfully!", { id: "upload" });
-        } catch (err) {
-            console.error(err);
-            toast.error("Failed to upload avatar.", { id: "upload" });
-        }
-    };
+    setProfile((prev: any) => ({ ...prev, avatar: updatedAvatar }));
+    toast.success("Profile photo updated successfully!", { id: "upload" });
+  } catch (err) {
+    console.error(err);
+    toast.error("Failed to upload avatar.", { id: "upload" });
+  }
+};
+
 
     if (loading)
         return (

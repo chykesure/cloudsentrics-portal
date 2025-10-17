@@ -44,7 +44,7 @@ const AdminDashboardLayout = () => {
     if (!token) return; // keep on page, don't force logout yet
 
     try {
-      const { data } = await axios.get("https://api.onboardingportal.cloudsentrics.org//api/admin/profile", {
+      const { data } = await axios.get("/api/admin/profile", {
         headers: { Authorization: `Bearer ${token}` },
       });
 

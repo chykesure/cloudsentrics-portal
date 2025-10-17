@@ -146,7 +146,7 @@ const ProfilePage = () => {
       const token = localStorage.getItem("token");
 
       const response = await axios.put(
-        `https://api.onboardingportal.cloudsentrics.org/api/profile/${form.companyEmail}`,
+        `/api/profile/${form.companyEmail}`,
         formData,
         {
           headers: {

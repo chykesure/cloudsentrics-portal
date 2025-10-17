@@ -63,7 +63,7 @@ const DashboardLayout = () => {
       }
 
       try {
-        const res = await fetch("https://api.onboardingportal.cloudsentrics.org/api/profile/me", {
+        const res = await fetch("https://api.onboardingportal.cloudsentrics.org//api/profile/me", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -96,7 +96,7 @@ const DashboardLayout = () => {
         const avatarUrl = profile.avatar
           ? profile.avatar.startsWith("http")
             ? profile.avatar
-            : `https://api.onboardingportal.cloudsentrics.org${profile.avatar}`
+            : `https://api.onboardingportal.cloudsentrics.org/${profile.avatar}`
           : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
 
         setProfileImage(avatarUrl);

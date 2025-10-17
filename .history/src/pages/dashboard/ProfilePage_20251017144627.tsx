@@ -73,7 +73,7 @@ const ProfilePage = () => {
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem("token");
-        const { data } = await axios.get("https://api.onboardingportal.cloudsentrics.org/api/profile/me", {
+        const { data } = await axios.get("/api/profile/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -92,7 +92,7 @@ const ProfilePage = () => {
         const avatarUrl = profile.avatar
           ? profile.avatar.startsWith("http")
             ? profile.avatar
-            : `https://api.onboardingportal.cloudsentrics.org${profile.avatar}`
+            : `https://api.onboardingportal.cloudsentrics.org/${profile.avatar}`
           : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
 
         setAvatar(avatarUrl);
@@ -146,7 +146,7 @@ const ProfilePage = () => {
       const token = localStorage.getItem("token");
 
       const response = await axios.put(
-        `https://api.onboardingportal.cloudsentrics.org/api/profile/${form.companyEmail}`,
+        `/api/profile/${form.companyEmail}`,
         formData,
         {
           headers: {

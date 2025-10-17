@@ -55,7 +55,7 @@ const AdminDashboardLayout = () => {
         const avatarUrl = data.data.avatar
           ? data.data.avatar.startsWith("http")
             ? data.data.avatar
-            : `https://api.onboardingportal.cloudsentrics.org/${data.data.avatar}`
+            : `${data.data.avatar}`
           : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
 
         setProfileImage(avatarUrl);

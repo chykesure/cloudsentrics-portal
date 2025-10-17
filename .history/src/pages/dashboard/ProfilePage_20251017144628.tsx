@@ -73,7 +73,7 @@ const ProfilePage = () => {
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem("token");
-        const { data } = await axios.get("https://api.onboardingportal.cloudsentrics.org/api/profile/me", {
+        const { data } = await axios.get("/api/profile/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -146,7 +146,7 @@ const ProfilePage = () => {
       const token = localStorage.getItem("token");
 
       const response = await axios.put(
-        `https://api.onboardingportal.cloudsentrics.org/api/profile/${form.companyEmail}`,
+        `/api/profile/${form.companyEmail}`,
         formData,
         {
           headers: {

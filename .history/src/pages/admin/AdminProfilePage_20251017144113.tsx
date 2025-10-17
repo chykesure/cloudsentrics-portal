@@ -23,7 +23,7 @@ const AdminProfilePage = () => {
             setLoading(true);
             try {
                 const token = localStorage.getItem("adminToken");
-                const { data } = await axios.get("https://api.onboardingportal.cloudsentrics.org/api/admin/profile", {
+                const { data } = await axios.get("https://api.onboardingportal.cloudsentrics.org//api/admin/profile", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
@@ -33,7 +33,7 @@ const AdminProfilePage = () => {
                 const avatarUrl = profileData.avatar
                     ? profileData.avatar.startsWith("http")
                         ? profileData.avatar
-                        : `https://api.onboardingportal.cloudsentrics.org${profileData.avatar}`
+                        : `https://api.onboardingportal.cloudsentrics.org/${profileData.avatar}`
                     : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
 
                 setAvatar(avatarUrl);

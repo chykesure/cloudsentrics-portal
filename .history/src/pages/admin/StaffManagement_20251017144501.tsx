@@ -124,7 +124,7 @@ const StaffManagement = () => {
     try {
       const token = localStorage.getItem("adminToken");
       await axios.put(
-        `https://api.onboardingportal.cloudsentrics.org/api/admin/staff/${s._id}/toggle`,
+        `/api/admin/staff/${s._id}/toggle`,
         { active: !s.active },
         { headers: { Authorization: `Bearer ${token}` } }
       );

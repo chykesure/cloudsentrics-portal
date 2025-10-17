@@ -81,7 +81,7 @@ const StaffManagement = () => {
       const token = localStorage.getItem("adminToken");
       if (editingStaff) {
         await axios.put(
-          `https://api.onboardingportal.cloudsentrics.org/api/admin/staff/${editingStaff._id}`,
+          `/api/admin/staff/${editingStaff._id}`,
           formData,
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -124,7 +124,7 @@ const StaffManagement = () => {
     try {
       const token = localStorage.getItem("adminToken");
       await axios.put(
-        `https://api.onboardingportal.cloudsentrics.org/api/admin/staff/${s._id}/toggle`,
+        `/api/admin/staff/${s._id}/toggle`,
         { active: !s.active },
         { headers: { Authorization: `Bearer ${token}` } }
       );

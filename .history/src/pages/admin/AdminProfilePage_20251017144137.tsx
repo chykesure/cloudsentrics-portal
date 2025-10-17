@@ -33,7 +33,7 @@ const AdminProfilePage = () => {
                 const avatarUrl = profileData.avatar
                     ? profileData.avatar.startsWith("http")
                         ? profileData.avatar
-                        : `https://api.onboardingportal.cloudsentrics.org${profileData.avatar}`
+                        : `https://api.onboardingportal.cloudsentrics.org/${profileData.avatar}`
                     : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
 
                 setAvatar(avatarUrl);

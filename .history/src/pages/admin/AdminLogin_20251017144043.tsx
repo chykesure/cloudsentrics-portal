@@ -1,33 +1,27 @@
 import { useState } from "react";
-import { Mail, User, Loader2 } from "lucide-react";
+import type { FC } from "react";
+import { Mail, Lock, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
-import logo from "../assets/logo.png";
+import logo from "../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import { toast, Toaster } from "react-hot-toast";
 
-/* interface UserType {
-  id: string;
-  companyEmail: string;
-  companyName: string;
-  customerId: string;
-} */
-
-const LoginPage = () => {
+const AdminLogin: FC = () => {
   const [email, setEmail] = useState("");
-  const [customerId, setCustomerId] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const res = await fetch("https://api.onboardingportal.cloudsentrics.org/api/auth/login", {
+      const emailClean = email.trim().toLowerCase(); // normalize email
+      const res = await fetch("https://api.onboardingportal.cloudsentrics.org//api/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, customerId }),
+        body: JSON.stringify({ email: emailClean, password }),
       });
 
       const data = await res.json();
@@ -38,23 +32,24 @@ const LoginPage = () => {
         return;
       }
 
-      // ✅ Save token and user info
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      // ✅ Save token and full admin object
+      localStorage.setItem("adminToken", data.token);
+      localStorage.setItem("admin", JSON.stringify(data.admin));
 
-      // ✅ Ensure email is saved for profile & dashboard
-      if (data.user?.email) {
-        localStorage.setItem("email", data.user.email);
+      // ✅ Normalize and store role
+      if (data.admin?.role) {
+        const normalizedRole = data.admin.role
+          .trim()
+          .toLowerCase()
+          .replace(/[_\s]+/g, "-"); // handles "SuperAdmin", "super admin", etc.
+        localStorage.setItem("adminRole", normalizedRole);
+        console.log("✅ Saved normalized role:", normalizedRole);
       } else {
-        localStorage.setItem("email", email); // fallback if backend didn’t send it
+        console.warn("⚠️ No role found in response:", data.admin);
       }
 
-      toast.success("Login successful!");
-
-      // ✅ Optional: short delay for UX smoothness
-      setTimeout(() => {
-        navigate("/dashboard");
-      }, 800);
+      toast.success("Admin login successful!");
+      setTimeout(() => navigate("/admin/dashboard"), 800);
     } catch (err) {
       console.error("Login error:", err);
       toast.error("Something went wrong, try again later");
@@ -63,10 +58,8 @@ const LoginPage = () => {
     }
   };
 
-
   return (
     <>
-      {/* Toaster component for showing toast notifications */}
       <Toaster position="top-right" reverseOrder={false} />
 
       <motion.div
@@ -77,19 +70,27 @@ const LoginPage = () => {
         transition={{ duration: 1 }}
       >
         {/* Overlay */}
-        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="absolute inset-0 bg-black/50"></div>
 
-        <div className="relative w-11/12 max-w-sm sm:max-w-md md:max-w-lg rounded-2xl bg-white/90 p-4 sm:p-6 md:p-8 shadow-lg backdrop-blur-sm">
+        {/* Login Card */}
+        <div className="relative w-11/12 max-w-sm sm:max-w-md md:max-w-lg rounded-2xl bg-white/95 p-6 sm:p-8 shadow-lg backdrop-blur-sm">
           {/* Logo */}
           <div className="mb-6 flex flex-col items-center">
-            <img src={logo} alt="Cloud Sentric" className="mb-2 h-12 sm:h-16 md:h-20 object-contain" />
+            <img
+              src={logo}
+              alt="Cloud Sentric Admin"
+              className="mb-2 h-12 sm:h-16 md:h-20 object-contain"
+            />
             <h2 className="text-center text-lg sm:text-xl md:text-2xl font-bold text-gray-800">
-              Login to your Account
+              Admin Login
             </h2>
+            <p className="text-sm text-gray-500 mt-1 text-center">
+              Enter your credentials to access the dashboard
+            </p>
           </div>
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Login Form */}
+          <form onSubmit={handleLogin} className="space-y-4">
             {/* Email */}
             <div className="flex items-center rounded-lg border border-gray-300 bg-white">
               <div className="flex h-10 sm:h-12 w-10 sm:w-12 items-center justify-center rounded-l-lg bg-blue-900">
@@ -97,7 +98,7 @@ const LoginPage = () => {
               </div>
               <input
                 type="email"
-                placeholder="Enter your email address"
+                placeholder="Admin Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="flex-1 rounded-r-lg px-2 sm:px-3 py-2 text-sm sm:text-base text-gray-700 focus:outline-none"
@@ -105,22 +106,33 @@ const LoginPage = () => {
               />
             </div>
 
-            {/* Customer ID */}
+            {/* Password */}
             <div className="flex items-center rounded-lg border border-gray-300 bg-white">
               <div className="flex h-10 sm:h-12 w-10 sm:w-12 items-center justify-center rounded-l-lg bg-blue-900">
-                <User className="h-4 sm:h-5 w-4 sm:w-5 text-white" />
+                <Lock className="h-4 sm:h-5 w-4 sm:w-5 text-white" />
               </div>
               <input
-                type="text"
-                placeholder="Enter your Customer ID"
-                value={customerId}
-                onChange={(e) => setCustomerId(e.target.value)}
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="flex-1 rounded-r-lg px-2 sm:px-3 py-2 text-sm sm:text-base text-gray-700 focus:outline-none"
                 required
               />
             </div>
 
-            {/* Submit Button */}
+            {/* Forgot Password Link */}
+            <div className="text-right">
+              <button
+                type="button"
+                onClick={() => navigate("/admin/forgot-password")}
+                className="text-sm text-blue-800 hover:underline font-medium"
+              >
+                Forgot password?
+              </button>
+            </div>
+
+            {/* Login Button */}
             <button
               type="submit"
               disabled={loading}
@@ -132,7 +144,7 @@ const LoginPage = () => {
                   Logging in...
                 </>
               ) : (
-                "Login"
+                "Login as Admin"
               )}
             </button>
           </form>
@@ -142,4 +154,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default AdminLogin;

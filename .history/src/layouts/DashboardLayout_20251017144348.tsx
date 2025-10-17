@@ -63,7 +63,7 @@ const DashboardLayout = () => {
       }
 
       try {
-        const res = await fetch("https://api.onboardingportal.cloudsentrics.org/api/profile/me", {
+        const res = await fetch("https://api.onboardingportal.cloudsentrics.org//api/profile/me", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
