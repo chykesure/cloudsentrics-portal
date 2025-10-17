@@ -210,7 +210,7 @@ const Step6 = ({ goBack, formData }: StepProps) => {
 
       console.log("📤 Final Payload Sent:", payload);
 
-      const res = await fetch("https://onboardingportal.cloudsentrics.org/api/requests", {
+      const res = await fetch("http://localhost:5000/api/requests", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

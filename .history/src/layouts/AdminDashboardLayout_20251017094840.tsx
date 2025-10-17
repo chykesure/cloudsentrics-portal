@@ -44,7 +44,7 @@ const AdminDashboardLayout = () => {
     if (!token) return; // keep on page, don't force logout yet
 
     try {
-      const { data } = await axios.get("https://onboardingportal.cloudsentrics.org/api/admin/profile", {
+      const { data } = await axios.get("http://localhost:5000/api/admin/profile", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -55,7 +55,7 @@ const AdminDashboardLayout = () => {
         const avatarUrl = data.data.avatar
           ? data.data.avatar.startsWith("http")
             ? data.data.avatar
-            : `https://onboardingportal.cloudsentrics.org${data.data.avatar}`
+            : `http://localhost:5000${data.data.avatar}`
           : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
 
         setProfileImage(avatarUrl);

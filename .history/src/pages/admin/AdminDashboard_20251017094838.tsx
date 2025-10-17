@@ -73,7 +73,7 @@ const AdminDashboard = () => {
         setError("");
         try {
             const token = localStorage.getItem("adminToken"); // ← get token from login
-            const response = await axios.get("https://onboardingportal.cloudsentrics.org/api/admin/dashboard", {
+            const response = await axios.get("http://localhost:5000/api/admin/dashboard", {
                 headers: { Authorization: `Bearer ${token}` },
             });
             const data = response.data || {};

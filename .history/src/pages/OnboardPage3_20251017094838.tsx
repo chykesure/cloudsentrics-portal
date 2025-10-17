@@ -58,7 +58,7 @@ const OnboardingForm3: React.FC = () => {
     };
 
     try {
-      const res = await fetch("https://onboardingportal.cloudsentrics.org/api/onboarding", {
+      const res = await fetch("http://localhost:5000/api/onboarding", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

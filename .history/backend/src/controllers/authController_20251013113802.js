@@ -32,39 +32,36 @@ exports.signup = async (req, res) => {
 };
 
 // POST /api/auth/login
-// POST /api/auth/login
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
+    // Try to find user in both collections
     let user = await User.findOne({ email });
-    let fromOnboarding = false;
-
-    if (!user) {
-      user = await Onboarding.findOne({ "companyInfo.companyEmail": email });
-      fromOnboarding = !!user;
-    }
+    if (!user) user = await Onboarding.findOne({ "companyInfo.companyEmail": email });
 
     if (!user) {
       return res.status(400).json({ success: false, message: "Invalid credentials" });
     }
 
-    // ✅ Only check password for User model (not Onboarding)
-    if (!fromOnboarding) {
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) {
-        return res.status(400).json({ success: false, message: "Invalid credentials" });
-      }
+    // ✅ Verify password if the user model uses one
+    if (user.password && !(await user.matchPassword(password))) {
+      return res.status(400).json({ success: false, message: "Invalid credentials" });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
+    // ✅ Create token
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
 
+    // ✅ Build clean user object for frontend
     const userData = {
       id: user._id,
       email: user.email || user.companyInfo?.companyEmail,
       name: user.name || user.companyInfo?.primaryName || "User",
     };
 
+    // ✅ Send success response
     res.status(200).json({
       success: true,
       message: "Login successful",
@@ -76,7 +73,6 @@ exports.login = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
-
 
 
 // GET /api/auth/validate-account/:accountId

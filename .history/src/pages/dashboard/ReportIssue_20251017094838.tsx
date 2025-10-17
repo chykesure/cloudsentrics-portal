@@ -69,7 +69,7 @@ const ReportIssue = () => {
 
       const token = localStorage.getItem("token");
 
-      const res = await fetch("https://onboardingportal.cloudsentrics.org/api/reports", {
+      const res = await fetch("http://localhost:5000/api/reports", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`, // JWT
