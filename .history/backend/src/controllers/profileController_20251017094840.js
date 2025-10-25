@@ -6,7 +6,7 @@ const fs = require("fs");
 
 // ---------- Helper ----------
 const getTierInfo = (latestRequest) => {
-  const defaultTier = { title: "STANDARD TIER", storage: "200GB" };
+  const defaultTier = { title: "STANDARD TIER", storage: "300GB" };
   if (!latestRequest) return defaultTier;
 
   // 1️⃣ Direct tier info from request
@@ -20,8 +20,8 @@ const getTierInfo = (latestRequest) => {
   // 2️⃣ Selected tier string
   if (latestRequest.selectedTier) {
     const tierMap = {
-      standard: { title: "STANDARD TIER", storage: "200GB" },
-      business: { title: "BUSINESS TIER", storage: "400GB" },
+      standard: { title: "STANDARD TIER", storage: "300GB" },
+      business: { title: "BUSINESS TIER", storage: "600GB" },
       premium: { title: "PREMIUM TIER", storage: "2TB" },
     };
 
@@ -38,8 +38,8 @@ const getTierInfo = (latestRequest) => {
   if (latestRequest.selectedStorageCount) {
     const count = latestRequest.selectedStorageCount;
     if (count >= 5) return { title: "PREMIUM TIER", storage: "2TB" };
-    if (count >= 3) return { title: "BUSINESS TIER", storage: "400GB" };
-    return { title: "STANDARD TIER", storage: "200GB" };
+    if (count >= 3) return { title: "BUSINESS TIER", storage: "600GB" };
+    return { title: "STANDARD TIER", storage: "300GB" };
   }
 
   return defaultTier;

@@ -85,7 +85,7 @@ const ProfilePage = () => {
           companyEmail: profile.companyEmail || "",
           phone: profile.phone || "",
           tier: profile.tier || "STANDARD TIER",
-          storage: profile.storage || "200GB",
+          storage: profile.storage || "300GB",
         });
 
         // ✅ Always update avatar from backend (not just once)
