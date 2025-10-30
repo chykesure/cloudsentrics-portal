@@ -1,4 +1,5 @@
 // src/dashboard/types.ts
+
 export interface ReportFormData {
   // Issue1
   fullName: string;
@@ -22,31 +23,49 @@ export interface ReportFormData {
   image: File | null;
   confirm: boolean;
 
+  // ===============================
   // Request flow (Step1 → Step6)
+  // ===============================
   selectedStorageCount?: number | null;
-  reporterEmail?: string;      
-  awsAliases?: { [key: string]: string }; 
+  reporterEmail?: string;
+  awsAliases?: { [key: string]: string };
   bucketNote?: string;
   acknowledgements?: string[];
   awsCountText?: string; // descriptive text for Jira
 
-  // Step1 "change" option fields
+  // ✅ NEW: distinguish between AWS or Storage flow
+  requestType?: "aws" | "storage";
+
+  // ===============================
+  // Step3 / Step4: Storage aliases (A–F)
+  // ===============================
+  storageNames?: { [key: string]: string }; // e.g., { A: "ALIAS1", B: "ALIAS2" }
+
+  // ===============================
+  // Step1 "Change Request" fields
+  // ===============================
   existingAccountId?: string;
   existingStorageName?: string;
   changesRequested?: string[];
   details?: string;
 
-  // Step2 field
+  // ===============================
+  // Step2 field (Tier Selection)
+  // ===============================
   selectedTier?: string | null;
 
-  // Step3 field
+  // ===============================
+  // Step3 field (Access List)
+  // ===============================
   accessList?: {
     fullName: string;
     email: string;
     accessLevel: string;
   }[];
 
-  // Step4 Data (Storage configuration)
+  // ===============================
+  // Step4 Configuration fields
+  // ===============================
   step4Data?: {
     fileSharing: string | null;
     fileOptions: string[];
@@ -62,6 +81,7 @@ export interface ReportFormData {
   };
 }
 
+// Props shared across steps
 export interface StepProps {
   goNext?: () => void;
   goBack?: () => void;

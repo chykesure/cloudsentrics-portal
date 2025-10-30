@@ -108,16 +108,28 @@ const Step6 = ({ goBack, formData }: StepProps) => {
       }
 
       if (awsAccounts.length > 0) {
+        const isAWS = formData.requestType === "aws";
+        const sectionTitle = isAWS ? "AWS Account Summary" : "Storage Account Summary";
+        const countLabel = isAWS
+          ? `Number of AWS Account(s) Needed: ${awsCount}`
+          : `Number of STORAGE Account(s) Needed: ${awsCount}`;
+        const aliasLabel = isAWS ? "AWS Accounts:" : "Storage Accounts:";
+
         descriptionContent.push({
           type: "paragraph",
-          content: [
-            { type: "text", text: `Number of AWS Account(s) Needed: ${awsCount}` },
-          ],
+          content: [{ type: "text", text: sectionTitle }],
         });
+
         descriptionContent.push({
           type: "paragraph",
-          content: [{ type: "text", text: `AWS Accounts:` }],
+          content: [{ type: "text", text: countLabel }],
         });
+
+        descriptionContent.push({
+          type: "paragraph",
+          content: [{ type: "text", text: aliasLabel }],
+        });
+
         awsAccounts.forEach((acc) =>
           descriptionContent.push({
             type: "paragraph",
@@ -127,6 +139,7 @@ const Step6 = ({ goBack, formData }: StepProps) => {
           })
         );
       }
+
 
       // 🆕 Change Request Details (only if filled)
       const hasChangeData =
@@ -195,6 +208,7 @@ const Step6 = ({ goBack, formData }: StepProps) => {
         reporterEmail,
         selectedTier: formData.selectedTier,
         awsAccounts,
+        storageNames: formData.storageNames, // ✅ Add this
         acknowledgements,
         selectedStorageCount: formData.selectedStorageCount,
         bucketNote: formData.bucketNote,
@@ -207,6 +221,7 @@ const Step6 = ({ goBack, formData }: StepProps) => {
         details: formData.details,
         descriptionADF,
       });
+
 
       console.log("📤 Final Payload Sent:", payload);
 

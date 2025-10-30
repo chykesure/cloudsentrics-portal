@@ -70,13 +70,14 @@ exports.createAdmin = async (req, res) => {
     if (existing)
       return res.status(400).json({ message: "Account already exists" });
 
-    const hashed = await bcrypt.hash(password, 10);
     const newAdmin = new Staff({
       email,
-      password: hashed,
+      password, // plain text – will be hashed automatically by pre-save hook
       role: role ? role.toLowerCase() : "readonly",
       active: true,
+      passwordChangeRequired: true, // ensure they must change it on first login
     });
+
 
     await newAdmin.save();
     res.status(201).json({
@@ -150,8 +151,8 @@ exports.changePassword = async (req, res) => {
     if (!isMatch)
       return res.status(400).json({ message: "Incorrect old password" });
 
-    // Hash new password and save
-    admin.password = await bcrypt.hash(newPassword, 10);
+    // Assign raw new password (will be hashed automatically by pre-save hook)
+    admin.password = newPassword;
     admin.passwordChangeRequired = false; // mark as changed
     await admin.save();
 

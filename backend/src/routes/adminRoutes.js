@@ -60,5 +60,8 @@ router.delete("/staff/:id", protect, authorize("admin"), staffController.deleteS
 router.post("/forgot-password", staffController.forgotPassword);
 router.post("/reset-password/:token", staffController.resetPassword);
 
+router.post("/change-password", staffController.changePassword);
+
+
 // -------------------- EXPORT ROUTER --------------------
 module.exports = router;

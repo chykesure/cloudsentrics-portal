@@ -28,15 +28,15 @@ exports.createStaff = async (req, res) => {
     const tempPassword = crypto.randomBytes(4).toString("hex");
 
     // ✅ Hash password before saving
-    const hashedPassword = await bcrypt.hash(tempPassword, 10);
+    // const hashedPassword = await bcrypt.hash(tempPassword, 10);
 
     // ✅ Create user with passwordChangeRequired flag
     const newStaff = await Staff.create({
       email,
       role,
-      password: hashedPassword,
+      password: tempPassword, // ⚡ leave it plain
       passwordChangeRequired: true,
-      active: true, // ✅ always active by default
+      active: true,
     });
 
 
@@ -310,3 +310,18 @@ exports.resetPassword = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+exports.changePassword = async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+  const staff = await Staff.findById(req.user.id);
+
+  const isMatch = await bcrypt.compare(oldPassword, staff.password);
+  if (!isMatch) return res.status(400).json({ message: "Old password is incorrect" });
+
+  staff.password = newPassword;
+  staff.passwordChangeRequired = false;
+  await staff.save();
+
+  res.json({ message: "Password changed successfully" });
+};
+

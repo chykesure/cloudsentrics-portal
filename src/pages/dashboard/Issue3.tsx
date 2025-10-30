@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Image } from "lucide-react";
 import type { StepProps } from "./types";
 
 const Issue3 = ({
@@ -14,13 +13,6 @@ const Issue3 = ({
 
   // Enable Submit button only if confirm is checked
   const isSubmitEnabled = formData.confirm && formData.title && formData.description;
-
-  // Handle file selection
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFormData({ ...formData, image: e.target.files[0] });
-    }
-  };
 
   // Call parent onSubmit
   const handleSubmitClick = async () => {
@@ -72,7 +64,7 @@ const Issue3 = ({
           </div>
 
           {/* File upload */}
-          <div className="mb-8">
+          {/* <div className="mb-8">
             <label className="block text-sm sm:text-base font-semibold mb-2">
               Attach Screenshot or Error Message
             </label>
@@ -91,7 +83,7 @@ const Issue3 = ({
                 onChange={handleFileChange}
               />
             </label>
-          </div>
+          </div> */}
 
           {/* Confirm checkbox */}
           <div className="flex items-start mb-10">

@@ -2,6 +2,7 @@
 const nodemailer = require("nodemailer");
 const { htmlToText } = require("html-to-text");
 
+
 // Read environment variables
 const EMAIL_USER = process.env.EMAIL_USER;
 const EMAIL_PASS = process.env.EMAIL_PASS;

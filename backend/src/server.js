@@ -22,7 +22,7 @@ const app = express();
 // -------------------- MIDDLEWARE --------------------
 app.use(
   cors({
-    origin: ['https://onboardingportal.cloudsentrics.org','http://localhost:5173'],
+    origin: ['https://onboardingportal.cloudsentrics.org', 'http://localhost:5173'],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
@@ -57,6 +57,11 @@ app.use("/api/requests", require("./routes/requestRoutes"));
 
 // 📊 Dashboard (user)
 app.use("/api/dashboard", (req, res) => getDashboardData(req, res));
+
+
+const jiraRoutes = require("./routes/jira");
+app.use("/api/jira", jiraRoutes);
+
 
 // -------------------- HEALTH CHECK --------------------
 app.get("/", (req, res) => {

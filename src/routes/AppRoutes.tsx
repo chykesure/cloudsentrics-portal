@@ -20,6 +20,7 @@ import AnalyticsDashboard from "../pages/admin/AnalyticsDashboard";
 import AdminProfilePage from "../pages/admin/AdminProfilePage";
 import ForgotPassword from "../pages/admin/ForgotPassword";
 import ResetPassword from "../pages/admin/ResetPassword";
+import ChangePassword from "../pages/admin/ChangePassword"; // ✅ NEW
 
 const AppRoutes = () => {
   return (
@@ -45,6 +46,7 @@ const AppRoutes = () => {
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/forgot-password" element={<ForgotPassword />} />
         <Route path="/admin/reset-password/:token" element={<ResetPassword />} />
+        <Route path="/admin/change-password" element={<ChangePassword />} /> {/* ✅ ADDED */}
 
         {/* ---------- ADMIN DASHBOARD ROUTES ---------- */}
         <Route path="/admin/dashboard" element={<AdminDashboardLayout />}>

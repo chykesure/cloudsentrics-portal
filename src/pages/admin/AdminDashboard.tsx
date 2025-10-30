@@ -267,7 +267,7 @@ const AdminDashboard = () => {
                                             </td>
                                             <td className="py-2 px-3 text-center">
                                                 <a
-                                                    href={`https://polycarpchike.atlassian.net/browse/${issue.jiraKey}`}
+                                                    href={`https://info4cloudsentrics.atlassian.net/browse/${issue.jiraKey}`}
                                                     target="_blank"
                                                     rel="noreferrer"
                                                     className="p-2 rounded-full hover:bg-gray-200 transition"

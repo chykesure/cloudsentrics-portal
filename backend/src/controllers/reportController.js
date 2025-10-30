@@ -1,7 +1,29 @@
 // controllers/reportController.js
 const Report = require("../models/Report");
+const nodemailer = require("nodemailer");
 const { createIssue, getIssue, updateIssue, deleteIssue } = require("../services/jiraService");
-const { sendEmail } = require("../services/emailService");
+
+// ===============================
+// ✅ Nodemailer Setup
+// ===============================
+const transporter = nodemailer.createTransport({
+  host: "smtp.hostinger.com",
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
+function sendEmail(mailOptions) {
+  return new Promise((resolve, reject) => {
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) return reject(err);
+      resolve(info);
+    });
+  });
+}
 
 // -------------------- CREATE REPORT --------------------
 exports.createReport = async (req, res) => {
@@ -15,7 +37,6 @@ exports.createReport = async (req, res) => {
       bucketName,
       title,
       description,
-      priority,
       date,
       time,
       category,
@@ -24,7 +45,6 @@ exports.createReport = async (req, res) => {
       confirm,
     } = req.body;
 
-    // Validate required fields
     if (!fullName || !email || !accountId || !confirm) {
       return res.status(400).json({ error: "Missing required fields or confirmation" });
     }
@@ -35,7 +55,7 @@ exports.createReport = async (req, res) => {
       imageData = { path: req.file.path, filename: req.file.filename };
     }
 
-    // Save to DB
+    // Save report to DB
     const report = new Report({
       fullName,
       email,
@@ -45,7 +65,6 @@ exports.createReport = async (req, res) => {
       bucketName,
       title,
       description,
-      priority,
       date,
       time,
       category,
@@ -66,89 +85,72 @@ Account ID: ${accountId}
 Bucket Name: ${bucketName || "N/A"}
 Title: ${title || "N/A"}
 Description: ${description || "N/A"}
-Priority: ${priority || "Medium"}
 Date/Time: ${date || "N/A"} / ${time || "N/A"}
 Category: ${category || "N/A"}
 Other Category: ${otherCategoryDesc || "N/A"}
 Steps Taken: ${steps || "N/A"}
 Confirmed: ${confirm ? "Yes" : "No"}
-${imageData ? `Attached Image: ${imageData.filename}` : ""}
 `;
 
     // Create Jira issue
     const jiraResp = await createIssue({
-      summary: title || `Report by ${fullName}`,
+      summary: `Issue Reported by (${email})`,
       description: jiraDescription,
-      priority,
     });
 
-    // Save Jira info in DB
     report.jiraIssueId = jiraResp.id;
     report.jiraIssueKey = jiraResp.key;
     report.jiraUrl = `${process.env.JIRA_BASE_URL}/browse/${jiraResp.key}`;
     await report.save();
 
     // Send acknowledgment email
-    try {
-      const subject = `Support Ticket Acknowledgment – Tracking ID: ${report.jiraIssueKey}`;
-      const text = `Dear ${companyName || fullName},
+    if (email) {
+      const ticketId = report.jiraIssueKey;
+      const ackMailOptions = {
+        from: `"Cloud Sentrics Support" <${process.env.EMAIL_USER}>`,
+        to: email,
+        subject: `Your Request Has Been Received – [Ticket #${ticketId}]`,
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; color: #333;">
+            <div style="background-color: #1a73e8; color: #fff; padding: 20px; text-align: center;">
+              <h1 style="margin:0; font-size: 20px;">Cloud Sentrics Support</h1>
+            </div>
+            <div style="padding: 20px; line-height: 1.6;">
+              <p>Dear Client,</p>
+              <p>Thank you for contacting <strong>CloudSentrics Limited</strong>.</p>
+              <p>We have received your request with the following details:</p>
+              <table cellpadding="10" cellspacing="0" style="border-collapse: collapse; width: 100%; margin: 15px 0; border: 1px solid #e0e0e0;">
+                <tr style="background-color: #f5f5f5;">
+                  <td style="font-weight: 700; width: 150px;">Ticket ID:</td>
+                  <td>${ticketId}</td>
+                </tr>
+              </table>
+              <p>One of our engineers will be assigned shortly to review your case.</p>
+              <p>You will receive another update once your ticket has been assigned.</p>
+              <br/>
+              <p>Kind regards,</p>
+              <p><strong>Cloud Sentrics Support Team</strong><br/>
+              <a href="mailto:customersupport@cloudsentrics.org" style="color:#1a73e8;">customersupport@cloudsentrics.org</a><br/>
+              <a href="https://www.cloudsentrics.org" style="color:#1a73e8;">www.cloudsentrics.org</a></p>
+            </div>
+          </div>
+        `,
+      };
 
-Thank you for contacting Cloud Sentrics Support.
-Your issue has been successfully received and logged.
-
-Tracking ID: ${report.jiraIssueKey}
-Track your ticket here: ${report.jiraUrl}
-
-Please keep this tracking ID for your reference.
-
-Kind regards,
-Cloud Sentrics Support Team
-customersupport@cloudsentrics.org
-www.cloudsentrics.org`;
-
-      const html = `
-  <div style="font-family: Arial, sans-serif; color: #111; line-height: 1.6; max-width: 600px; margin: 0 auto; padding: 20px; border:1px solid #e0e0e0; border-radius: 8px;">
-    <h2 style="color: #1a73e8;">Support Ticket Acknowledgment</h2>
-    <p>Dear <strong>${companyName}</strong>,</p>
-    <p>Thank you for contacting <strong>Cloud Sentrics Support</strong>. Your issue has been successfully received and logged.</p>
-    <table cellpadding="8" cellspacing="0" style="border-collapse:collapse; margin: 20px 0; width: 100%;">
-      <tr>
-        <td style="font-weight: 700; background-color: #f5f5f5; width: 150px;">Tracking ID:</td>
-        <td style="background-color: #f9f9f9;"><a href="" style="color:#1a73e8; text-decoration:none;">${report.jiraIssueKey}</a></td>
-      </tr>
-      <tr>
-        <td style="font-weight: 700; background-color: #f5f5f5;">Issue Title:</td>
-        <td style="background-color: #f9f9f9;">${title || "N/A"}</td>
-      </tr>
-    </table>
-    <p>Please keep this tracking ID for your reference. It will help us monitor and update you on the progress of your request.</p>
-    <p>If you didn't expect this email or require urgent assistance, please reply to this message.</p>
-    <hr style="border:none; border-top:1px solid #e0e0e0; margin: 20px 0;">
-    <p style="font-size: 0.9em; color: #555;">
-      Kind regards,<br>
-      <strong>Cloud Sentrics Support Team</strong><br>
-      <a href="mailto:customersupport@cloudsentrics.org" style="color:#1a73e8;">customersupport@cloudsentrics.org</a><br>
-      <a href="https://www.cloudsentrics.org" style="color:#1a73e8;">www.cloudsentrics.org</a>
-    </p>
-  </div>
-  `;
-
-      await sendEmail(email, subject, text, html);
-      console.log(`✅ Confirmation email sent to ${email}`);
-    } catch (mailErr) {
-      console.warn("⚠️ Failed to send confirmation email:", mailErr.message || mailErr);
+      sendEmail(ackMailOptions)
+        .then((info) => console.log("✅ Acknowledgment email sent:", info.response))
+        .catch((err) => console.error("❌ Error sending email:", err));
     }
-
 
     res.status(201).json({
       success: true,
-      message: "Report created successfully. A confirmation email has been sent.",
+      message: "Report created, synced with Jira, and acknowledgment email sent",
       report,
-      jira: { key: jiraResp.key, id: jiraResp.id, url: report.jiraUrl },
+      jira: { key: report.jiraIssueKey, id: report.jiraIssueId, url: report.jiraUrl },
     });
   } catch (err) {
-    console.error("❌ Error creating report:", err);
-    res.status(500).json({ error: "Failed to create report" });
+    console.error("❌ Error creating report:", err.message || err);
+    res.status(500).json({ success: false, error: err.message || err });
   }
 };
 
@@ -172,7 +174,7 @@ exports.getReports = async (req, res) => {
     );
     res.json({ success: true, reports: enrichedReports });
   } catch (err) {
-    console.error("Error fetching reports:", err.message);
+    console.error("❌ Error fetching reports:", err.message);
     res.status(500).json({ success: false, error: err.message });
   }
 };
@@ -183,9 +185,9 @@ exports.getReportById = async (req, res) => {
     const { id } = req.params;
     const report = await Report.findById(id);
     if (!report) return res.status(404).json({ success: false, error: "Report not found" });
-    res.json({ success: true, data: report });
+    res.json({ success: true, report });
   } catch (err) {
-    console.error("Error fetching report:", err.message);
+    console.error("❌ Error fetching report:", err.message);
     res.status(500).json({ success: false, error: err.message });
   }
 };
@@ -213,7 +215,7 @@ exports.updateReport = async (req, res) => {
 
     res.json({ success: true, report });
   } catch (err) {
-    console.error("Error updating report:", err.message);
+    console.error("❌ Error updating report:", err.message);
     res.status(500).json({ success: false, error: err.message });
   }
 };
@@ -237,7 +239,7 @@ exports.deleteReport = async (req, res) => {
 
     res.json({ success: true, message: "Report deleted successfully" });
   } catch (err) {
-    console.error("Error deleting report:", err.message);
+    console.error("❌ Error deleting report:", err.message);
     res.status(500).json({ success: false, error: err.message });
   }
 };

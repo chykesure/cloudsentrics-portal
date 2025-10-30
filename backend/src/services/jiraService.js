@@ -3,7 +3,7 @@ const axios = require("axios");
 require("dotenv").config();
 
 const JIRA_BASE = process.env.JIRA_BASE_URL;      // e.g., https://your-domain.atlassian.net
-const PROJECT_KEY = process.env.JIRA_PROJECT_KEY; // e.g., SCRUM
+const PROJECT_KEY = process.env.JIRA_PROJECT_KEY; // e.g., CW 
 const JIRA_EMAIL = process.env.JIRA_EMAIL;
 const JIRA_API_TOKEN = process.env.JIRA_API_TOKEN;
 
@@ -42,7 +42,7 @@ exports.createIssue = async ({ summary, description, priority }) => {
           ],
         },
         issuetype: { name: "Task" },
-        priority: mapPriority(priority),
+        // priority: mapPriority(priority),
       },
     };
 
@@ -84,7 +84,7 @@ exports.updateIssue = async (issueKey, { summary, description, priority }) => {
           { type: "paragraph", content: [{ type: "text", text: description }] },
         ],
       },
-      priority: mapPriority(priority),
+      // priority: mapPriority(priority),
     },
   };
   await axios.put(`${JIRA_BASE}/rest/api/3/issue/${issueKey}`, payload, {
