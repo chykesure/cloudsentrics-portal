@@ -344,6 +344,19 @@ const DashboardLayout = () => {
           </div>
         </div>
       )}
+
+      {loading && (
+        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-white/90 backdrop-blur-md">
+          <motion.div
+            className="h-16 w-16 border-4 border-t-blue-800 border-b-blue-500 rounded-full"
+            animate={{ rotate: 360 }}
+            transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+          />
+          <p className="mt-4 text-gray-700 font-medium text-lg animate-pulse text-center">
+            Logging out, please wait...
+          </p>
+        </div>
+      )}
     </div>
   );
 };

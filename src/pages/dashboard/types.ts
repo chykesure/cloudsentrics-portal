@@ -57,10 +57,18 @@ export interface ReportFormData {
   // Step2 field (Tier Selection)
   // ===============================
   selectedTier?: string | null;
+  userId?: string;
 
+
+
+  // ✅ ADD THIS NEW LINE BELOW
+  //upgradeStatus?: string; // "Pending", "Approved", or "Rejected"
+  upgradeStatus: string | null;  // ✅ allow null
   // ===============================
   // Step3 field (Access List)
   // ===============================
+
+  
   accessList?: {
     fullName: string;
     email: string;
@@ -94,3 +102,4 @@ export interface StepProps {
   formData: ReportFormData;
   setFormData: React.Dispatch<React.SetStateAction<ReportFormData>>;
 }
+

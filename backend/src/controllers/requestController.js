@@ -330,3 +330,28 @@ exports.createRequest = async (req, res) => {
     });
   }
 };
+
+
+// ------------------------------------
+// ✅ Get Request by Reporter Email
+// ------------------------------------
+
+exports.getRequestByEmail = async (req, res) => {
+  try {
+    const { email } = req.params;
+    console.log("🔍 Checking request for reporterEmail:", email);
+
+    const request = await Request.findOne({ reporterEmail: email }).sort({ createdAt: -1 });
+
+    if (!request) {
+      console.log("❌ No request found for:", email);
+      return res.status(404).json({ message: "No request found for this email" });
+    }
+
+    console.log("✅ Found request:", request);
+    res.status(200).json(request);
+  } catch (error) {
+    console.error("🔥 Error in getRequestByEmail:", error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};

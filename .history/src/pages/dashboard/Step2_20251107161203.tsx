@@ -19,7 +19,7 @@ const Step2 = ({ goBack, jumpToStep, formData, setFormData }: StepProps) => {
 
 
 
-  const BASE_URL = "https://api.onboardingportal.cloudsentrics.org/api";
+  const BASE_URL = "http://localhost:5002/api";
 
   // Tier definitions
   const tiers = [

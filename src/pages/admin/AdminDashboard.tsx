@@ -146,6 +146,18 @@ const AdminDashboard = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
         {stats.map((item, idx) => {
           const Icon = item.icon;
+
+          // 🎨 Define distinct color themes for the 5 cards
+          const colorThemes = [
+            { bg: "bg-blue-200", iconBg: "bg-blue-600", iconColor: "text-white" },
+            { bg: "bg-green-200", iconBg: "bg-green-600", iconColor: "text-white" },
+            { bg: "bg-yellow-100", iconBg: "bg-yellow-600", iconColor: "text-white" },
+            { bg: "bg-purple-200", iconBg: "bg-purple-600", iconColor: "text-white" },
+            { bg: "bg-red-200", iconBg: "bg-red-600", iconColor: "text-white" },
+          ];
+
+          const { bg, iconBg, iconColor } = colorThemes[idx % colorThemes.length];
+
           return (
             <motion.div
               key={idx}
@@ -153,16 +165,18 @@ const AdminDashboard = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }}
               whileHover={{ scale: 1.03 }}
-              className="p-4 sm:p-6 md:p-8 min-h-[140px] sm:min-h-[160px] rounded-2xl shadow-md flex items-center gap-3 sm:gap-5 hover:shadow-xl transition bg-white"
+              className={`p-4 sm:p-6 md:p-8 min-h-[140px] sm:min-h-[160px] rounded-2xl shadow-md flex items-center gap-3 sm:gap-5 hover:shadow-xl transition ${bg}`}
             >
-              <div className="p-3 sm:p-4 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
-                <Icon className="h-8 w-8 sm:h-10 sm:w-10 text-gray-700" />
+              <div
+                className={`p-3 sm:p-4 rounded-full flex items-center justify-center shrink-0 ${iconBg}`}
+              >
+                <Icon className={`h-8 w-8 sm:h-10 sm:w-10 ${iconColor}`} />
               </div>
               <div className="flex flex-col">
-                <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold">
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-800">
                   {item.value}
                 </h3>
-                <p className="text-xs sm:text-sm md:text-base mt-1 opacity-80">
+                <p className="text-xs sm:text-sm md:text-base mt-1 text-gray-700 opacity-80">
                   {item.label}
                 </p>
               </div>
@@ -170,6 +184,7 @@ const AdminDashboard = () => {
           );
         })}
       </div>
+
 
       {/* ✅ Table + Chart Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

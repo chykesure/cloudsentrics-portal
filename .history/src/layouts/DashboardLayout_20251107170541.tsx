@@ -12,7 +12,6 @@ import {
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import logo from "../assets/logo.png";
-import Swal from "sweetalert2";
 
 
 interface UserType {
@@ -26,7 +25,7 @@ interface UserType {
 const DashboardLayout = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
-  /* const [loading, setLoading] = useState(false); */
+  const [loading, setLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState<UserType | null>(null);
   const [userLoaded, setUserLoaded] = useState(false);
@@ -132,7 +131,7 @@ const DashboardLayout = () => {
     fetchUserProfile();
   }, [navigate]);
 
-  /* const handleLogout = () => {
+  const handleLogout = () => {
     setShowLogoutModal(false);
     setLoading(true);
     setTimeout(() => {
@@ -142,7 +141,7 @@ const DashboardLayout = () => {
       setLoading(false);
       navigate("/login");
     }, 1000);
-  }; */
+  };
 
   const Sidebar = () => (
     <div className="w-64 bg-[#032352] text-white flex flex-col shadow-xl h-full">
@@ -342,6 +341,19 @@ const DashboardLayout = () => {
               </button>
             </div>
           </div>
+        </div>
+      )}
+
+      {loading && (
+        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-white/90 backdrop-blur-md">
+          <motion.div
+            className="h-16 w-16 border-4 border-t-blue-800 border-b-blue-500 rounded-full"
+            animate={{ rotate: 360 }}
+            transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+          />
+          <p className="mt-4 text-gray-700 font-medium text-lg animate-pulse text-center">
+            Logging out, please wait...
+          </p>
         </div>
       )}
     </div>

@@ -10,26 +10,6 @@ const ReportIssue = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  
-  const [formData, setFormData] = useState<ReportFormData>({
-    fullName: "",
-    email: "",
-    phone: "",
-    company: "",
-    accountId: "",
-    bucketName: "",
-    title: "",
-    description: "",
-    priority: "Medium",
-    date: "",
-    time: "",
-    category: "",
-    otherCategoryDesc: "",
-    steps: "",
-    image: null,
-    confirm: false,
-    upgradeStatus: null, // ✅ added
-  });
 
 
 

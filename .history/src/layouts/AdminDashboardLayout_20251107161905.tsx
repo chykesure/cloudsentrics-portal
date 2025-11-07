@@ -10,8 +10,6 @@ import {
   BarChart3,
   UserCircle,
 } from "lucide-react";
-import Swal from "sweetalert2";
-
 
 interface AdminType {
   id: string;
@@ -31,8 +29,8 @@ interface UpgradeRequest {
 
 const AdminDashboardLayout = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  //const [showLogoutModal, setShowLogoutModal] = useState(false);
-  //const [loading, setLoading] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [admin, setAdmin] = useState<AdminType | null>(null);
   const [adminLoaded, setAdminLoaded] = useState(false);
@@ -88,7 +86,7 @@ const AdminDashboardLayout = () => {
     if (!token) return;
 
     try {
-      const { data } = await axios.get("https://api.onboardingportal.cloudsentrics.org/api/admin/profile", {
+      const { data } = await axios.get("http://localhost:5002/api/admin/profile", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -99,7 +97,7 @@ const AdminDashboardLayout = () => {
         const avatarUrl = data.data.avatar
           ? data.data.avatar.startsWith("http")
             ? data.data.avatar
-            : `https://api.onboardingportal.cloudsentrics.org${data.data.avatar}`
+            : `http://localhost:5002${data.data.avatar}`
           : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
 
         setProfileImage(avatarUrl);
@@ -118,7 +116,7 @@ const AdminDashboardLayout = () => {
   const fetchUpgradeRequests = async () => {
     try {
       setRefreshing(true);
-      const { data } = await axios.get("https://api.onboardingportal.cloudsentrics.org/api/upgrade/all");
+      const { data } = await axios.get("http://localhost:5002/api/upgrade/all");
       const pending = data.filter((req: UpgradeRequest) => req.status.toLowerCase() === "pending");
 
       // 🔔 Trigger red blink when new requests appear
@@ -141,19 +139,28 @@ const AdminDashboardLayout = () => {
     return () => clearInterval(interval);
   }, []);
 
-
+  // ✅ Approve or Deny request
+  const handleUpgradeAction = async (id: string, action: "approve" | "deny") => {
+    try {
+      await axios.post(`http://localhost:5002/api/upgrades/${id}/${action}`);
+      await fetchUpgradeRequests(); // refresh immediately after action
+    } catch (err) {
+      console.error(`Error trying to ${action} request:`, err);
+    }
+  };
 
   // ✅ Logout
-  /*  const handleLogout = () => {
-     //setShowLogoutModal(false);
-     setTimeout(() => {
-       localStorage.removeItem("admin");
-       localStorage.removeItem("adminToken");
-       localStorage.removeItem("adminAvatar");
-       navigate("/admin/login");
-     }, 800);
-   }; */
-
+  const handleLogout = () => {
+    setShowLogoutModal(false);
+    setLoading(true);
+    setTimeout(() => {
+      localStorage.removeItem("admin");
+      localStorage.removeItem("adminToken");
+      localStorage.removeItem("adminAvatar");
+      setLoading(false);
+      navigate("/admin/login");
+    }, 1000);
+  };
 
   // ✅ Sidebar Component
   const Sidebar = () => (
@@ -190,40 +197,11 @@ const AdminDashboardLayout = () => {
 
       <div className="p-6 border-t border-blue-900 mt-auto">
         <button
-          onClick={async () => {
-            const confirm = await Swal.fire({
-              title: "Are you sure you want to log out?",
-              text: "You’ll be signed out of your admin dashboard.",
-              icon: "warning",
-              showCancelButton: true,
-              confirmButtonColor: "#032352",
-              cancelButtonColor: "#d33",
-              confirmButtonText: "Yes, log me out",
-              cancelButtonText: "Cancel",
-            });
-
-            if (confirm.isConfirmed) {
-              // Clear all admin session data
-              localStorage.removeItem("admin");
-              localStorage.removeItem("adminToken");
-              localStorage.removeItem("adminAvatar");
-
-              // Optional success feedback
-              await Swal.fire({
-                icon: "success",
-                title: "Logged Out",
-                text: "You’ve been safely logged out.",
-                showConfirmButton: false,
-                timer: 1200,
-              });
-
-              // Redirect to login
-              navigate("/admin/login");
-            }
-          }}
-          className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100 w-full text-left"
+          onClick={() => setShowLogoutModal(true)}
+          className="flex items-center space-x-3 text-red-400 hover:text-red-500 transition"
         >
-          <LogOut className="h-4 w-4" /> Log Out
+          <LogOut className="h-5 w-5" />
+          <span className="font-semibold">Log Out</span>
         </button>
       </div>
     </div>
@@ -288,8 +266,8 @@ const AdminDashboardLayout = () => {
                   <div className="relative">
                     <Bell
                       className={`h-6 w-6 drop-shadow-md ${upgradeRequests.length > 0
-                        ? "text-red-500 animate-pulse"
-                        : "text-white"
+                          ? "text-red-500 animate-pulse"
+                          : "text-white"
                         }`}
                     />
 
@@ -388,42 +366,11 @@ const AdminDashboardLayout = () => {
                     <User className="h-4 w-4" /> Profile
                   </NavLink>
                   <button
-                    onClick={async () => {
-                      const confirm = await Swal.fire({
-                        title: "Are you sure you want to log out?",
-                        text: "You’ll be signed out of your admin dashboard.",
-                        icon: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#032352",
-                        cancelButtonColor: "#d33",
-                        confirmButtonText: "Yes, log me out",
-                        cancelButtonText: "Cancel",
-                      });
-
-                      if (confirm.isConfirmed) {
-                        // Clear all admin session data
-                        localStorage.removeItem("admin");
-                        localStorage.removeItem("adminToken");
-                        localStorage.removeItem("adminAvatar");
-
-                        // Optional success feedback
-                        await Swal.fire({
-                          icon: "success",
-                          title: "Logged Out",
-                          text: "You’ve been safely logged out.",
-                          showConfirmButton: false,
-                          timer: 1200,
-                        });
-
-                        // Redirect to login
-                        navigate("/admin/login");
-                      }
-                    }}
+                    onClick={() => setShowLogoutModal(true)}
                     className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100 w-full text-left"
                   >
                     <LogOut className="h-4 w-4" /> Log Out
                   </button>
-
                 </div>
               )}
             </div>

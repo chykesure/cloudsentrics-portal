@@ -10,7 +10,7 @@ const ReportIssue = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  
+
   const [formData, setFormData] = useState<ReportFormData>({
     fullName: "",
     email: "",
@@ -28,9 +28,8 @@ const ReportIssue = () => {
     steps: "",
     image: null,
     confirm: false,
-    upgradeStatus: null, // ✅ added
+    upgradeStatus: "", // ✅ Add this line
   });
-
 
 
   const goNext = () => {

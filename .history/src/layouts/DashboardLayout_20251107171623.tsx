@@ -338,7 +338,7 @@ const DashboardLayout = () => {
                 }}
                 className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100 w-full text-left"
               >
-                <LogOut className="h-4 w-4" /> Log Out
+                <LogOut className="h-4 w-4" /> Log Outy
               </button>
             </div>
           </div>

@@ -16,6 +16,7 @@ import {
   FileText,
   CheckCircle,
   Clock,
+  AlertTriangle,
   CheckSquare,
   RefreshCcw,
 } from "lucide-react";

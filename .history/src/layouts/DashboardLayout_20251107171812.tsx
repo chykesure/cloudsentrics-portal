@@ -25,7 +25,7 @@ interface UserType {
 
 const DashboardLayout = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  /* const [showLogoutModal, setShowLogoutModal] = useState(false); */
   /* const [loading, setLoading] = useState(false); */
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState<UserType | null>(null);
@@ -187,7 +187,7 @@ const DashboardLayout = () => {
           className="flex items-center space-x-3 text-red-400 hover:text-red-500 transition"
         >
           <LogOut className="h-5 w-5" />
-          <span className="font-semibold">Log Out</span>
+          <span className="font-semibold">Log Outy</span>
         </button>
       </div>
     </div>
@@ -287,63 +287,6 @@ const DashboardLayout = () => {
           </div>
         </main>
       </div>
-
-      {showLogoutModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-[9998]">
-          <div className="bg-white rounded-2xl shadow-lg p-6 w-80 sm:w-96 text-center">
-            <h3 className="text-lg font-semibold text-gray-800">
-              Confirm Logout
-            </h3>
-            <p className="mt-2 text-gray-600">
-              Are you sure you want to log out?
-            </p>
-            <div className="mt-6 flex justify-center space-x-4">
-              <button
-                onClick={() => setShowLogoutModal(false)}
-                className="px-4 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={async () => {
-                  const confirm = await Swal.fire({
-                    title: "Are you sure you want to log out?",
-                    text: "You’ll be signed out of your admin dashboard.",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#032352",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, log me out",
-                    cancelButtonText: "Cancel",
-                  });
-
-                  if (confirm.isConfirmed) {
-                    // Clear all admin session data
-                    localStorage.removeItem("admin");
-                    localStorage.removeItem("adminToken");
-                    localStorage.removeItem("adminAvatar");
-
-                    // Optional success feedback
-                    await Swal.fire({
-                      icon: "success",
-                      title: "Logged Out",
-                      text: "You’ve been safely logged out.",
-                      showConfirmButton: false,
-                      timer: 1200,
-                    });
-
-                    // Redirect to login
-                    navigate("/admin/login");
-                  }
-                }}
-                className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100 w-full text-left"
-              >
-                <LogOut className="h-4 w-4" /> Log Out
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

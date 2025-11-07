@@ -63,6 +63,13 @@ const jiraRoutes = require("./routes/jira");
 app.use("/api/jira", jiraRoutes);
 
 
+const upgradeRoutes = require('./routes/upgradeRoutes');
+app.use("/api/upgrade", upgradeRoutes);
+
+
+app.use("/api/request", require("./routes/requestRoutes"));
+
+
 // -------------------- HEALTH CHECK --------------------
 app.get("/", (req, res) => {
   res.send("🌥️ Cloudsentrics API is running 🚀");
