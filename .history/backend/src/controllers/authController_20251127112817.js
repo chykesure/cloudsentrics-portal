@@ -256,7 +256,7 @@ exports.forgotPassword = async (req, res) => {
     }
 
     // Construct reset URL using userId (_id)
-    const resetUrl = `https://onboardingportal.cloudsentrics.org/reset-password/${userRecord._id}`;
+    const resetUrl = `http://localhost:5173/reset-password/${userRecord._id}`;
 
     // Send email
     const mailOptions = {

@@ -1,3 +1,4 @@
+// backend / src / model /user.ts
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface IOnboard extends Document {

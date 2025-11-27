@@ -70,7 +70,7 @@ const OnboardingForm3: React.FC = () => {
     try {
       const res = await fetch(
         //"https://api.onboardingportal.cloudsentrics.org/api/onboarding",
-        "https://api.onboardingportal.cloudsentrics.org/api/onboarding",
+        "http://localhost:5002/api/onboarding",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -259,10 +259,11 @@ const OnboardingForm3: React.FC = () => {
             whileTap={{ scale: 0.95 }}
             onClick={handleSubmit}
             disabled={isSubmitDisabled}
-            className={`px-6 sm:px-8 py-3 rounded-lg text-base sm:text-lg font-semibold shadow w-full sm:w-auto transition ${isSubmitDisabled
+            className={`px-6 sm:px-8 py-3 rounded-lg text-base sm:text-lg font-semibold shadow w-full sm:w-auto transition ${
+              isSubmitDisabled
                 ? "bg-gray-400 cursor-not-allowed text-gray-200"
                 : "bg-blue-800 text-white hover:bg-blue-900"
-              }`}
+            }`}
           >
             Submit
           </motion.button>

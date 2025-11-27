@@ -1,3 +1,4 @@
+// backend/src/model/user.js
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
@@ -5,7 +6,11 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   name: { type: String },
+  role: { type: String, default: "user" },
+  mustChangePassword: { type: Boolean, default: true },
+  temporaryPassword: { type: String },
 });
+
 
 // Hash password before saving
 userSchema.pre("save", async function (next) {
@@ -19,3 +24,4 @@ userSchema.methods.comparePassword = function (candidatePassword) {
 };
 
 module.exports = mongoose.model("User", userSchema);
+

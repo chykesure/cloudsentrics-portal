@@ -1,4 +1,4 @@
-// models/Onboarding.js
+// backend/src/models/Onboarding.js
 const mongoose = require("mongoose");
 
 function generateCustomerId() {
@@ -10,33 +10,41 @@ function generateCustomerId() {
   return `CS-${randomStr}`;
 }
 
-const OnboardingSchema = new mongoose.Schema({
-  companyInfo: {
-    companyName: { type: String, required: false },
-    companyEmail: { type: String, required: true, unique: true },
-    primaryName: { type: String },
-    primaryPhone: { type: String },
-    primaryEmail: { type: String },
-    secondaryName: { type: String },
-    secondaryPhone: { type: String },
-    secondaryEmail: { type: String },
-  },
-  awsSetup: { type: Object, default: {} },
+const OnboardingSchema = new mongoose.Schema(
+  {
+    companyInfo: {
+      companyName: { type: String },
+      companyEmail: { type: String, required: true, unique: true },
+      primaryName: { type: String },
+      primaryPhone: { type: String },
+      primaryEmail: { type: String },
+      secondaryName: { type: String },
+      secondaryPhone: { type: String },
+      secondaryEmail: { type: String },
+    },
 
-  // ✅ Add this new field to capture AWS alias inputs
-  aliases: { type: Object, default: {} },
+    awsSetup: { type: Object, default: {} },
+    aliases: { type: Object, default: {} },
+    agreements: { type: Object, default: {} },
 
-  agreements: { type: Object, default: {} },
-  avatar: { type: String, default: "" },
-  profileImage: { type: String, default: "" },
-  customerId: {
-    type: String,
-    required: true,
-    unique: true,
-    default: generateCustomerId,
+    avatar: { type: String, default: "" },
+    profileImage: { type: String, default: "" },
+
+    customerId: {
+      type: String,
+      required: true,
+      unique: true,
+      default: generateCustomerId,
+    },
+
+    // Login credentials
+    passwordHash: { type: String, required: true },
+    tempPassword: { type: String },
+    mustChangePassword: { type: Boolean, default: true },
+    role: { type: String, enum: ["Admin", "User", "SuperAdmin"], default: "User" },
+    isActive: { type: Boolean, default: true },
   },
-  lastUpdated: { type: Date, default: Date.now },
-  createdAt: { type: Date, default: Date.now },
-});
+  { timestamps: true }
+);
 
 module.exports = mongoose.model("Onboarding", OnboardingSchema);

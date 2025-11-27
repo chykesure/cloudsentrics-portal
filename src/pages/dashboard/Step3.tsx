@@ -52,7 +52,6 @@ const Step3 = ({ goBack, jumpToStep, formData, setFormData }: StepProps) => {
     setRows(updated);
     setFormData((prev) => ({ ...prev, accessList: updated }));
   };
-
   // ✅ Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -205,7 +204,6 @@ const Step3 = ({ goBack, jumpToStep, formData, setFormData }: StepProps) => {
             + Add More
           </button>
         </div>
-
         {/* NAVIGATION BUTTONS */}
         <div className="flex justify-between mt-12">
           <button
@@ -224,8 +222,8 @@ const Step3 = ({ goBack, jumpToStep, formData, setFormData }: StepProps) => {
             }}
             disabled={!isFormComplete}
             className={`px-6 md:px-10 py-2 md:py-3 text-base md:text-xl rounded-md transition ${isFormComplete
-                ? "bg-[#032352] text-white hover:bg-blue-700"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              ? "bg-[#032352] text-white hover:bg-blue-700"
+              : "bg-gray-300 text-gray-500 cursor-not-allowed"
               }`}
           >
             Next →

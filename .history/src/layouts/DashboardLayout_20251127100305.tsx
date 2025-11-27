@@ -80,7 +80,7 @@ const DashboardLayout = () => {
       try {
         // Fetch user profile
         //const res = await fetch("https://api.onboardingportal.cloudsentrics.org/api/profile/me", {
-        const res = await fetch("https://api.onboardingportal.cloudsentrics.org/api/profile/me", {
+        const res = await fetch("http://localhost:5002/api/profile/me", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -100,7 +100,7 @@ const DashboardLayout = () => {
         // Fetch companyName using companyEmail
         const companyRes = await fetch(
           //`https://api.onboardingportal.cloudsentrics.org/api/onboarding/company?email=${parsedUser.companyEmail}`,
-          `https://api.onboardingportal.cloudsentrics.org/api/onboarding/company?email=${parsedUser.companyEmail}`,
+          `http://localhost:5002/api/onboarding/company?email=${parsedUser.companyEmail}`,
           {
             method: "GET",
             headers: {

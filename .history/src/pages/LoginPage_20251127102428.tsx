@@ -27,7 +27,7 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      const res = await fetch("https://api.onboardingportal.cloudsentrics.org/api/auth/login", {
+      const res = await fetch("http://localhost:5002/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -79,7 +79,7 @@ const LoginPage = () => {
     try {
       const res = await fetch(
         //"https://api.onboardingportal.cloudsentrics.org/api/auth/recover-customer-id",
-        "https://api.onboardingportal.cloudsentrics.org/api/auth/recover-customer-id",
+        "http://localhost:5002/api/auth/recover-customer-id",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -112,7 +112,7 @@ const LoginPage = () => {
 
     try {
       const res = await fetch(
-        "https://api.onboardingportal.cloudsentrics.org/api/auth/forgot-password",
+        "http://localhost:5002/api/auth/forgot-password",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

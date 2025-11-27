@@ -1,7 +1,10 @@
+// backend / src / routes / onboarding.js
 const express = require("express");
 const router = express.Router();
 const nodemailer = require("nodemailer");
 const Onboarding = require("../models/Onboarding");
+const crypto = require("crypto");
+
 
 // Helper function to generate random Customer ID
 function generateCustomerId() {
@@ -69,14 +72,28 @@ router.post("/", async (req, res) => {
     const createdAt = new Date();
 
     // ✅ Save to DB
+    // Generate random temporary password
+    const tempPassword = crypto.randomBytes(4).toString("hex");
+
+    // Create passwordHash (hashed version)
+    const passwordHash = crypto
+      .createHash("sha256")
+      .update(tempPassword)
+      .digest("hex");
+
     const newOnboarding = new Onboarding({
       companyInfo,
       awsSetup,
       aliases,
       agreements,
       customerId,
+      tempPassword,          // store temporary password
+      passwordHash,          // required by model
+      mustChangePassword: true,
+      role: "User",
       createdAt,
     });
+
 
     await newOnboarding.save();
 
@@ -85,8 +102,8 @@ router.post("/", async (req, res) => {
     // =====================================================
     const primaryContactBlock =
       companyInfo.primaryName ||
-      companyInfo.primaryEmail ||
-      companyInfo.primaryPhone
+        companyInfo.primaryEmail ||
+        companyInfo.primaryPhone
         ? `
       <div style="margin-top: 15px; background: #f8f9fa; padding: 10px 15px; border-radius: 6px;">
         <h3 style="color: #444;">Primary Contact:</h3>
@@ -98,8 +115,8 @@ router.post("/", async (req, res) => {
 
     const secondaryContactBlock =
       companyInfo.secondaryName ||
-      companyInfo.secondaryEmail ||
-      companyInfo.secondaryPhone
+        companyInfo.secondaryEmail ||
+        companyInfo.secondaryPhone
         ? `
       <div style="margin-top: 15px; background: #f8f9fa; padding: 10px 15px; border-radius: 6px;">
         <h3 style="color: #444;">Secondary Contact:</h3>
@@ -119,8 +136,8 @@ router.post("/", async (req, res) => {
         ${awsSetup.accountPurpose ? `<p><strong>Account Purpose:</strong> ${awsSetup.accountPurpose}</p>` : ""}
         ${awsSetup.region ? `<p><strong>Preferred AWS Region:</strong> ${awsSetup.region}</p>` : ""}
         ${awsSetup.services && awsSetup.services.length
-          ? `<p><strong>Requested Services:</strong> ${awsSetup.services.join(", ")}</p>`
-          : ""}
+        ? `<p><strong>Requested Services:</strong> ${awsSetup.services.join(", ")}</p>`
+        : ""}
       </div>
     `;
 
@@ -147,12 +164,12 @@ router.post("/", async (req, res) => {
           <h3 style="color: #444;">Preferred AWS Aliases:</h3>
           <ul style="padding-left: 20px;">
             ${Object.entries(aliases)
-              .filter(([_, value]) => value && value.trim() !== "")
-              .map(
-                ([key, value]) =>
-                  `<li><strong>${key}:</strong> cloudsentrics-aws-${value}</li>`
-              )
-              .join("")}
+          .filter(([_, value]) => value && value.trim() !== "")
+          .map(
+            ([key, value]) =>
+              `<li><strong>${key}:</strong> cloudsentrics-aws-${value}</li>`
+          )
+          .join("")}
           </ul>
         </div>
       `
@@ -180,6 +197,15 @@ router.post("/", async (req, res) => {
             <p><strong>Organization Email:</strong> ${companyInfo.companyEmail}</p>
           </div>
 
+          <div style="margin-top: 20px; font-size: 16px; background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 4px solid #ffa726;">
+  <p><strong style="color:#d35400;">Temporary Password:</strong></p>
+  <p style="font-size: 18px; font-weight: bold; color: #d35400;">${tempPassword}</p>
+  <p style="font-size: 14px; color: #666; margin-top: 10px;">
+    This password is auto-generated. You will be required to change it on your first login.
+  </p>
+</div>
+
+
           ${primaryContactBlock}
           ${secondaryContactBlock}
           ${awsSetupBlock}
@@ -199,7 +225,7 @@ router.post("/", async (req, res) => {
     // =====================================================
     const adminMailOptions = {
       from: `"CloudSentrics Onboarding" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_USER,
+      to: [process.env.EMAIL_USER, "onboarding@cloudsentrics.org"],
       subject: `📨 New Onboarding Submission: ${companyInfo.companyName}`,
       html: `
         <div style="font-family: Arial, sans-serif; padding: 25px; max-width: 650px; margin: auto; color: #333;">
@@ -235,8 +261,12 @@ router.post("/", async (req, res) => {
     } catch (emailErr) {
       console.error("⚠️ Email sending failed:", emailErr.message);
     }
+    res.status(201).json({
+      message: "Onboarding saved successfully",
+      customerId,
+      tempPassword, // send temp password to frontend or email
+    });
 
-    res.status(201).json({ message: "Onboarding saved successfully", customerId });
   } catch (err) {
     console.error("❌ Onboarding error:", err);
     if (err.code === 11000) {

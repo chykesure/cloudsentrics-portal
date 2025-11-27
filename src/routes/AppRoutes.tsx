@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import React from "react"; // ✅ Required for hooks and JSX
 import LoginPage from "../pages/LoginPage";
+import RessetPasswordPage from "../pages/ResetPasswordPage";
 import WelcomePage from "../pages/WelcomePage";
 import OnboardingForm1 from "../pages/OnboardPage1";
 import OnboardingForm2 from "../pages/OnboardPage2";
@@ -14,6 +15,9 @@ import RequestWizard from "../pages/dashboard/RequestWizard";
 import ScrollToTop from "../components/ScrollToTop";
 import UpgradeTier from "../pages/dashboard/Step2";
 import type { ReportFormData } from "../pages/dashboard/types"; // ✅ Import the type
+import ProtectedRoute from "../pages/ProtectedRoute";
+import ChangePasswordPage from "../pages/ChangePasswordPage";
+
 
 // ✅ ADMIN IMPORTS
 import AdminLogin from "../pages/admin/AdminLogin";
@@ -51,8 +55,8 @@ const UpgradeTierWrapper = () => {
 
   return (
     <UpgradeTier
-      goBack={() => {}}
-      jumpToStep={() => {}}
+      goBack={() => { }}
+      jumpToStep={() => { }}
       formData={formData}
       setFormData={setFormData}
     />
@@ -67,17 +71,26 @@ const AppRoutes = () => {
         {/* ---------- PUBLIC ROUTES ---------- */}
         <Route path="/" element={<WelcomePage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/reset-password/:userId" element={<RessetPasswordPage />} />
         <Route path="/signup" element={<OnboardingForm1 />} />
         <Route path="/signup/step2" element={<OnboardingForm2 />} />
         <Route path="/signup/step3" element={<OnboardingForm3 />} />
+        <Route path="/change-password" element={<ChangePasswordPage />} />
 
         {/* ---------- USER DASHBOARD ROUTES ---------- */}
-        <Route path="/dashboard" element={<DashboardLayout />}>
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<DashboardHome />} />
           <Route path="request-portal" element={<RequestWizard />} />
           <Route path="report-issue" element={<ReportIssue />} />
           <Route path="profile" element={<ProfilePage />} />
-          <Route path="upgrade-tier" element={<UpgradeTierWrapper />} /> {/* ✅ FIXED */}
+          <Route path="upgrade-tier" element={<UpgradeTierWrapper />} />
         </Route>
 
         {/* ---------- ADMIN AUTH ROUTES ---------- */}
