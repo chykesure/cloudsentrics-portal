@@ -48,7 +48,8 @@ const ChangePassword = () => {
       const user = JSON.parse(localStorage.getItem("user") || "{}");
 
       // 1️⃣ Change password API
-      const res = await fetch("https://api.onboardingportal.cloudsentrics.org/api/auth/change-password", {
+      //const res = await fetch("https://api.onboardingportal.cloudsentrics.org/api/auth/change-password", {
+      const res = await fetch("http://localhost:5002/api/auth/change-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -66,6 +67,7 @@ const ChangePassword = () => {
       toast.success("Password changed successfully!");
 
       // 2️⃣ Auto-login using new password
+      //const loginRes = await fetch("https://api.onboardingportal.cloudsentrics.org/api/auth/login", {
       const loginRes = await fetch("https://api.onboardingportal.cloudsentrics.org/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

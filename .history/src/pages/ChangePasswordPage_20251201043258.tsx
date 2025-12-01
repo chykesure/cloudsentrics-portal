@@ -125,8 +125,9 @@ const ChangePassword = () => {
           {/* New Password */}
           <div>
             <div
-              className={`flex items-center rounded-lg border ${passwordValid ? "border-green-500" : "border-red-500"
-                } bg-white`}
+              className={`flex items-center rounded-lg border ${
+                passwordValid ? "border-green-500" : "border-red-500"
+              } bg-white`}
             >
               <div className="flex h-10 w-10 items-center justify-center rounded-l-lg bg-blue-900">
                 <Lock className="h-4 w-4 text-white" />
@@ -166,8 +167,9 @@ const ChangePassword = () => {
           {/* Confirm Password */}
           <div>
             <div
-              className={`flex items-center rounded-lg border ${passwordMatch ? "border-green-500" : "border-red-500"
-                } bg-white`}
+              className={`flex items-center rounded-lg border ${
+                passwordMatch ? "border-green-500" : "border-red-500"
+              } bg-white`}
             >
               <div className="flex h-10 w-10 items-center justify-center rounded-l-lg bg-blue-900">
                 <Lock className="h-4 w-4 text-white" />

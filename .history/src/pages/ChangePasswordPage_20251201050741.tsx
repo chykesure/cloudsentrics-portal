@@ -66,7 +66,7 @@ const ChangePassword = () => {
       toast.success("Password changed successfully!");
 
       // 2️⃣ Auto-login using new password
-      const loginRes = await fetch("https://api.onboardingportal.cloudsentrics.org/api/auth/login", {
+      //const loginRes = await fetch("https://api.onboardingportal.cloudsentrics.org/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: user.email, password: newPassword }),

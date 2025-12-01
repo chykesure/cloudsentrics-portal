@@ -13,14 +13,13 @@ const ResetPasswordPage = () => {
   const [passwordValid, setPasswordValid] = useState(false);
   const [passwordMatch, setPasswordMatch] = useState(true);
 
-  // 🔐 Real-time password validation
+  // 🔐 Real-time password validation (same as ChangePassword)
   useEffect(() => {
     const hasMinLength = newPassword.length >= 8;
-    const hasUppercase = /[A-Z]/.test(newPassword);
-    const hasNumber = /[0-9]/.test(newPassword);
     const hasSymbol = /[@!#\$%\^\&\*\(\)\-_=\+\{\}\[\]:;"'<>,\.\?\/]/.test(newPassword);
+    const hasUppercase = /[A-Z]/.test(newPassword);
 
-    setPasswordValid(hasMinLength && hasUppercase && hasNumber && hasSymbol);
+    setPasswordValid(hasMinLength && hasSymbol && hasUppercase);
 
     setPasswordMatch(
       newPassword === confirmPassword || confirmPassword === ""
@@ -31,19 +30,19 @@ const ResetPasswordPage = () => {
     e.preventDefault();
 
     if (!passwordValid) {
-      toast.error("Password must contain capital letter, number, symbol and be 8+ characters.");
+      toast.error("Password must be 8+ chars, include 1 uppercase and 1 symbol.");
       return;
     }
 
     if (!passwordMatch) {
-      toast.error("Passwords do not match.");
+      toast.error("Passwords do not match");
       return;
     }
 
     setLoading(true);
 
     try {
-      const res = await fetch("https://api.onboardingportal.cloudsentrics.org/api/auth/reset-password", {
+      const res = await fetch("http://localhost:5002/api/auth/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId, newPassword }),
@@ -88,35 +87,33 @@ const ResetPasswordPage = () => {
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               required
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none transition-colors"
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none transition-colors ${
+                passwordValid ? "border-green-500" : "border-red-500"
+              }`}
             />
 
-            {/* Validation messages */}
             {newPassword.length > 0 && (
               <div className="text-sm mt-1 space-y-1">
+                {!/[A-Z]/.test(newPassword) && (
+                  <p className="text-red-500">
+                    Must include at least one uppercase letter (A–Z).
+                  </p>
+                )}
 
-                <p className={/[A-Z]/.test(newPassword) ? "text-green-600" : "text-red-500"}>
-                  • Must include at least one uppercase letter (A–Z)
-                </p>
+                {!/[@!#\$%\^\&\*\(\)\-_=\+\{\}\[\]:;"'<>,\.\?\/]/.test(newPassword) && (
+                  <p className="text-red-500">
+                    Must include at least one symbol (@, !, #, $, etc).
+                  </p>
+                )}
 
-                <p className={/[0-9]/.test(newPassword) ? "text-green-600" : "text-red-500"}>
-                  • Must include at least one number (0–9)
-                </p>
-
-                <p className={
-                    /[@!#\$%\^\&\*\(\)\-_=\+\{\}\[\]:;"'<>,\.\?\/]/.test(newPassword)
-                      ? "text-green-600"
-                      : "text-red-500"
-                  }>
-                  • Must include at least one symbol (@, !, #, $, etc)
-                </p>
-
-                <p className={newPassword.length >= 8 ? "text-green-600" : "text-red-500"}>
-                  • Must be at least 8 characters long
-                </p>
+                {newPassword.length < 8 && (
+                  <p className="text-red-500">
+                    Must be at least 8 characters long.
+                  </p>
+                )}
 
                 {passwordValid && (
-                  <p className="text-green-600 font-medium">Password looks strong!</p>
+                  <p className="text-green-600">Password looks strong!</p>
                 )}
               </div>
             )}
@@ -130,7 +127,9 @@ const ResetPasswordPage = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none transition-colors"
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none transition-colors ${
+                passwordMatch ? "border-green-500" : "border-red-500"
+              }`}
             />
 
             {!passwordMatch && (
